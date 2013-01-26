@@ -17,3 +17,9 @@ local testObject = Player:new():init(TextureAsset.get("playerthingy.png"));
 testObject:setColor(Colors["cornflower_blue"])
 local testObject2 = PhysicsGameObject:new():init(TextureAsset.get("moai2.png"));
 testObject2.handle:setPos(200, 200)
+
+local testObject3 = PhysicsGameObject:new():init(TextureAsset.get("whitesquare.png"));
+testObject3.handle:setPos(-200, 0)
+
+local testObject4 = PhysicsGameObject:new():init(TextureAsset.get("whitesquare.png"), {static=true});
+testObject4.handle:setPos(-200, -200)
