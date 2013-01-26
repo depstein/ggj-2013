@@ -42,4 +42,4 @@ rope:setStartBody(testObject4);
 
 -- Create new circle: ( centerX, centerY, radius, colorHex )
 
-local blobagon = GameObject:new():init(BlobAsset.get('blob1', {color="#FF00CC"}), {layer="parallax1"})
+local blobagon = GameObject:new():init(BlobAsset.get('blob1', {color=Colors.cornflower_blue}), {layer="parallax1"})

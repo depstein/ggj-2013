@@ -149,6 +149,8 @@ local function isColorOrGradient( col )
 	-- if a string has been forwaded, convert to table for later use
 	if type(col) == "string" then
 		col = { string.hexToRGB( col, true ) }
+	elseif col.r then
+		col = { {col.r/255.0, col.g/255.0, col.b/255.0 } }
 	else
 		col ={ string.hexToRGB( col[1], true ), string.hexToRGB( col[2], true ) , col[3] }
 	end
