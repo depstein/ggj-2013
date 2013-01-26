@@ -13,7 +13,7 @@ require "Player"
 SceneManager:new():init(1024, 768)
 SceneManager.i:addLayer("main", {default = true})
 
-local testObject = Player:new():init(TextureAsset.get("moai.png"));
+local testObject = Player:new():init(TextureAsset.get("playerthingy.png"));
 testObject:setColor(Colors["cornflower_blue"])
 local testObject2 = PhysicsGameObject:new():init(TextureAsset.get("moai2.png"));
-testObject2.handle:setLoc(200, 200)
+testObject2.handle:setPos(200, 200)
