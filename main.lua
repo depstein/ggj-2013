@@ -27,14 +27,17 @@ testObject:setColor(Colors.cornflower_blue)
 camera:setParent(testObject.prop)
 
 local testObject2 = PhysicsGameObject:new():init(TextureAsset.get("moai2.png"));
-testObject2.handle:setPos(200, 200)
+testObject2:setPos(200, 200)
+testObject2:getPos()
 
 local testObject3 = PhysicsGameObject:new():init(TextureAsset.get("whitesquare.png"), {static=true});
-testObject3.handle:setPos(-200, 0)
+testObject3:setPos(-200, 0)
 testObject3:setColor(Colors.patriarch)
 
 local testObject4 = PhysicsGameObject:new():init(TextureAsset.get("whitesquare.png"), {static=true,isSensor=true});
-testObject4.handle:setPos(-200, -200)
+testObject4:setPos(-200, -200)
+testObject4:setRot(45)
+testObject4:getRot()
 testObject4:setColor(Colors.rhythm)
 
 local rope = Rope:new():init(-200, -200, 5);
@@ -43,3 +46,7 @@ rope:setStartBody(testObject4);
 -- Create new circle: ( centerX, centerY, radius, colorHex )
 
 local blobagon = GameObject:new():init(BlobAsset.get('blob1', {color="#FF00CC"}), {layer="parallax1"})
+blobagon:setPos(400,50)
+blobagon:getPos()
+blobagon:setRot(45)
+blobagon:getRot()

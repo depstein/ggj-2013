@@ -14,6 +14,7 @@ function GameObject:init(asset, options)
 	self.handle = self.prop
 	self.asset = asset
 
+
 	if (not options.noadd and not options.layer) then
 		SceneManager.i:getDefaultLayer():insertProp(self.prop)
 	end
@@ -33,6 +34,22 @@ function GameObject:init(asset, options)
 	end
 
 	return self
+end
+
+function GameObject:setPos(x, y)
+	self.prop:setLoc(x, y)
+end
+
+function GameObject:getPos()
+	return self.prop:getLoc()
+end
+
+function GameObject:setRot(angle)
+	self.prop:setRot(45)
+end
+
+function GameObject:getRot(angle)
+	return self.prop:getRot()
 end
 
 function GameObject:destroy()
