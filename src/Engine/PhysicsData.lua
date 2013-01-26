@@ -58,7 +58,3 @@ PhysicsData.fromSprite = function(options)
 
 	return body, shapes
 end
-
-function tableaddr(table)
-    return tonumber('0x' .. tostring(table):sub(8))
-end
