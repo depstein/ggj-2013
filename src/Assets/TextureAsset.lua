@@ -1,4 +1,4 @@
-TextureAsset = {}
+TextureAsset = Asset:new()
 TextureAsset.type = "TextureAsset"
 TextureAsset.spritePath = "assets/sprites/"
 TextureAsset.sheets = {
@@ -16,14 +16,12 @@ for k,file in pairs(TextureAsset.sheets) do
 	end
 end
 
-function TextureAsset:new(o)
-	o = o or {}
-	setmetatable(o, {__index = self})
-	return o
-end
-
 function TextureAsset.get(file, options) 
 	return Asset.get(TextureAsset, file, options)
+end
+
+function TextureAsset.getKey(file)
+	return 'TEXTURE_' .. file
 end
 
 function TextureAsset:init(file, options)
@@ -50,10 +48,6 @@ function TextureAsset:init(file, options)
 	self.filename = file
 
 	return self
-end
-
-function TextureAsset.getKey(file)
-	return 'TEXTURE_' .. file
 end
 
 function TextureAsset:make() 

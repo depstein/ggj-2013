@@ -1,5 +1,3 @@
-require "TextureAsset"
-
 Asset = {}
 Asset.type = "Asset"
 
