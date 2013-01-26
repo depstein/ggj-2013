@@ -15,22 +15,6 @@ function PhysicsGameObject:moveInDirection(x, y)
 	self.body:applyForce(x * self.speed, y * self.speed)
 end
 
-function PhysicsGameObject:setPos(x, y)
-	self.handle:setPos(x, y)
-end
-
-function PhysicsGameObject:getPos()
-	return self.handle:getPos()
-end
-
-function PhysicsGameObject:setRot(angle)
-	self.handle:setAngle(45)
-end
-
-function PhysicsGameObject:getRot()
-	self.handle:getRot()
-end
-
 function PhysicsGameObject:createPhysicsObject(options)
 	options = options or {}
 
@@ -53,6 +37,26 @@ function PhysicsGameObject:createPhysicsObject(options)
 		self.prop:setParent(self.body)
 	end
 
+	if (not options.static and not options.ignoreGravity) then
+		self.body:setForce(0, SceneManager.GRAVITY)
+	end
+
 	self.handle = self.body
 	self.physics = true
+end
+
+function PhysicsGameObject:setPos(x, y)
+	self.handle:setPos(x, y)
+end
+
+function PhysicsGameObject:getPos()
+	return self.handle:getPos()
+end
+
+function PhysicsGameObject:setRot(angle)
+	self.handle:setAngle(45)
+end
+
+function PhysicsGameObject:getRot()
+	self.handle:getRot()
 end

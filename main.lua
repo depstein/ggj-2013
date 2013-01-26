@@ -21,14 +21,13 @@ SceneManager.i:getLayer("parallax1"):setParallax(0.5, 0.5)
 
 SceneManager.i:addLayer("main", {default = true})
 
-local testObject = Player:new():init(TextureAsset.get("playerthingy.png"));
+local testObject = Player:new():init(TextureAsset.get("player.png"));
 testObject:setColor(Colors.cornflower_blue)
 
-camera:setParent(testObject.prop)
+camera:setAttrLink(MOAITransform.INHERIT_LOC, testObject.handle, MOAITransform.TRANSFORM_TRAIT)
 
 local testObject2 = PhysicsGameObject:new():init(TextureAsset.get("moai2.png"));
 testObject2:setPos(200, 200)
-testObject2:getPos()
 
 local testObject3 = PhysicsGameObject:new():init(TextureAsset.get("whitesquare.png"), {static=true});
 testObject3:setPos(-200, 0)
@@ -36,17 +35,12 @@ testObject3:setColor(Colors.patriarch)
 
 local testObject4 = PhysicsGameObject:new():init(TextureAsset.get("whitesquare.png"), {static=true,isSensor=true});
 testObject4:setPos(-200, -200)
-testObject4:setRot(45)
-testObject4:getRot()
 testObject4:setColor(Colors.rhythm)
 
 local rope = Rope:new():init(-200, -200, 5);
 rope:setStartBody(testObject4);
 
 -- Create new circle: ( centerX, centerY, radius, colorHex )
-
-local blobagon = GameObject:new():init(BlobAsset.get('blob1', {color="#FF00CC"}), {layer="parallax1"})
-blobagon:setPos(400,50)
-blobagon:getPos()
+local blobagon = GameObject:new():init(BlobAsset.get('blob1', {color=Colors.cornflower_blue}), {layer="parallax1"})
+blobagon:setPos(45)
 blobagon:setRot(45)
-blobagon:getRot()
