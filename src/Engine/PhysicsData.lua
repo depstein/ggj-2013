@@ -46,6 +46,9 @@ PhysicsData.fromSprite = function(options)
 		shape:setType(1)
 		shape.name = sprite .. i
 		if (options.group) then shape:setGroup(options.group) end
+		if (options.isSensor) then
+			shape:setIsSensor(true)
+		end
 
 		table.insert(shapes, shape)
 	end

@@ -4,7 +4,7 @@ PhysicsGameObject.type = "PhysicsGameObject"
 function PhysicsGameObject:init(asset, options)
 	options = options or {}
 	GameObject.init(self, asset, options)
-	self:createPhysicsObject()
+	self:createPhysicsObject(options)
 
 	return self
 end
