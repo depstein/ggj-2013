@@ -19,7 +19,7 @@ function GameObject:init(asset, options)
 	end
 
 	if (options.layer and not options.noadd) then
-		options.layer:insertProp(self.prop)
+		SceneManager.i:getLayer(options.layer):insertProp(self.prop)
 	end
 
 	if (not GameObject.vsh or not GameObject.fsh) then
