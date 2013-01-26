@@ -6,5 +6,5 @@ require "PhysicsData"
 SceneManager:new():init(1024, 768)
 SceneManager.i:addLayer("main", {default = true})
 
-local testObject = GameObject:new():init(TextureAsset.get("moai.png"));
+local testObject = GameObject:new():init(TextureAsset.get("moai.png"), {noadd= true});
 testObject:createPhysicsObject()

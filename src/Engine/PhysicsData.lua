@@ -23,6 +23,15 @@ PhysicsData.fromSprite = function(options)
 
 	for m = 1,#fixtures do 
 		for i = 1,#fixtures[m].polygons do
+			local poly = { }
+			local origPoly = fixtures[m].polygons[i]
+
+			for j = 1,#origPoly,2 do
+				poly[j] = origPoly[j]
+				poly[j + 1] = origPoly[j + 1]
+			end
+
+			table.insert(polygons, poly)
 			moment = moment + MOAICpShape.momentForPolygon(data.mass, fixtures[m].polygons[i])
 		end
 	end
@@ -48,4 +57,8 @@ PhysicsData.fromSprite = function(options)
 	end
 
 	return body, shapes
+end
+
+function tableaddr(table)
+    return tonumber('0x' .. tostring(table):sub(8))
 end
