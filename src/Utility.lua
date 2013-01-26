@@ -56,3 +56,19 @@ function dump(t,indent)
         end
     end
 end
+
+------------------------------------------------------------------------------
+--  Converts hex number to rgb (format: #FF00FF)
+--============================================================================
+
+function string.hexToRGB( s, returnAsTable )
+    if returnAsTable then
+        return  { tonumber ( "0x"..string.sub( s, 2, 3 ) )/255.0,
+                tonumber ( "0x"..string.sub( s, 4, 5 ) )/255.0,
+                tonumber ( "0x"..string.sub( s, 6, 7 ) )/255.0 }
+    else
+        return  tonumber ( "0x"..string.sub( s, 2, 3 ) )/255.0,
+                tonumber ( "0x"..string.sub( s, 4, 5 ) )/255.0,
+                tonumber ( "0x"..string.sub( s, 6, 7 ) )/255.0
+    end
+end

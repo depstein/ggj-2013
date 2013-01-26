@@ -10,6 +10,7 @@ require "PhysicsGameObject"
 require "Character"
 require "Player"
 require "Rope"
+local Meshes2D = require "Meshes2D"
 
 
 SceneManager:new():init(1024, 768)
@@ -30,3 +31,7 @@ testObject4:setColor(Colors.rhythm)
 
 local rope = Rope:new():init(-200, -200, 5);
 rope:setStartBody(testObject4);
+
+-- Create new circle: ( centerX, centerY, radius, colorHex )
+local letterO = Meshes2D.newCircle( 75, -300, 50, "#FFCC00")
+SceneManager.i:getDefaultLayer():insertProp(letterO)
