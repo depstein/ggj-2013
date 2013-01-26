@@ -23,6 +23,19 @@ function Player:attemptMove(x, y)
 end
 
 function Player:initControls()
+--[[
+		Sample code for using MouseManager
+
+	MouseManager.setCallback(MouseManager.Buttons.left, "moveForward", function(x,y,down)
+		if (down) then
+			self:attemptMove(0, -1)
+		else
+			self:attemptMove(0, 1)
+		end
+	end)]] 
+
+
+
 	KeyboardManager.setCallback(KeyboardManager.Keys.w, "moveForward", function(down)
 		if (down) then
 			self:attemptMove(0, -1)
