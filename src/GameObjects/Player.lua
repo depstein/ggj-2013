@@ -8,6 +8,13 @@ function Player:init(asset, options)
 	self.speed = 2000
 	self:initControls()
 
+	corout(function()
+		while true do
+			self.handle:setAngle(0)
+			coroutine.yield()
+		end
+	end)
+
 	return self
 end
 

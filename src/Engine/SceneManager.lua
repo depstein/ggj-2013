@@ -34,7 +34,7 @@ function SceneManager:addLayer(key, options)
 
 	local layer = MOAILayer2D.new()
 	layer:setViewport(self.viewport)
-	layer:setCpSpace(self.space)
+	--layer:setCpSpace(self.space)
 	MOAISim.pushRenderPass(layer)
 
 	self.layers[key] = layer
