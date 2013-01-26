@@ -1,5 +1,6 @@
 SceneManager = {}
 SceneManager.type = "SceneManager"
+SceneManager.GRAVITY = 1000
 
 function SceneManager:new(o)
 	o = o or {}
@@ -19,7 +20,7 @@ function SceneManager:init(width, height, camera, options)
 	self.space = MOAICpSpace.new()
 	self.space:setGravity(0, 0)
 	self.space:setIterations(5)
-	self.space:setDamping(.003)
+	self.space:setDamping(.02)
 	self.space:start()
 
 	self.layers = {}
@@ -36,8 +37,9 @@ function SceneManager:addLayer(key, options)
 
 	local layer = MOAILayer2D.new()
 	layer:setViewport(self.viewport)
+
 	layer:setCamera(camera)
-	--layer:setCpSpace(self.space)
+	layer:setCpSpace(self.space)
 	MOAISim.pushRenderPass(layer)
 
 	self.layers[key] = layer

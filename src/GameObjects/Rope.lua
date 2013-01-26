@@ -16,7 +16,7 @@ function Rope:init(x, y, numRopeSegments)
 		self.ropeSegments[i] = segment
 		if (i>1) then
 			joint = MOAICpConstraint.newPivotJoint (self.ropeSegments[i-1].body, self.ropeSegments[i].body, -25, 0, 25, 0)
-			joint:setMaxForce ( 5000 )
+			--joint:setMaxForce ( 5000 )
 			joint:setBiasCoef ( 0.75 )
 			SceneManager.i:getCpSpace():insertPrim ( joint )
 		end
@@ -26,7 +26,7 @@ end
 
 function Rope:setStartBody(startObject)
 	joint = MOAICpConstraint.newPivotJoint (startObject.body, self.ropeSegments[1].body, 0, 0, 25, 0)
-			joint:setMaxForce ( 5000 )
+			--joint:setMaxForce ( 5000 )
 			joint:setBiasCoef ( 0.75 )
 			SceneManager.i:getCpSpace():insertPrim ( joint )
 end

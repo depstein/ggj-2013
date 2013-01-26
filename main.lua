@@ -21,7 +21,7 @@ SceneManager.i:getLayer("parallax1"):setParallax(0.5, 0.5)
 
 SceneManager.i:addLayer("main", {default = true})
 
-local testObject = Player:new():init(TextureAsset.get("playerthingy.png"));
+local testObject = Player:new():init(TextureAsset.get("player.png"));
 testObject:setColor(Colors.cornflower_blue)
 
 camera:setParent(testObject.prop)
@@ -41,5 +41,5 @@ local rope = Rope:new():init(-200, -200, 5);
 rope:setStartBody(testObject4);
 
 -- Create new circle: ( centerX, centerY, radius, colorHex )
-
 local blobagon = GameObject:new():init(BlobAsset.get('blob1', {color="#FF00CC"}), {layer="parallax1"})
+

@@ -6,10 +6,31 @@ function tableaddr(table)
     return tonumber('0x' .. tostring(table):sub(8))
 end
 
+function math.sign(val)
+    if (val > 0) then return 1 end
+    if (val < 0) then return -1 end
+    return 0
+end
+
 function corout(func)
     local cr = MOAICoroutine.new()
     cr:run(func)
     return cr
+end
+
+function timedCorout(func)
+	local prevElapsedTime = MOAISim.getDeviceTime()
+	local elapsedTime = 0
+	local cr = MOAICoroutine.new()
+	cr:run(function() 
+        local currElapsedTime = MOAISim.getDeviceTime()
+        elapsedTime = currElapsedTime - prevElapsedTime
+        prevElapsedTime = currElapsedTime
+
+        func(elapsedTime)
+	end)
+
+	return cr
 end
 
 function block(action)
