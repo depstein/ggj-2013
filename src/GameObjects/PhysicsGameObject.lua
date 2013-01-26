@@ -37,6 +37,10 @@ function PhysicsGameObject:createPhysicsObject(options)
 		self.prop:setParent(self.body)
 	end
 
+	if (not options.static and not options.ignoreGravity) then
+		self.body:setForce(0, SceneManager.GRAVITY)
+	end
+
 	self.handle = self.body
 	self.physics = true
 end
