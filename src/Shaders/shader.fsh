@@ -8,5 +8,5 @@ uniform sampler2D sampler;
 uniform vec4 maskColor;
 
 void main() { 
-	gl_FragColor = ( texture2D ( sampler, uvVarying ) * colorVarying ) + maskColor;
+	gl_FragColor = ( texture2D ( sampler, uvVarying ) * colorVarying ) * maskColor;
 }
