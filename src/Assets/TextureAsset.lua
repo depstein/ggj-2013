@@ -47,6 +47,7 @@ function TextureAsset:init(file, options)
 	self.deck = deck
 	self.width = w
 	self.height = h
+	self.filename = file
 
 	return self
 end
