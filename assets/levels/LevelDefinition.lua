@@ -5,7 +5,7 @@ return {
 		scale = 1.5,
 		layer = SceneManager.THE_BEST_LAYER,
 		color = "ffffff"
-	}
+	},
 	{
 		blob = 'blob17',
 		rotation = 200,
