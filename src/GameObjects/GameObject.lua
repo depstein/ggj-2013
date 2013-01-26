@@ -22,6 +22,18 @@ function GameObject:init(asset, options)
 		options.layer:insertProp(self.prop)
 	end
 
+	if (not GameObject.vsh or not GameObject.fsh) then
+		file = assert ( io.open ( 'src/Shaders/shader.vsh', mode ))
+		GameObject.vsh = file:read ( '*all' )
+		file:close ()
+
+		file = assert ( io.open ( 'src/Shaders/shader.fsh', mode ))
+		GameObject.fsh = file:read ( '*all' )
+		file:close ()
+	end
+
+	--self.prop:setBlendMode(MOAIProp.BLEND_MULTIPLY)
+
 	return self
 end
 
@@ -53,4 +65,21 @@ function GameObject:createPhysicsObject(options)
 
 	self.handle = self.body
 	self.physics = true
+end
+
+function GameObject:setColor(color)
+	shader = MOAIShader.new ()
+	shader:reserveUniforms ( 1 )
+	shader:declareUniform ( 1, 'maskColor', MOAIShader.UNIFORM_COLOR )
+
+	moaiColor = MOAIColor.new()
+	moaiColor:setColor(color["r"]/255.0, color["g"]/255.0, color["b"]/255.0, 0)
+	shader:setAttrLink ( 1, moaiColor, MOAIColor.COLOR_TRAIT )
+
+	shader:setVertexAttribute ( 1, 'position' )
+	shader:setVertexAttribute ( 2, 'uv' )
+	shader:setVertexAttribute ( 3, 'color' )
+	shader:load ( GameObject.vsh, GameObject.fsh )
+
+	self.prop:setShader(shader)
 end

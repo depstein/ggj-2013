@@ -1,4 +1,4 @@
-a = {
+Colors = {
 aero={r=124,g=185,b=232},
 aero_blue={r=201,g=255,b=229},
 african_violet={r=178,g=132,b=190},
