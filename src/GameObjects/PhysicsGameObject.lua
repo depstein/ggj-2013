@@ -27,9 +27,6 @@ function PhysicsGameObject:createPhysicsObject(options)
 	SceneManager.i:getCpSpace():insertPrim(self.body)
 
 	for i = 1,#self.shapes do
-		if (options.isSensor) then
-			self.shapes[i].isSensor = true
-		end
 		if (not options.group) then
 			self.shapes[i]:setGroup(tableaddr(self))
 		end
