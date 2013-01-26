@@ -1,20 +1,18 @@
+require "AssetManager"
+
 MOAISim.openWindow ( "test", 1024, 768 )
 
 viewport = MOAIViewport.new ()
-viewport:setSize ( 320, 480 )
-viewport:setScale ( 320, -480 )
+viewport:setSize ( 1024, 768 )
+viewport:setScale ( 1024, -768 )
 
 layer = MOAILayer2D.new ()
 layer:setViewport ( viewport )
 MOAISim.pushRenderPass ( layer )
 
-gfxQuad = MOAIGfxQuad2D.new ()
-gfxQuad:setTexture ( "assets/sprites/moai.png" )
-gfxQuad:setRect ( -128, -128, 128, 128 )
-gfxQuad:setUVRect ( 0, 0, 1, 1 )
+local textureAsset = TextureAsset.get('moai2.png')
+local prop = textureAsset:make()
 
-prop = MOAIProp2D.new ()
-prop:setDeck ( gfxQuad )
 layer:insertProp ( prop )
 
 prop:moveRot ( 360, 1.5 )
