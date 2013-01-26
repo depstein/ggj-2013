@@ -33,5 +33,6 @@ local rope = Rope:new():init(-200, -200, 5);
 rope:setStartBody(testObject4);
 
 -- Create new circle: ( centerX, centerY, radius, colorHex )
-local letterO = Meshes2D.newCircle( 75, -300, 50, "#FFCC00")
-SceneManager.i:getDefaultLayer():insertProp(letterO)
+local polydata = PhysicsData.blobPolygon('blob1')
+local poly =  Meshes2D.createPolygon( polydata, "#FFCC00")
+SceneManager.i:getDefaultLayer():insertProp(poly)

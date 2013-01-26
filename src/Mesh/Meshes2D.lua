@@ -48,7 +48,6 @@ local DEFAULT_COLOR = "#FF00FF"
 local function createMesh( vcoords, colors, primType )
 	primType = primType or MOAIMesh.GL_TRIANGLE_FAN
 	if vcoords and colors then
-		print("inside")
 		local numVertices = #vcoords
 
 		local vertexFormat = MOAIVertexFormat.new ()

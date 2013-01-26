@@ -55,3 +55,18 @@ PhysicsData.fromSprite = function(options)
 
 	return body, shapes
 end
+
+PhysicsData.blobPolygon = function(file, options)
+	assert(PhysicsData.BodyData[file], "Physics Body Not Found!")
+
+	local fixtures = PhysicsData.BodyData[file].fixtures
+	local hull = fixtures[1].hull
+
+	local polygonData = {}
+
+	for j = 1,#hull,2 do
+		table.insert(polygonData, { x = hull[j], y = hull[j + 1]})
+	end
+
+	return polygonData
+end

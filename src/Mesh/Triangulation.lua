@@ -21,12 +21,10 @@ local function area( contour )
 	local q = 1
 
 	while q <= n do
-		print( "n, p,q", n, p, q)
 		A = A + contour[p].x * contour[q].y - contour[q].x * contour[p].y
 		p = q
 		q = q + 1
 	end
-	print("A=", .5 * A )
 	return .5 * A
 
 end
