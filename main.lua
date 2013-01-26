@@ -11,6 +11,7 @@ require "Character"
 require "Player"
 require "Rope"
 require "BlobAsset"
+require "EnemyManager"
 
 camera = MOAICamera2D.new ()
 
@@ -44,3 +45,5 @@ rope:setStartBody(testObject4);
 local blobagon = GameObject:new():init(BlobAsset.get('blob1', {color=Colors.cornflower_blue}), {layer="parallax1"})
 blobagon:setPos(45)
 blobagon:setRot(45)
+
+corout(EnemyManager.Update)
