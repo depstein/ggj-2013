@@ -24,7 +24,7 @@ SceneManager.i:addLayer("main", {default = true})
 local testObject = Player:new():init(TextureAsset.get("player.png"));
 testObject:setColor(Colors.cornflower_blue)
 
-camera:setParent(testObject.prop)
+camera:setAttrLink(MOAITransform.INHERIT_LOC, testObject.handle, MOAITransform.TRANSFORM_TRAIT)
 
 local testObject2 = PhysicsGameObject:new():init(TextureAsset.get("moai2.png"));
 testObject2.handle:setPos(200, 200)

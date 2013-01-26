@@ -39,7 +39,7 @@ function SceneManager:addLayer(key, options)
 	layer:setViewport(self.viewport)
 
 	layer:setCamera(camera)
-	layer:setCpSpace(self.space)
+	--layer:setCpSpace(self.space)
 	MOAISim.pushRenderPass(layer)
 
 	self.layers[key] = layer
