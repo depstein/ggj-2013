@@ -55,4 +55,8 @@ function DropLocation:collideWithBall(cpShapeA, cpShapeB, cpArbiter)
 	cpShapeB:getBody().gameObject:addJoint(joint, cpShapeA:getBody().gameObject)
 
 	rope:destroy()
+	goA:destroy()
+	goB:destroy()
+
+	Game.waveManager:spawnWave()
 end
