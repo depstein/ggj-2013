@@ -12,9 +12,9 @@ function math.sign(val)
     return 0
 end
 
-function corout(func)
+function corout(func, ...)
     local cr = MOAICoroutine.new()
-    cr:run(func)
+    cr:run(func, ...)
     return cr
 end
 

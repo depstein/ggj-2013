@@ -12,7 +12,10 @@ function Player:init(asset, options)
 	self.angleSpeed = 50
 	self.curAngle = 0
 	self.desiredAngle = 0
-	self:initControls()
+
+    if(not options.disableControls) then
+	    self:initControls()
+    end
 
 	timedCorout(function(time)
 		while true do
