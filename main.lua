@@ -41,9 +41,13 @@ testObject4:setColor(Colors.rhythm)
 local rope = Rope:new():init(-200, -200, 5);
 rope:setStartBody(testObject4);
 
+local allBlobs = dofile("src/Engine/LevelData.lua")
+
+corout(EnemyManager.Update)
 -- Create new circle: ( centerX, centerY, radius, colorHex )
+--[[local blobagon = GameObject:new():init(BlobAsset.get('blob1', {color=Colors.cornflower_blue}), {layer="parallax1"})
 local blobagon = GameObject:new():init(BlobAsset.get('blob1', {color=Colors.cornflower_blue}), {layer="parallax1"})
 blobagon:setPos(45)
 blobagon:setRot(45)
+]]
 
-corout(EnemyManager.Update)
