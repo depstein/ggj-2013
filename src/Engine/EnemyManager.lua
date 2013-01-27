@@ -21,6 +21,7 @@ function EnemyManager:Create()
 
 	local enemy = Enemy:new():init(id, TextureAsset.get("enemy.png"), {color = Game.colors.papaya_whip, ignoreGravity = true})
 	self.enemies[id] = enemy
+	enemy:setGroup(SceneManager.OBJECT_TYPES.SEE_OVER)
 
     return enemy
 end 
@@ -38,7 +39,7 @@ function EnemyManager:Update()
 	while true do
 		local currentTime = MOAISim.getDeviceTime()
     	local time = currentTime - self._previousSpawn
-    	if time > 1 then
+    	if time > 5 then
             local enemy = self:Create()
 	        enemy:setPos(50, 50)
     		self._previousSpawn = currentTime

@@ -3,7 +3,7 @@ require "Utility"
 SceneManager = Class:new()
 SceneManager.type = "SceneManager"
 SceneManager.GRAVITY = 100
-SceneManager.OBJECT_TYPES = { BULLET = 1, BOX = 2, PLAYER = 3, ENEMY = 4 }
+SceneManager.OBJECT_TYPES = { BULLET = 1, BOX = 2, PLAYER = 3, ENEMY = 4, SEE_OVER = 5}
 
 local myPrivateField = nil
 

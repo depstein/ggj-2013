@@ -2,12 +2,13 @@ require "PhysicsGameObject"
 
 Bullet = PhysicsGameObject:new()
 Bullet.type = "Bullet"
-
 Bullet.INITIAL_SPEED = 1000
 
-function Bullet:init(id, options) 
+function Bullet:init(id, asset, options) 
 	options = options or {}
-	PhysicsGameObject.init(self, options)
+
+	PhysicsGameObject.init(self, asset, options)
+
 
     self.id = id
 	self.speed = 1000

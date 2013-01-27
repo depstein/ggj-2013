@@ -42,7 +42,7 @@ function GameObject:getPos()
 end
 
 function GameObject:setRot(angle)
-	self.prop:setRot(45)
+	self.prop:setRot(angle)
 end
 
 function GameObject:getRot(angle)
