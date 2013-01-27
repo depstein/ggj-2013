@@ -53,6 +53,10 @@ function Rope:collideWithRope(cpShapeA, cpShapeB, cpArbiter)
 	joint = MOAICpConstraint.newSlideJoint(cpShapeA:getBody(), cpShapeB:getBody(), 0, 0, 0, 0, 0, 50)
 	joint:setBiasCoef ( 0.75 )
 	SceneManager.i:getCpSpace():insertPrim ( joint )
-	cpShapeA:setGroup(tableaddr(Rope))
-	cpShapeB:setGroup(tableaddr(Rope))
+	if cpShapeA:getBody().gameObject then
+		cpShapeA:getBody().gameObject:setGroup(tableaddr(Rope))
+	end
+	if cpShapeB:getBody().gameObject then
+		cpShapeB:getBody().gameObject:setGroup(tableaddr(Rope))
+	end
 end
