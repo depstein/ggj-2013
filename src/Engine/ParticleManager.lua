@@ -6,16 +6,23 @@ ParticleManager.type = "ParticleManager"
 function ParticleManager:init()
 	self.plugins = {}
 	self.textures = {}
-	self.timeLeft = {}
+	self.activeParticles = {}
 
 	timedCorout(function(time)
 		while true do
-			for k,v in pairs(self.timeLeft) do
-				self.timeLeft[k] = v - time
-				if (self.timeLeft[k] < 0) then
-					Game.sceneManager:getLayer("particles"):removeProp(k)
-					self.timeLeft[k] = nil
+			local particlesToRemove = {}
+			for k,v in pairs(self.activeParticles) do
+				v.duration = v.duration - time
+				if (v.duration < 0) then
+					v.emitter:setEmission(0)
 				end
+				if (v.duration < -v.origDuration) then
+					table.insert(particlesToRemove, { system = v.system, i = k})
+				end
+			end
+			for i, particleInfo in pairs(particlesToRemove) do
+				Game.sceneManager:getLayer("particles"):removeProp(particleInfo.system)
+				self.activeParticles[particleInfo.i] = nil
 			end
 			coroutine.yield()
 		end
@@ -68,7 +75,7 @@ function ParticleManager:addParticle(particleName, x, y, particleDuration)
 	emitter:start ()
 
 	if (particleDuration > 0) then  
-		self.timeLeft[system] = particleDuration
+		table.insert(self.activeParticles, { duration = particleDuration, system = system, emitter = emitter, origDuration = particleDuration})
 	end
 	
 	Game.sceneManager:getLayer("particles"):insertProp ( system)

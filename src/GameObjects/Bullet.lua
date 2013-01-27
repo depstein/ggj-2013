@@ -2,7 +2,7 @@ require "PhysicsGameObject"
 
 Bullet = PhysicsGameObject:new()
 Bullet.type = "Bullet"
-Bullet.INITIAL_SPEED = 1000
+Bullet.INITIAL_SPEED = 1500
 
 function Bullet:init(id, asset, options) 
 	options = options or {}
@@ -11,7 +11,7 @@ function Bullet:init(id, asset, options)
 
 
     self.id = id
-	self.speed = 1000
+	self.speed = Bullet.INITIAL_SPEED
 
 	self:setType(SceneManager.OBJECT_TYPES.BULLET)
 

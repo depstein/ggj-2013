@@ -29,7 +29,7 @@ function BulletManager:Create()
 			while(true) do
 				vX, vY = bullet.handle:getVel()
 				v = math.sqrt(vX^2 + vY^2)
-				if v < 20 then
+				if v < 400 then
 					self:Destroy(bullet.id)
 					break
 				else
@@ -47,4 +47,8 @@ function BulletManager:Destroy(index)
 	end
 	self.bullets[index]:destroy()
 	self.bullets[index] = nil
+end
+
+function BulletManager:markImpact(x, y)
+	Game.particleManager:addParticle('hit.pex', x, y, 5)
 end
