@@ -6,9 +6,11 @@ Rope = Class:new()
 Rope.type = "Rope"
 
 function Rope:init(x, y, numRopeSegments) 
+	self.ropeHealth = 1
 	self.ropeSegments = {}
 	for i=1, numRopeSegments do
 		segment = PhysicsGameObject:new():init(TextureAsset.get("bloodvessel.png"), {group=tableaddr(self), damp = false});
+		segment.parent = self
 		segment.handle:setPos(x-50*i, y)
 		segment:setColor(Game.colors.coral_red)
 		segment.body:setMass(1)
@@ -51,6 +53,7 @@ function Rope:init(x, y, numRopeSegments)
 	Game.sceneManager:getCpSpace():setCollisionHandler(SceneManager.OBJECT_TYPES.PLAYER, SceneManager.OBJECT_TYPES.ROPE_SEGMENT, MOAICpSpace.ALL, function(cpShapeA, cpShapeB, cpArbiter)
 		return false
 	end)
+	Game.sceneManager:getCpSpace():setCollisionHandler(SceneManager.OBJECT_TYPES.ROPE_SEGMENT, SceneManager.OBJECT_TYPES.ENEMY, MOAICpSpace.BEGIN, self.ropeTakeHit)
 	return self
 end
 
@@ -120,4 +123,35 @@ function Rope:collideWithBall(cpShapeA, cpShapeB, cpArbiter)
 	
 	cpShapeA:getBody().gameObject:addJoint(joint, cpShapeB:getBody().gameObject)
 	cpShapeB:getBody().gameObject:addJoint(joint, cpShapeA:getBody().gameObject)
+end
+
+function Rope:ropeTakeHit(cpShapeA, cpShapeB, cpArbiter)
+	if not cpArbiter:isFirstContact() then
+		return
+	end
+	print("Rope took a hit!")
+
+	local goA = cpShapeA:getBody().gameObject
+	local goB = cpShapeB:getBody().gameObject
+	local enemy, rope
+	if (goA.type == "Rope") then
+		rope = goA.parent
+		enemy = goB
+	else
+		rope = goB.parent
+		enemy = goA
+	end
+
+	rope.ropeHealth = rope.ropeHealth - 1
+	if rope.ropeHealth <= 0 then
+		print("DESTROYING ROPE")
+		if rope.player then
+			rope.player.carryingRope = false
+				for k, v in pairs(rope.player.joints) do
+				rope.player:removeJoint(k)
+			end
+		end
+		Game.waveManager:spawnRope()
+		rope:destroy()
+	end
 end
