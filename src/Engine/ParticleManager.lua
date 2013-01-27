@@ -24,7 +24,7 @@ function ParticleManager:init()
     return self;
 end
 
-function ParticleManager:addParticle(particleName)
+function ParticleManager:addParticle(particleName, x, y, particleDuration)
 	if (not self.plugins[particleName]) then
 		self.plugins[particleName] = MOAIParticlePexPlugin.load( particleName )
 	end
