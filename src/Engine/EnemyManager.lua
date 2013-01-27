@@ -13,7 +13,7 @@ function EnemyManager:init()
     self.timeExisted = 0
     self.spawnCount = {}
     self.validSpawns = {}
-    self.maxSpawn = 2
+    self.maxSpawn = 6
     -- PRIVATE
     self._enemyIndex = 1
     self._previousSpawn = MOAISim.getDeviceTime()
