@@ -8,7 +8,7 @@ CommunicationManager.MSG_PLAYER_LOCATION = 1
 CommunicationManager.MSG_PLAYER_FIRE = 2
 CommunicationManager.MSG_GAME_STATE = 3
 
-function CommunicationManager:init(isServer)
+function CommunicationManager:init(isServer, ip)
     self.isServer = isServer
 
     if (self.isServer) then
@@ -26,7 +26,7 @@ function CommunicationManager:init(isServer)
     else
         self.cbullet = {}
 
-        self.outgoing, self.incoming, self.info = Communication.createClient()
+        self.outgoing, self.incoming, self.info = Communication.createClient(ip)
     end
 
     corout(function() self:messageHandler() end)

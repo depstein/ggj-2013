@@ -48,6 +48,14 @@ function GameManager:start()
     	io.write("[y/n]: ");
     	input = io.read()
     end
+
+    local isServer = input == "y"
+    local ip = ""
+
+    if(not isServer) then
+        io.write("IP Address to Connect To:");
+        ip = io.read()
+    end
     
     self.sceneManager = SceneManager:new():init(1024, 768, MOAICamera2D.new())
     self.sceneManager:addLayer("lighting")
@@ -74,7 +82,7 @@ function GameManager:start()
     self.enemyManager = EnemyManager:new():init()
     self.bulletManager = BulletManager:new():init()
 
-    self.communicationManager = CommunicationManager:new():init(input == "y")
+    self.communicationManager = CommunicationManager:new():init(isServer, ip)
     
     local rope = Rope:new():init(-200, 200, 5);
 
