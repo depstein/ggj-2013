@@ -13,6 +13,7 @@ require "DropLocation"
 require "ParticleManager"
 require "LightLayer"
 require "BlurLayer"
+require "BallObject"
 
 GameManager = Class:new()
 GameManager.type = "GameManager"
@@ -95,11 +96,13 @@ function GameManager:start()
 
     self.communicationManager = CommunicationManager:new():init(isServer, ip)
     
-    local rope = Rope:new():init(-200, 200, 8);
+    local rope = Rope:new():init(-200, 200, 3);
 
     local dropLocation = DropLocation:new():init(TextureAsset.get("whitesquare.png"))
     dropLocation:setPos(-200, 500)
     
+    local ball = BallObject:new():init(TextureAsset.get("whitesquare.png"))
+    ball:setPos(-400, -200)
 
     self.envLightLayer = LightLayer:new():init({layers = {"main"}, includeEnvLights = true, includePlayers = true});
 

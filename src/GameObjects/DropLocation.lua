@@ -14,25 +14,31 @@ function DropLocation:init(asset, options)
 
 	self:setColor(Game.colors.yellow)
 
-	Game.sceneManager:getCpSpace():setCollisionHandler(tableaddr(DropLocation), tableaddr(Rope), MOAICpSpace.BEGIN, self.collideWithRope)
+	Game.sceneManager:getCpSpace():setCollisionHandler(tableaddr(DropLocation), tableaddr(BallObject), MOAICpSpace.BEGIN, self.collideWithBall)
 	return self
 end
 
-function DropLocation:collideWithRope(cpShapeA, cpShapeB, cpArbiter)
+function DropLocation:collideWithBall(cpShapeA, cpShapeB, cpArbiter)
 	if not cpArbiter:isFirstContact() then
 		return
 	end
-	print("Connecting a rope to a drop location")
+	print("Connecting a ball to a drop location")
 
 	local goA = cpShapeA:getBody().gameObject
 	local goB = cpShapeB:getBody().gameObject
-	local player, ropeBody
-	if (goA.type == "Player") then
-		player = goA
-		ropeBody = cpShapeB:getBody()
+	local ball
+	if (goA.type == "BallObject") then
+		ball = goA
 	else
-		player = goB
-		ropeBody = cpShapeA:getBody()
+		ball = goB
+	end
+
+	print(ball)
+	print(ball.rope)
+	print(ball.rope.parent)
+	local player =  ball.rope.parent.player
+	for k, v in pairs(player.joints) do
+		player:removeJoint(k)
 	end
 	player.carryingRope = false
 
