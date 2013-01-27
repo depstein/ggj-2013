@@ -108,10 +108,6 @@ local function client(outgoing, incoming, socketinfo)
 
 end
 
-function Communication.getIP()
-    return socket.dns.toip("localhost")
-end
-
 function Communication.createServer()
     local outgoing, incoming, socketinfo = {}, {}, {}
     corout(server, outgoing, incoming, socketinfo)

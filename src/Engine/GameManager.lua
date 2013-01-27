@@ -48,8 +48,6 @@ function GameManager:start()
     	io.write("[y/n]: ");
     	input = io.read()
     end
-
-    self.communicationManager = CommunicationManager:new():init(input == "y")
     
     self.sceneManager = SceneManager:new():init(1024, 768, MOAICamera2D.new())
     self.sceneManager:addLayer("lighting")
@@ -75,6 +73,8 @@ function GameManager:start()
     
     self.enemyManager = EnemyManager:new():init()
     self.bulletManager = BulletManager:new():init()
+
+    self.communicationManager = CommunicationManager:new():init(input == "y")
     
     local rope = Rope:new():init(-200, 200, 5);
 
@@ -82,21 +82,22 @@ function GameManager:start()
     dropLocation:setPos(-200, 500)
 
     
-	self.sceneManager.space:setCollisionHandler(
-        SceneManager.OBJECT_TYPES.BULLET, 
-        SceneManager.OBJECT_TYPES.ENEMY, 
-        MOAICpSpace.BEGIN, 
-        function(numType, bulletBody, enemyBody, cparbiter)
-            corout(function() 
-                Game.bulletManager:Destroy(bulletBody:getBody().gameObject.id)
-                Game.enemyManager:Destroy(enemyBody:getBody().gameObject.id)
-            end)
-        end
-    )
     
     self.lightLayer = LightLayer:new():init();
 
     if(self.communicationManager.isServer) then
+    	self.sceneManager.space:setCollisionHandler(
+            SceneManager.OBJECT_TYPES.BULLET, 
+            SceneManager.OBJECT_TYPES.ENEMY, 
+            MOAICpSpace.BEGIN, 
+            function(numType, bulletBody, enemyBody, cparbiter)
+                corout(function() 
+                    Game.bulletManager:Destroy(bulletBody:getBody().gameObject.id)
+                    Game.enemyManager:Destroy(enemyBody:getBody().gameObject.id)
+                end)
+            end
+        )
+
         corout(
             function() 
                 Game.enemyManager:Update()

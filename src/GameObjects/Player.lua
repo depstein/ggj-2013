@@ -57,17 +57,22 @@ function Player:startShooting()
             local currentTime = MOAISim.getDeviceTime()
         	local time = currentTime - previousSpawn
             if time > 0.25 then
-    			local x, y = self:getPos()
-    			local pX, pY = MOAIInputMgr.device.pointer:getLoc()
-    			local destX, destY = Game.sceneManager:getDefaultLayer():wndToWorld(pX, pY)
-    			local bullet = Game.bulletManager:Create()
-                local angle = math.atan2(destY - y, destX - x)
-            	local xAngle = math.cos(angle)
-            	local yAngle = math.sin(angle)
-            
-            	bullet:setPos(x + xAngle * 50, y + yAngle * 50)
-            	bullet.handle:setVel(bullet.speed * xAngle, bullet.speed * yAngle)
-    			coroutine.yield()
+    			local playerX, playerY = self:getPos()
+    			local pointerX, pointerY = MOAIInputMgr.device.pointer:getLoc()
+    			local destX, destY = Game.sceneManager:getDefaultLayer():wndToWorld(pointerX, pointerY)
+                local angle = math.atan2(destY - playerY, destX - playerX)
+            	local xAngle, yAngle = math.cos(angle), math.sin(angle)
+                local posX, posY = playerX + xAngle * 50, playerY + yAngle * 50
+                local velX, velY = Bullet.INITIAL_SPEED * xAngle, Bullet.INITIAL_SPEED * yAngle
+                
+                if(Game.communicationManager.isServer) then
+        			local bullet = Game.bulletManager:Create()
+                	bullet:setPos(posX, posY)
+                	bullet.handle:setVel(velX, velY)
+                else
+                    Game.communicationManager:Fired({x = posX, y = posY, vx = velX, vy = velY})
+                end
+
                 previousSpawn = currentTime;
     		end
             coroutine.yield()
