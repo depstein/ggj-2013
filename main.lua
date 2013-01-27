@@ -35,10 +35,15 @@ camera = MOAICamera2D.new ()
 
 SceneManager:new():init(1024, 768, camera)
 
+SceneManager.i:addLayer("bg")
+SceneManager.i:getLayer("bg"):setParallax(0, 0)
+
 SceneManager.i:addLayer("parallax1")
 SceneManager.i:getLayer("parallax1"):setParallax(0.5, 0.5)
 
 SceneManager.i:addLayer("main", {default = true})
+
+local bg = GameObject:new():init(TextureAsset.get("bg.png"), { layer = 'bg'});
 
 local p1 = Player:new():init(TextureAsset.get("player.png"));
 p1:setColor(Colors.cornflower_blue)

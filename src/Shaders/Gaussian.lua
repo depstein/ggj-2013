@@ -96,7 +96,7 @@ function GaussianBlur:initFrameBuffer2()
 
 	local layer = MOAILayer2D.new()
 	layer:setViewport(viewport)
-	--layer:setFrameBuffer(frameBuffer)
+	layer:setFrameBuffer(frameBuffer)
 	MOAISim.pushRenderPass(layer)
 
 	layer:insertProp(self.pass1)

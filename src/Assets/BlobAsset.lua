@@ -9,6 +9,7 @@ function BlobAsset:init(file, options)
 	self.polydata = PhysicsData.blobPolygon(file)
 	options = options or {color="FFFFFF"}
 	self.color = options.color
+	self.filename = file .. '.png'
 	return self
 end
 

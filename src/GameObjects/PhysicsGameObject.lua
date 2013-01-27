@@ -42,8 +42,10 @@ function PhysicsGameObject:createPhysicsObject(options)
 		if (not options.group) then
 			self.shapes[i]:setGroup(tableaddr(self))
 		end
+		if (options.static) then self.shapes[i]:setGroup(PhysicsData.StaticGroup) end
 		SceneManager.i:getCpSpace():insertPrim(self.shapes[i])
 	end
+
 
 	if self.prop then
 		self.prop:setParent(self.body)
