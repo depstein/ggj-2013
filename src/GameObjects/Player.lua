@@ -49,7 +49,11 @@ function Player:init(asset, options)
 
 			self.handle:setAngle(self.curAngle)
 
-			self.ropeBody:setPos(self.handle:getPos())
+			local handleposx, handleposy = self.handle:getPos()
+			handleposx = handleposx + math.cos(self.curAngle + math.pi / 2) * 40
+			handleposy = handleposy + math.sin(self.curAngle + math.pi / 2) * 40
+			self.ropeBody:setPos(handleposx, handleposy)
+
 
 			coroutine.yield()
 		end
