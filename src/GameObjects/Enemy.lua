@@ -8,8 +8,9 @@ function Enemy:init(id, asset, options)
 	Character.init(self, asset, options)
 
     self.id = id
-	self.speed = 500
-
+	self.basespeed = 500
+	self.health = 1
+	self.dashChance = .04
 	self:setType(SceneManager.OBJECT_TYPES.ENEMY)
 
 	local previousSpawn = MOAISim.getDeviceTime()
@@ -24,7 +25,6 @@ function Enemy:init(id, asset, options)
             	mX,mY = self.handle:getPos()
 
             	if d then
-
             		eX,eY = Game.players[1].handle:getPos()
             		angle = math.atan2(eY-mY,eX-mX)
             	else
@@ -37,11 +37,18 @@ function Enemy:init(id, asset, options)
             	local y = math.sin(angle)
 
             	if d then
+            		self.speed = self.basespeed
 					self.handle:setForce(self.speed * x, self.speed * y)
             	else
             		self.speed = 50
             		self:moveInDirection(x, y)
             	end
+
+            	if math.random() < self.dashChance then
+            		self.speed = self.basespeed*10
+            		self.handle:applyForce(x*self.speed, y*self.speed,0,0)
+            	end
+
         	else	
         		coroutine:yield()
         	end

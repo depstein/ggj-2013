@@ -30,6 +30,6 @@ function LevelData.Load(file)
     for k,v in pairs(data.blobs) do 
     	table.insert(result, addBlob(v))
     end
-    Game.enemyManager.spawnPoints = data.spawnPoints
+    Game.enemyManager:SetSpawnPoints(data.spawnPoints)
 	return result
 end
