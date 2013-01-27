@@ -1,3 +1,5 @@
+require "Player"
+
 Rope = {}
 Rope.type = "Rope"
 
@@ -38,5 +40,15 @@ function Rope:init(x, y, numRopeSegments)
 	joint = MOAICpConstraint.newPivotJoint(self.ropeSegments[numRopeSegments].body, endpoint2.body, 0, 0, 0, 0)
 	joint:setBiasCoef ( 0.75 )
 	SceneManager.i:getCpSpace():insertPrim ( joint )
+
+	SceneManager.i:getCpSpace():setCollisionHandler(tableaddr(Player), tableaddr(Rope), MOAICpSpace.BEGIN, self.collideWithRope)
 	return self
+end
+
+function Rope:collideWithRope(cpShapeA, cpShapeB, cpArbiter)
+	joint = MOAICpConstraint.newPivotJoint(cpShapeA:getBody(), cpShapeB:getBody(), 0, 0, 0, 0)
+	joint:setBiasCoef ( 0.75 )
+	SceneManager.i:getCpSpace():insertPrim ( joint )
+	cpShapeA:setGroup(tableaddr(Rope))
+	cpShapeB:setGroup(tableaddr(Rope))
 end
