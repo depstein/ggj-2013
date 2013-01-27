@@ -28,9 +28,9 @@ function Enemy:init(id, asset, options)
             	if d then
 
             		eX,eY = Game.players[1].handle:getPos()
-            		print(eX .. " " .. eY)
+            		--print(eX .. " " .. eY)
             		angle = math.atan2(eY-mY,eX-mX)
-            		print(angle)
+            		--print(angle)
             	else
             		angle = math.random() * 2*math.pi
             	end

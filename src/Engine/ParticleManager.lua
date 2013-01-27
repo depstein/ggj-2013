@@ -12,7 +12,7 @@ function ParticleManager:init()
 			for k,v in pairs(self.timeLeft) do
 				self.timeLeft[k] = v - time
 				if (self.timeLeft[k] < 0) then
-					print(self.timeLeft[k])
+--					print(self.timeLeft[k])
 					Game.sceneManager:getLayer("particles"):removeProp(k)
 					self.timeLeft[k] = nil
 				end

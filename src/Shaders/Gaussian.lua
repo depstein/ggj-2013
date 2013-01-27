@@ -25,21 +25,16 @@ Shaders.Gaussian.getShader = function(vertical, amount)
 	local vsh = file:read('*all')
 	file:close()
 
-	file = assert(io.open ('src/Shaders/gaussian.fsh', mode))
+	local file
+	if (vertical) then
+		file = assert(io.open ('src/Shaders/gaussian-vert.fsh', mode))
+	else
+		file = assert(io.open ('src/Shaders/gaussian.fsh', mode))
+	end
 	local fsh = file:read('*all')
 	file:close()
 
-	shader:reserveUniforms ( 3 ) 
-
-	if (shader.initGaussianBlur) then
-		if (vertical) then
-			shader:initGaussianBlur(0, 1, amount)
-		else
-			shader:initGaussianBlur(1, 0, amount)
-		end
-	else
-		return nil
-	end
+	shader:reserveUniforms ( 0 ) 
 
 	shader:setVertexAttribute ( 1, 'position' )
 	shader:setVertexAttribute ( 2, 'uv' )
