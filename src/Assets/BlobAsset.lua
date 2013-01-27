@@ -1,6 +1,5 @@
 require "PhysicsData"
 require "Asset"
-local Meshes2D = require "Meshes2D"
 
 BlobAsset = Asset:new()
 BlobAsset.type = "BlobAsset"

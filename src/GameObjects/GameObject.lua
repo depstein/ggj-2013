@@ -97,6 +97,7 @@ function GameObject:setColor(color)
 
 	moaiColor = MOAIColor.new()
 	moaiColor:setColor(color.r/255.0, color.g/255.0, color.b/255.0, 1)
+	self.color = moaiColor
 	shader:setAttrLink ( 1, moaiColor, MOAIColor.COLOR_TRAIT )
 
 	shader:setVertexAttribute ( 1, 'position' )

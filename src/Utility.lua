@@ -105,6 +105,14 @@ function dump(t,indent)
     end
 end
 
+function makeMOAIColor(color) 
+    local c = Game.colors[color]
+    moaiColor = MOAIColor.new()
+    moaiColor:setColor(c.r/255.0, c.g/255.0, c.b/255.0, 1)
+
+    return moaiColor
+end
+
 ------------------------------------------------------------------------------
 --  Converts hex number to rgb (format: #FF00FF)
 --============================================================================

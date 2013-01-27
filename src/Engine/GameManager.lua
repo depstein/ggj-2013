@@ -9,6 +9,8 @@ require "SceneManager"
 require "Player"
 require "EnemyManager"
 require "Rope"
+require "LightLayer"
+
 
 GameManager = Class:new()
 GameManager.type = "GameManager"
@@ -48,6 +50,7 @@ function GameManager:start()
     self.communicationManager = CommunicationManager:new():init(input == "y")
     
     self.sceneManager = SceneManager:new():init(1024, 768, MOAICamera2D.new())
+    self.sceneManager:addLayer("lighting")
     self.sceneManager:addLayer("bg")
     self.sceneManager:getLayer("bg"):setParallax(0, 0)
     self.sceneManager:addLayer("parallax1")
@@ -95,6 +98,8 @@ function GameManager:start()
         end
     )
     
+    self.lightLayer = LightLayer:new():init();
+
     if(self.communicationManager.isServer) then
         corout(
             function() 

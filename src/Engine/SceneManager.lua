@@ -11,6 +11,9 @@ local myPrivateField = nil
 function SceneManager:init(width, height, camera, options)
 	options = options or {}
 
+	self.width = width
+	self.height = height
+
 	self.viewport = MOAIViewport.new()
 	self.viewport:setSize (width, height)
 	self.viewport:setScale (width, -height)
