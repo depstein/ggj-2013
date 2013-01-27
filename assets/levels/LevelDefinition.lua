@@ -1,8 +1,8 @@
 return {
 	{
 		blob = 'blob1',
-		rotation = 110,
-		scale = 1.5,
+		rotation = 45,
+		scale = 1,
 		posX = 400,
 		posY = 0,
 		layer = "main",
