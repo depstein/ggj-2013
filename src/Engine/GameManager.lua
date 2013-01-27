@@ -12,6 +12,7 @@ require "Rope"
 require "DropLocation"
 require "ParticleManager"
 require "LightLayer"
+require "BlurLayer"
 
 GameManager = Class:new()
 GameManager.type = "GameManager"
@@ -69,8 +70,11 @@ function GameManager:start()
     self.sceneManager:getLayer("parallax2"):setParallax(0.25, 0.25)
     self.sceneManager:addLayer("parallax1")
     self.sceneManager:getLayer("parallax1"):setParallax(0.5, 0.5)
+    self.sceneManager:addLayer("parallaxblurred")
     self.sceneManager:addLayer("main", {default = true})
     self.sceneManager:addLayer("particles")
+
+    self.blurLayer = BlurLayer:new():init();
 
     LevelData.Load("assets/levels/LevelDefinition.lua")
     
@@ -94,8 +98,6 @@ function GameManager:start()
 
     local dropLocation = DropLocation:new():init(TextureAsset.get("whitesquare.png"))
     dropLocation:setPos(-200, 500)
-
-    
     
     self.lightLayer = LightLayer:new():init();
 
