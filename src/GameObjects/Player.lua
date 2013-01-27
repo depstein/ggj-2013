@@ -28,9 +28,7 @@ function Player:init(asset, options)
 		end
 	end)
 
-	--print(self.body:getMass())
-
-	self:setType(tableaddr(Player))
+	self:setType(SceneManager.objectTypes.player)
 	return self
 end
 

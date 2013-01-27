@@ -13,7 +13,7 @@ function GameObject:init(asset, options)
 	self.prop = asset:make()
 	self.handle = self.prop
 	self.asset = asset
-
+	self.health = 5
 
 	if (not options.noadd and not options.layer) then
 		SceneManager.i:getDefaultLayer():insertProp(self.prop)
@@ -53,7 +53,11 @@ function GameObject:getRot(angle)
 end
 
 function GameObject:destroy()
-
+	SceneManager.i:getDefaultLayer():removeProp(self.prop)
+	SceneManager.i:getCpSpace():removePrim(self.body)
+	for i = 1,#self.shapes do
+		SceneManager.i:getCpSpace():removePrim(self.shapes[i])
+	end
 end
 
 function GameObject:createPhysicsObject(options)
@@ -64,6 +68,8 @@ function GameObject:createPhysicsObject(options)
 	end	
 
 	self.body, self.shapes = PhysicsData.fromSprite(options)
+
+	self.body.gameObject = self
 
 	SceneManager.i:getCpSpace():insertPrim(self.body)
 

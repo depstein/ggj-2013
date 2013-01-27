@@ -12,6 +12,7 @@ function BulletManager.SpawnBullet(currentTime, x, y, destX, destY)
 		bullet:setPos(x+xAngle*50, y+yAngle*50)
 		bullet.speed = 1000
 		bullet.handle:setVel(bullet.speed*xAngle, bullet.speed*yAngle)
+		bullet:setType(SceneManager.objectTypes.bullet)
 		table.insert(Bullets, bullet)
 		BulletManager.previousSpawn = currentTime
 	end

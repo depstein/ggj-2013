@@ -17,6 +17,14 @@ function PhysicsGameObject:moveInDirection(x, y)
 	self.body:applyForce(x * self.speed, y * self.speed)
 end
 
+function PhysicsGameObject:destroy()
+	SceneManager.i:getDefaultLayer():removeProp(self.prop)
+	SceneManager.i:getCpSpace():removePrim(self.body)
+	for i = 1,#self.shapes do
+		SceneManager.i:getCpSpace():removePrim(self.shapes[i])
+	end
+end
+
 function PhysicsGameObject:createPhysicsObject(options)
 	options = options or {}
 
@@ -25,6 +33,8 @@ function PhysicsGameObject:createPhysicsObject(options)
 	end	
 
 	self.body, self.shapes = PhysicsData.fromSprite(options)
+
+	self.body.gameObject = self
 
 	SceneManager.i:getCpSpace():insertPrim(self.body)
 

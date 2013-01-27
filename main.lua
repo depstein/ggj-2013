@@ -40,10 +40,10 @@ SceneManager.i:getLayer("parallax1"):setParallax(0.5, 0.5)
 
 SceneManager.i:addLayer("main", {default = true})
 
-local p1 = Player:new():init(TextureAsset.get("playerthingy.png"));
+local p1 = Player:new():init(TextureAsset.get("player.png"));
 p1:setColor(Colors.cornflower_blue)
 
-local p2 = Player:new():init(TextureAsset.get("playerthingy.png"), { disableControls = true });
+local p2 = Player:new():init(TextureAsset.get("player.png"), { disableControls = true });
 p2:setColor(Colors.international_orange_golden_gate_bridge)
 
 local MSG_PLAYER_LOCATION = 1
@@ -127,9 +127,3 @@ if(isServer) then
     print("Starting up EnemyManager")
     corout(EnemyManager.Update)
 end
--- Create new circle: ( centerX, centerY, radius, colorHex )
---[[local blobagon = GameObject:new():init(BlobAsset.get('blob1', {color=Colors.cornflower_blue}), {layer="parallax1"})
-local blobagon = GameObject:new():init(BlobAsset.get('blob1', {color=Colors.cornflower_blue}), {layer="parallax1"})
-blobagon:setPos(45)
-blobagon:setRot(45)
-]]
