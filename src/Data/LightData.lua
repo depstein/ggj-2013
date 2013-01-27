@@ -25,11 +25,6 @@ return {
 		radius = 600
 	},
 	{
-		x = 5866,
-		y = 5818,
-		radius = 600
-	},
-	{
 		x = 6064,
 		y = 6328,
 		radius = 600
