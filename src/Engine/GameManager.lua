@@ -72,6 +72,29 @@ function GameManager:start()
     
     local rope = Rope:new():init(-200, 200, 5);
     
+    local testObject3 = PhysicsGameObject:new():init(TextureAsset.get("whitesquare.png"), {static=true});
+    testObject3:setPos(-200, 0)
+    testObject3:setColor(self.colors.patriarch)
+    
+    local testObject4 = PhysicsGameObject:new():init(TextureAsset.get("whitesquare.png"), {static=true,isSensor=true});
+    testObject4:setPos(-200, -200)
+    testObject4:setColor(self.colors.rhythm)
+    
+    local rope = Rope:new():init(-200, -200, 5);
+
+    
+	self.sceneManager.space:setCollisionHandler(
+        SceneManager.OBJECT_TYPES.BULLET, 
+        SceneManager.OBJECT_TYPES.ENEMY, 
+        MOAICpSpace.BEGIN, 
+        function(numType, bulletBody, enemyBody, cparbiter)
+            corout(function() 
+                Game.bulletManager:Destroy(bulletBody:getBody().gameObject.id)
+                Game.enemyManager:Destroy(enemyBody:getBody().gameObject.id)
+            end)
+        end
+    )
+    
     if(self.communicationManager.isServer) then
         corout(
             function() 

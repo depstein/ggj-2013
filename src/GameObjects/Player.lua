@@ -50,15 +50,28 @@ function Player:attemptMove(x, y)
 end
 
 function Player:startShooting()
+    local previousSpawn = -1
 	self.shooting = true
 	corout(function()
 		while self.shooting do
-				posX, posY = self:getPos()
-				dstX, dstY = MOAIInputMgr.device.pointer:getLoc()
-				dstX, dstY = Game.sceneManager:getDefaultLayer():wndToWorld(dstX, dstY)
-				Game.bulletManager:SpawnBullet(MOAISim.getElapsedTime(), posX, posY, dstX, dstY)
-			coroutine.yield()
-		end
+            local currentTime = MOAISim.getDeviceTime()
+        	local time = currentTime - previousSpawn
+            if time > 0.25 then
+    			local x, y = self:getPos()
+    			local pX, pY = MOAIInputMgr.device.pointer:getLoc()
+    			local destX, destY = Game.sceneManager:getDefaultLayer():wndToWorld(pX, pY)
+    			local bullet = Game.bulletManager:Create()
+                local angle = math.atan2(destY - y, destX - x)
+            	local xAngle = math.cos(angle)
+            	local yAngle = math.sin(angle)
+            
+            	bullet:setPos(x + xAngle * 50, y + yAngle * 50)
+            	bullet.handle:setVel(bullet.speed * xAngle, bullet.speed * yAngle)
+    			coroutine.yield()
+                previousSpawn = currentTime;
+    		end
+            coroutine.yield()
+    	end
 	end)
 end
 

@@ -16,10 +16,9 @@ ClassName.type = "ClassName"
 
 ClassName.MY_CONSTANT = 0
 
-local myPrivateField = 0
-
 function ClassName:init()
-    self.myProperty = 0
+    -- Initialize all members here
+    self.field = 0
 
     return self;
 end
