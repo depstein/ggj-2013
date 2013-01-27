@@ -7,5 +7,7 @@ function Character:init(asset, options)
 
 	self.speed = 1000
 
+	self:setType(tableaddr(Character))
+
 	return self
 end

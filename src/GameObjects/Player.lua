@@ -25,6 +25,8 @@ function Player:init(asset, options)
 		end
 	end)
 
+	self:setType(tableaddr(Player))
+
 	return self
 end
 
