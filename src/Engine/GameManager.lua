@@ -1,8 +1,14 @@
 require "Utility"
 require "KeyboardManager"
+require "MouseManager"
 require "CommunicationManager"
+require "AssetManager"
 require "TextureAsset"
 require "LevelData"
+require "SceneManager"
+require "Player"
+require "EnemyManager"
+require "Rope"
 
 GameManager = Class:new()
 GameManager.type = "GameManager"

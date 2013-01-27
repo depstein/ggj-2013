@@ -1,4 +1,5 @@
 require "BulletManager"
+require "Character"
 
 Player = Character:new()
 Player.type = "Player"

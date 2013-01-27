@@ -1,3 +1,5 @@
+require "GameObject"
+
 PhysicsGameObject = GameObject:new()
 PhysicsGameObject.type = "PhysicsGameObject"
 

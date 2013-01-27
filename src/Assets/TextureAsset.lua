@@ -1,3 +1,5 @@
+require "Asset"
+
 TextureAsset = Asset:new()
 TextureAsset.type = "TextureAsset"
 TextureAsset.spritePath = "assets/sprites/"

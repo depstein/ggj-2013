@@ -1,3 +1,6 @@
+require "PhysicsGameObject"
+require "BlobAsset"
+
 LevelData = {}
 LevelData.XOFF = 5545
 LevelData.YOFF = 5383
