@@ -88,7 +88,7 @@ function Player:startShooting()
     local previousSpawn = -1
 	self.shooting = true
 	corout(function()
-		while self.shooting do
+		while self.shooting and not self.carryingRope do
             local currentTime = MOAISim.getDeviceTime()
         	local time = currentTime - previousSpawn
             if time > 0.25 then
