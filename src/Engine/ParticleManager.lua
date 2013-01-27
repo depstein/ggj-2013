@@ -5,19 +5,29 @@ ParticleManager.type = "ParticleManager"
 
 function ParticleManager:init()
 	self.plugins = {}
-	
+	self.timeLeft = {}
+
+	timedCorout(function(time)
+		while true do
+			for k,v in pairs(self.timeLeft) do
+				self.timeLeft[k] = v - time
+				if (self.timeLeft[k] < 0) then
+					print(self.timeLeft[k])
+					Game.sceneManager:getLayer("particles"):removeProp(k)
+					self.timeLeft[k] = nil
+				end
+			end
+			coroutine.yield()
+		end
+	end)
+
     return self;
 end
 
-function ParticleManager:addParticle(particleName)
-	if (not self.plugins[particleName]) then
-		self.plugins[particleName] = MOAIParticlePexPlugin.load( particleName )
-	end
-
+function ParticleManager:addParticle(particleName, x, y, particleDuration)
 	local plugin = self.plugins[particleName]
 
-
-	local maxParticles = 1--plugin:getMaxParticles ()
+	local maxParticles = plugin:getMaxParticles ()
 	local blendsrc, blenddst = plugin:getBlendMode ()
 	local minLifespan, maxLifespan = plugin:getLifespan ()
 	local duration = plugin:getDuration ()
@@ -41,6 +51,7 @@ function ParticleManager:addParticle(particleName)
 	emitter:setSystem ( system )
 	emitter:setEmission ( plugin:getEmission () )
 	emitter:setFrequency ( plugin:getFrequency () )
+	emitter:setLoc(x, y)
 	emitter:setRect ( xMin, yMin, xMax, yMax )
 
 	local deck = MOAIGfxQuad2D.new()
@@ -50,5 +61,8 @@ function ParticleManager:addParticle(particleName)
 
 	system:start ()
 	emitter:start ()
-	--]]
+
+	self.timeLeft[system] = particleDuration
+	
+	Game.sceneManager:getLayer("particles"):insertProp ( system)
 end

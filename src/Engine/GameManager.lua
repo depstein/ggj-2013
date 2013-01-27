@@ -58,6 +58,7 @@ function GameManager:start()
     self.sceneManager:addLayer("parallax1")
     self.sceneManager:getLayer("parallax1"):setParallax(0.5, 0.5)
     self.sceneManager:addLayer("main", {default = true})
+    self.sceneManager:addLayer("particles")
 
     LevelData.Load("assets/levels/LevelDefinition.lua")
     

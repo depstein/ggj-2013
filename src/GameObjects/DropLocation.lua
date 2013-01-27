@@ -23,7 +23,8 @@ function DropLocation:collideWithRope(cpShapeA, cpShapeB, cpArbiter)
 		return
 	end
 
-	Game.particleManager:addParticle('deathBlossomCharge.pex')--assets/particles/
+	local x, y = cpShapeA:getBody().gameObject:getPos()
+	Game.particleManager:addParticle('deathBlossomCharge.pex', x, y, 100)
 
 	for k, v in pairs(cpShapeA:getBody().gameObject.joints) do 
 		Game.sceneManager:getCpSpace():removePrim(v)

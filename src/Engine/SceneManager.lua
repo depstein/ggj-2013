@@ -42,7 +42,9 @@ function SceneManager:addLayer(key, options)
 	local layer = MOAILayer2D.new()
 	layer:setViewport(self.viewport)
 
-	layer:setCamera(self.camera)
+	if not options.ignoreCamera then
+		layer:setCamera(self.camera)
+	end
 	MOAISim.pushRenderPass(layer)
 
 	self.layers[key] = layer
