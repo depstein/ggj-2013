@@ -95,7 +95,7 @@ function GameManager:start()
 
     self.communicationManager = CommunicationManager:new():init(isServer, ip)
     
-    local rope = Rope:new():init(-200, 200, 5);
+    local rope = Rope:new():init(-200, 200, 8);
 
     local dropLocation = DropLocation:new():init(TextureAsset.get("whitesquare.png"))
     dropLocation:setPos(-200, 500)

@@ -6,6 +6,10 @@ PhysicsGameObject.DAMPING = .05
 
 function PhysicsGameObject:init(asset, options)
 	options = options or {}
+	if (not options.damp) then
+		options.damp = true
+	end
+
 	GameObject.init(self, asset, options)
 	self:createPhysicsObject(options)
 
@@ -13,25 +17,36 @@ function PhysicsGameObject:init(asset, options)
 
 	self.movement = { x = 0, y = 0}
 
-	--[[ CUSTOM DAMPING
-	corout(function()
-		while true do
-			velx, vely = self.handle:getVel()
-			velx = velx * (1.0 - PhysicsGameObject.DAMPING)
-			vely = vely * (1.0 - PhysicsGameObject.DAMPING)
+	if (options.damp) then
+		-- CUSTOM DAMPING
+		corout(function()
+			while true do
+				velx, vely = self.handle:getVel()
+				velx = velx * (1.0 - PhysicsGameObject.DAMPING)
+				vely = vely * (1.0 - PhysicsGameObject.DAMPING)
 
-			self.handle:setVel(velx, vely)
-			coroutine.yield()
-		end
-	end) --]]
+				self.handle:setVel(velx, vely)
+				coroutine.yield()
+			end
+		end)
+	end
 
 	return self
+end
+
+function PhysicsGameObject:getSpeed()
+	return self.speed
 end
 
 function PhysicsGameObject:moveInDirection(x, y)
 	if (not self.physics) then return end
 
-	self.body:applyForce(x * self.speed, y * self.speed)
+	local speed = self:getSpeed()
+
+	self.movement.x = self.movement.x + x
+	self.movement.y = self.movement.y + y
+
+	self.body:setForce(self.movement.x * speed, self.movement.y * speed)
 end
 
 function PhysicsGameObject:destroy()

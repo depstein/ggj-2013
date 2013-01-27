@@ -25,7 +25,7 @@ function SceneManager:init(width, height, camera, options)
 	self.space = MOAICpSpace.new()
 	self.space:setGravity(0, 0)
 	self.space:setIterations(5)
-	self.space:setDamping(.05)
+	--self.space:setDamping(.05)
 	self.space:start()
 
 	self.layers = {}

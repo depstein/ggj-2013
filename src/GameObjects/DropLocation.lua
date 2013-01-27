@@ -27,6 +27,19 @@ function DropLocation:collideWithRope(cpShapeA, cpShapeB, cpArbiter)
 	local x, y = cpShapeA:getBody().gameObject:getPos()
 	Game.particleManager:addParticle('deathBlossomCharge.pex', x, y, 100)
 
+
+	local goA = cpShapeA:getBody().gameObject
+	local goB = cpShapeB:getBody().gameObject
+	local player, ropeBody
+	if (goA.type == "Player") then
+		player = goA
+		ropeBody = cpShapeB:getBody()
+	else
+		player = goB
+		ropeBody = cpShapeA:getBody()
+	end
+	player.carryingRope = false
+
 	for k, v in pairs(cpShapeA:getBody().gameObject.joints) do
 		cpShapeA:getBody().gameObject:removeJoint(k)
 	end

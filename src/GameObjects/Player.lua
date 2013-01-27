@@ -6,7 +6,7 @@ Player.type = "Player"
 
 function Player:init(asset, options) 
 	options = options or {}
-	options.ignoreGravity = true
+	options.ignoreGravity = false
 	Character.init(self, asset, options)
 
 	self.speed = 3000
@@ -17,6 +17,17 @@ function Player:init(asset, options)
     if(not options.disableControls) then
 	    self:initControls()
     end
+
+    local cpSpace = Game.sceneManager:getCpSpace()
+	ropeBody = MOAICpBody.new(MOAICp.INFINITY, MOAICp.INFINITY)
+	local ropeShape = ropeBody:addCircle(5, 0, 0)
+	ropeShape:setIsSensor(true)
+
+	cpSpace:insertPrim(ropeBody)
+	cpSpace:insertPrim(ropeShape)
+
+	self.ropeBody = ropeBody
+	self.ropeShape = ropeShape
 
 	timedCorout(function(time)
 		while true do
@@ -35,12 +46,23 @@ function Player:init(asset, options)
 			self.curAngle = self.curAngle + change
 
 			self.handle:setAngle(self.curAngle)
+
+			self.ropeBody:setPos(self.handle:getPos())
+
 			coroutine.yield()
 		end
 	end)
 
 	self:setType(SceneManager.OBJECT_TYPES.PLAYER)
 	return self
+end
+
+function Player:getSpeed()
+	local speed = self.speed
+	if (self.carryingRope) then
+		speed = self.speed * .75
+	end
+	return speed
 end
 
 function Player:attemptMove(x, y)
