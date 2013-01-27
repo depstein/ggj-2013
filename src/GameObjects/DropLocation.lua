@@ -24,6 +24,18 @@ function DropLocation:collideWithRope(cpShapeA, cpShapeB, cpArbiter)
 	end
 	print("Connecting a rope to a drop location")
 
+	local goA = cpShapeA:getBody().gameObject
+	local goB = cpShapeB:getBody().gameObject
+	local player, ropeBody
+	if (goA.type == "Player") then
+		player = goA
+		ropeBody = cpShapeB:getBody()
+	else
+		player = goB
+		ropeBody = cpShapeA:getBody()
+	end
+	player.carryingRope = false
+
 	for k, v in pairs(cpShapeA:getBody().gameObject.joints) do
 		cpShapeA:getBody().gameObject:removeJoint(k)
 	end

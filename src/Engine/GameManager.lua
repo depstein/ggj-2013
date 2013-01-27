@@ -77,6 +77,7 @@ function GameManager:start()
 
     self.blurLayer = BlurLayer:new():init();
 
+    self.enemyManager = EnemyManager:new():init()
     LevelData.Load("assets/levels/LevelDefinition.lua")
     
     self.bg = GameObject:new():init(TextureAsset.get("bg.png"), { layer = "bg"})
@@ -90,12 +91,11 @@ function GameManager:start()
     
     self.sceneManager.camera:setAttrLink(MOAITransform.INHERIT_LOC, Game.players[1].handle, MOAITransform.TRANSFORM_TRAIT)
     
-    self.enemyManager = EnemyManager:new():init()
     self.bulletManager = BulletManager:new():init()
 
     self.communicationManager = CommunicationManager:new():init(isServer, ip)
     
-    local rope = Rope:new():init(-200, 200, 5);
+    local rope = Rope:new():init(-200, 200, 8);
 
     local dropLocation = DropLocation:new():init(TextureAsset.get("whitesquare.png"))
     dropLocation:setPos(-200, 500)

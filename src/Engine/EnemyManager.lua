@@ -7,7 +7,7 @@ function EnemyManager:init()
     -- PUBLIC
     self.enemies = {}
     self.onEnemyDie = nil
-
+    self.spawnPoints = {}
     -- PRIVATE
     self._enemyIndex = 1
     self._previousSpawn = MOAISim.getDeviceTime()
@@ -41,7 +41,8 @@ function EnemyManager:Update()
     	local time = currentTime - self._previousSpawn
     	if time > 1 then
             local enemy = self:Create()
-	        enemy:setPos(50, 50)
+            rand = math.random(1,#self.spawnPoints)
+	        enemy:setPos(self.spawnPoints[rand].posX, self.spawnPoints[rand].posY)
     		self._previousSpawn = currentTime
     	end
 		coroutine.yield()
