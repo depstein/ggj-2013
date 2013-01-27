@@ -18,19 +18,15 @@ function Enemy:init(id, asset, options)
             local currentTime = MOAISim.getDeviceTime()
         	local time = currentTime - previousSpawn
             if time > .05 then
-
-            	--for k,v in pairs(Game.players) do
             	local angle = 0
             	local player;
             	d = self:canSee(Game.players[1])
             	mX,mY = self.handle:getPos()
-            	--end
+
             	if d then
 
             		eX,eY = Game.players[1].handle:getPos()
-            		--print(eX .. " " .. eY)
             		angle = math.atan2(eY-mY,eX-mX)
-            		--print(angle)
             	else
             		angle = math.random() * 2*math.pi
             	end

@@ -117,6 +117,18 @@ function GameManager:start()
             end
         )
 
+        self.sceneManager.space:setCollisionHandler(
+            SceneManager.OBJECT_TYPES.PLAYER, 
+            SceneManager.OBJECT_TYPES.ENEMY, 
+            MOAICpSpace.BEGIN, 
+            function(numType, playerBody, enemyBody, cparbiter)
+                corout(function() 
+                    playerBody:getBody().gameObject.health = playerBody:getBody().gameObject.health - 1
+                    Game.enemyManager:Destroy(enemyBody:getBody().gameObject.id)
+                end)
+            end
+        )
+
         corout(
             function() 
                 Game.enemyManager:Update()

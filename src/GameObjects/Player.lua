@@ -14,6 +14,7 @@ function Player:init(asset, options)
 	self.curAngle = 0
     self.angleChange = 0
     self.keysPressed = {}
+    self.health = 5
 
     if(not options.disableControls) then
 	    self:initControls()
