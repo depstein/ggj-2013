@@ -31,6 +31,13 @@ function Player:init(asset, options)
 	self.ropeBody = ropeBody
 	self.ropeShape = ropeShape
 
+	local particleTimer = 0
+
+	corout(function()
+		self.system, self.emitter = Game.particleManager:addParticle('engine.pex', 0, 0, -1)
+		self.emitter:setEmission(0)
+	end)
+
 	timedCorout(function(time)
 		while true do
 			local x, y = self.handle:getVel()
@@ -49,23 +56,14 @@ function Player:init(asset, options)
 
 			self.handle:setAngle(self.curAngle)
 
+			local angle = self.curAngle + math.pi / 2
 			local handleposx, handleposy = self.handle:getPos()
-			handleposx = handleposx + math.cos(self.curAngle + math.pi / 2) * 40
-			handleposy = handleposy + math.sin(self.curAngle + math.pi / 2) * 40
+			handleposx = handleposx + math.cos(angle) * 40
+			handleposy = handleposy + math.sin(angle) * 40
 			self.ropeBody:setPos(handleposx, handleposy)
 
+			self.emitter:setLoc(handleposx, handleposy)
 
-			coroutine.yield()
-		end
-	end)
-
-	corout(function()
-		while true do
-			if self:isEmittingParticles() then
-				local x, y = self:getPos()
-				local angle = self.curAngle + math.pi / 2
-				Game.particleManager:addParticle('deathBlossomCharge.pex', x + 50*math.cos(angle), y + 50*math.sin(angle), 1)
-			end
 			coroutine.yield()
 		end
 	end)
@@ -136,10 +134,16 @@ end
 
 function Player:startEmittingParticles(key)
 	self.keysPressed[key] = true
+	if (self:isEmittingParticles()) then
+		self.emitter:setEmission(20)
+	end
 end
 
 function Player:endEmittingParticles(key)
 	self.keysPressed[key] = nil
+	if (not self:isEmittingParticles()) then
+		self.emitter:setEmission(0)
+	end
 end
 
 function Player:initControls()
