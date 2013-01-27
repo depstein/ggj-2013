@@ -13,7 +13,7 @@ local TIMEOUT = 0
 local PORT = 666
 
 local debugMessages = false
-local debugConnect = false
+local debugConnect = true
 
 local function pump(sock, outgoing, incoming)
     local listen = { sock }
@@ -94,7 +94,7 @@ local function server(outgoing, incoming, socketinfo)
 end
 
 local function client(outgoing, incoming, socketinfo)
-    if(socketinfo.connectIP) then
+    if(not socketinfo.connectIP) then
         socketinfo.connectIP = "127.0.0.1"
     end
 	if (debugConnect) then print("Client: Creating Socket") end
@@ -104,7 +104,7 @@ local function client(outgoing, incoming, socketinfo)
     sock:settimeout(TIMEOUT);
 
 	if (debugConnect) then print("Client: Connecting") end
-    sock:connect("127.0.0.1", 666)
+    sock:connect(socketinfo.connectIP, 666)
 
     if (debugConnect) then print("Client: Connected") end
     pump(sock, outgoing, incoming)
