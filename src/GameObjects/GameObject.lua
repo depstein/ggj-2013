@@ -85,7 +85,9 @@ function GameObject:createPhysicsObject(options)
 end
 
 function GameObject:setGroup(group)
-
+	for i = 1,#self.shapes do
+		self.shapes[i]:setGroup(group)
+	end
 end
 
 function GameObject:setColor(color)
