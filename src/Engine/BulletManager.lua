@@ -29,7 +29,7 @@ function BulletManager:Create()
 			while(true) do
 				vX, vY = bullet.handle:getVel()
 				v = math.sqrt(vX^2 + vY^2)
-				if v < 20 then
+				if v < 400 then
 					self:Destroy(bullet.id)
 					break
 				else
