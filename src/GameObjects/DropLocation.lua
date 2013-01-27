@@ -19,11 +19,11 @@ function DropLocation:init(asset, options)
 end
 
 function DropLocation:collideWithRope(cpShapeA, cpShapeB, cpArbiter)
-	print("HERE")
-
 	if not cpArbiter:isFirstContact() then
 		return
 	end
+
+	Game.particleManager:addParticle('deathBlossomCharge.pex')--assets/particles/
 
 	for k, v in pairs(cpShapeA:getBody().gameObject.joints) do 
 		Game.sceneManager:getCpSpace():removePrim(v)

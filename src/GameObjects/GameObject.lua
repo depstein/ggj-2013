@@ -9,6 +9,7 @@ function GameObject:init(asset, options)
 	self.prop = asset:make()
 	self.handle = self.prop
 	self.asset = asset
+	self.joints = {}
 	self.health = 5
 
 	if (not options.noadd and not options.layer) then
