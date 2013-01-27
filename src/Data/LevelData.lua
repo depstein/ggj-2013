@@ -17,7 +17,6 @@ local function addBlob(obj)
         blob.handle:setPos(obj.posX - LevelData.XOFF, obj.posY - LevelData.YOFF)
         blob.handle:setAngle(math.rad(obj.rotation))
         blob.handle.gameObject = blob
-        print("Shapes " .. #blob.shapes)
         blob:setType(SceneManager.OBJECT_TYPES.PHYSICS_BLOB)
     else 
         blob = GameObject:new():init(BlobAsset.get(obj.blob, {color=obj.color}), {layer=obj.layer, })

@@ -39,10 +39,13 @@ function WaveManager:spawnWave()
 	if self.waveNumber > 1 then
 		rand = math.random()
 		if rand < .25 then
+			print("More damage!")
 			player.damage  = player.damage + 1
 		elseif rand < .5 then
+			print("More speed!")
 			player.speed = player.speed + 500
 		else --if rand < .75  then
+			print("More hps!")
 			player.health  = player.health + 2
 		end
 	end
