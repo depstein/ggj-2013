@@ -224,10 +224,10 @@ function _M.newRect( left, top, width, height, col )
 	local vcoords, colorCoords = {}, {}
 
 	-- vertex coordinates
-	vcoords[1] = { 0, 0 }
-	vcoords[2] = { width, 0 }
-	vcoords[3] = { width, height }
-	vcoords[4] = { 0, height }
+	vcoords[1] = { -width / 2, -height / 2 }
+	vcoords[2] = { width / 2, -height / 2 }
+	vcoords[3] = { width / 2, height / 2 }
+	vcoords[4] = { -width / 2, height / 2 }
 	
 	-- vertex colors
 	if isGradient then

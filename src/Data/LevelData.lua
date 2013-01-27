@@ -12,7 +12,7 @@ local function addBlob(obj)
         blob.handle:setPos(obj.posX - LevelData.XOFF, obj.posY - LevelData.YOFF)
         blob.handle:setAngle(math.rad(obj.rotation))
     else 
-        blob = GameObject:new():init(BlobAsset.get(obj.blob, {color=obj.color}), {layer=obj.layer })
+        blob = GameObject:new():init(BlobAsset.get(obj.blob, {color=obj.color}), {layer=obj.layer, })
         blob.handle:setLoc(obj.posX - LevelData.XOFF, obj.posY - LevelData.YOFF)
         blob.handle:setRot(obj.rotation)
     end
