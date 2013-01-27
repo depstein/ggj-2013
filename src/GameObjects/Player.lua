@@ -49,7 +49,11 @@ function Player:init(asset, options)
 
 			self.handle:setAngle(self.curAngle)
 
-			self.ropeBody:setPos(self.handle:getPos())
+			local handleposx, handleposy = self.handle:getPos()
+			handleposx = handleposx + math.cos(self.curAngle + math.pi / 2) * 40
+			handleposy = handleposy + math.sin(self.curAngle + math.pi / 2) * 40
+			self.ropeBody:setPos(handleposx, handleposy)
+
 
 			coroutine.yield()
 		end
@@ -117,6 +121,13 @@ end
 
 function Player:endShooting()
 	self.shooting = false
+end
+
+function Player:dropRope()
+	self.carryingRope = false
+	for k, v in pairs(self.joints) do
+		self:removeJoint(k)
+	end
 end
 
 function Player:isEmittingParticles()
@@ -190,6 +201,12 @@ function Player:initControls()
 			self:startShooting()
 		else
 			self:endShooting()
+		end
+	end)
+
+	Game.mouseManager:addCallback(Game.mouseManager.BUTTONS.RIGHT, "dropRope", function(x, y, down)
+		if (down) then
+			self:dropRope()
 		end
 	end)
 end

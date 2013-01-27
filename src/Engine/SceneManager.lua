@@ -3,7 +3,7 @@ require "Utility"
 SceneManager = Class:new()
 SceneManager.type = "SceneManager"
 SceneManager.GRAVITY = 0
-SceneManager.OBJECT_TYPES = { BULLET = 1, BOX = 2, PLAYER = 3, ENEMY = 4, SEE_OVER = 5}
+SceneManager.OBJECT_TYPES = { BULLET = 1, BOX = 2, PLAYER = 3, ENEMY = 4, SEE_OVER = 5,  ROPE_SEGMENT = 6}
 
 local myPrivateField = nil
 
@@ -24,7 +24,7 @@ function SceneManager:init(width, height, camera, options)
 
 	self.space = MOAICpSpace.new()
 	self.space:setGravity(0, 0)
-	self.space:setIterations(5)
+	self.space:setIterations(10)
 	--self.space:setDamping(.05)
 	self.space:start()
 
