@@ -12,6 +12,7 @@ function Rope:init(x, y, numRopeSegments)
 		segment.handle:setPos(x-50*i, y)
 		segment:setColor(Game.colors.coral_red)
 		segment.body:setMass(1)
+		segment:setType(SceneManager.OBJECT_TYPES.ROPE_SEGMENT)
 		self.ropeSegments[i] = segment
 		if (i>1) then
 			joint = MOAICpConstraint.newSlideJoint (self.ropeSegments[i-1].body, self.ropeSegments[i].body, -20, 0, 20, 0, 0, 1)
@@ -44,6 +45,9 @@ function Rope:init(x, y, numRopeSegments)
 
 	Game.sceneManager:getCpSpace():setCollisionHandler(SceneManager.OBJECT_TYPES.PLAYER, tableaddr(Rope), MOAICpSpace.BEGIN, self.collideWithPlayer)
 	Game.sceneManager:getCpSpace():setCollisionHandler(tableaddr(BallObject), tableaddr(Rope), MOAICpSpace.BEGIN, self.collideWithBall)
+	Game.sceneManager:getCpSpace():setCollisionHandler(SceneManager.OBJECT_TYPES.PLAYER, SceneManager.OBJECT_TYPES.ROPE_SEGMENT, MOAICpSpace.ALL, function(cpShapeA, cpShapeB, cpArbiter)
+		return false
+	end)
 	return self
 end
 
@@ -66,8 +70,8 @@ function Rope:collideWithPlayer(cpShapeA, cpShapeB, cpArbiter)
 		ropeBody = cpShapeA:getBody()
 	end
 
-	joint = MOAICpConstraint.newSlideJoint(player.ropeBody, ropeBody, 0, 0, 0, 0, 0, 50)
-	joint:setBiasCoef ( 0.75 )
+	joint = MOAICpConstraint.newSlideJoint(player.ropeBody, ropeBody, 0, 0, 0, 0, 0, 1)
+	joint:setBiasCoef ( .75 )
 
 	Game.sceneManager:getCpSpace():insertPrim ( joint )
 	
