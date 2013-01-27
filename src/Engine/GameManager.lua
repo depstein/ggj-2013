@@ -31,6 +31,7 @@ function GameManager:init()
     self.communicationManager = nil;
     self.sceneManager = nil
     self.enemyManager = nil
+    self.lightLayer = nil
 
     self.colors = dofile("assets/Colors.lua")
 
@@ -133,6 +134,6 @@ function GameManager:start()
             function() 
                 Game.enemyManager:Update()
             end
-            )
-        end
+        )
+    end
 end
