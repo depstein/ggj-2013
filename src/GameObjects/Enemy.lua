@@ -12,11 +12,11 @@ function Enemy:init(id, asset, options)
 
 	self:setType(SceneManager.OBJECT_TYPES.ENEMY)
 
-	local previousSpawn = MOAISim.getDeviceTime()
+	self.previousSpawn = MOAISim.getDeviceTime()
 	corout(function()
 		while true do
             local currentTime = MOAISim.getDeviceTime()
-        	local time = currentTime - previousSpawn
+        	local time = currentTime - self.previousSpawn
             if time > .05 then
 
             	--for k,v in pairs(Game.players) do
@@ -36,7 +36,7 @@ function Enemy:init(id, asset, options)
             	end
 
 
-            	previousSpawn = MOAISim.getDeviceTime()
+            	self.previousSpawn = MOAISim.getDeviceTime()
             	local x = math.cos(angle)
             	local y = math.sin(angle)
 
@@ -47,7 +47,7 @@ function Enemy:init(id, asset, options)
             		self:moveInDirection(x, y)
             	end
         	else	
-        		coroutine:yield()
+        		coroutine.yield()
         	end
          end
     end)
@@ -65,7 +65,7 @@ function Enemy:canSee(player)
 	--function shapeListForSegment ( MOAICpSpace self, number x1, number y1, number x2, number y2 [, number layers, number group ] )
 	mX,mY = self.handle:getPos()
 	eX,eY = player.handle:getPos()
-	shapeList = Game.sceneManager.space:shapeListForSegment(mX,mY,eX,eY,nil,SceneManager.OBJECT_TYPES.SEE_OVER)
+	local shapeList = Game.sceneManager.space:shapeListForSegment(mX,mY,eX,eY,nil,SceneManager.OBJECT_TYPES.SEE_OVER)
 
 
 	if shapeList then
@@ -74,7 +74,7 @@ function Enemy:canSee(player)
 			if(type(v) == "userdata") then
 				local go = v:getBody().gameObject
 
-				if go.type then
+				if go and go.type then
 					if go.type == "PhysicsGameObject" then
 						return false
 					end

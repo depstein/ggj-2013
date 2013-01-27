@@ -95,20 +95,13 @@ function GameManager:start()
 
     self.communicationManager = CommunicationManager:new():init(isServer, ip)
     
-    local testObject3 = PhysicsGameObject:new():init(TextureAsset.get("whitesquare.png"), {static=true});
-    testObject3:setPos(-200, 0)
-    testObject3:setColor(self.colors.patriarch)
-    
-    local testObject4 = PhysicsGameObject:new():init(TextureAsset.get("whitesquare.png"), {static=true,isSensor=true});
-    testObject4:setPos(-200, -200)
-    testObject4:setColor(self.colors.rhythm)
-    
-    local rope = Rope:new():init(-200, -200, 5);
+    local rope = Rope:new():init(-200, 200, 5);
 
     local dropLocation = DropLocation:new():init(TextureAsset.get("whitesquare.png"))
     dropLocation:setPos(-200, 500)
     
     self.lightLayer = LightLayer:new():init();
+
 
     if(self.communicationManager.isServer) then
     	self.sceneManager.space:setCollisionHandler(
@@ -127,6 +120,6 @@ function GameManager:start()
             function() 
                 Game.enemyManager:Update()
             end
-        )
-    end
+            )
+        end
 end
