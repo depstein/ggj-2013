@@ -6,6 +6,7 @@ WaveManager.type = "WaveManager"
 
 function WaveManager:init()
 	self.spawnLocs = {}
+	self.waveNumber = 0
 	table.insert(self.spawnLocs, {5065 - LevelData.XOFF, 5701 - LevelData.YOFF})
 	table.insert(self.spawnLocs, {5018 - LevelData.XOFF, 6274 - LevelData.YOFF})
 	table.insert(self.spawnLocs, {5983 - LevelData.XOFF, 6076 - LevelData.YOFF})
@@ -33,7 +34,10 @@ function WaveManager:getRandomLoc()
 end
 
 function WaveManager:spawnWave()
-	local ropeLoc = self:getRandomLoc()
+	self.waveNumber = self.waveNumber + 1
+	--Spawn the rope and get the loc
+	local ropeLoc = self:spawnRope()
+	--don't repeat locations
 	local dropLoc = self:getRandomLoc()
 	while dropLoc == ropeLoc do
 		dropLoc = self:getRandomLoc()
@@ -43,9 +47,6 @@ function WaveManager:spawnWave()
 		ballLoc = self:getRandomLoc()
 	end
 
-	local rope = Rope:new():init(ropeLoc[1], ropeLoc[2], 3)
-	print("Spawned rope at " .. ropeLoc[1] .. ", " .. ropeLoc[2])
-
     local dropLocation = DropLocation:new():init(TextureAsset.get("whitesquare.png"))
     dropLocation:setPos(dropLoc[1], dropLoc[2])
     print("Spawned drop at " .. dropLoc[1] .. ", " .. dropLoc[2])
@@ -53,4 +54,13 @@ function WaveManager:spawnWave()
     local ball = BallObject:new():init(TextureAsset.get("whitesquare.png"))
     ball:setPos(ballLoc[1], ballLoc[2])
     print("Spawned ball at " .. ballLoc[1] .. ", " .. ballLoc[2])
+end
+
+function WaveManager:spawnRope()
+	local ropeLoc = self:getRandomLoc()
+	local numRopesegments = math.floor(self.waveNumber/2)+1
+	print(numRopesegments)
+	local rope = Rope:new():init(ropeLoc[1], ropeLoc[2], numRopesegments)
+	print("Spawned rope at " .. ropeLoc[1] .. ", " .. ropeLoc[2])
+	return ropeLoc
 end
