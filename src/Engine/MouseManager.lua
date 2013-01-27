@@ -45,6 +45,6 @@ MOAIInputMgr.device.mouseLeft:setCallback (
 MOAIInputMgr.device.mouseRight:setCallback ( 
 	function(down)
 		mX, mY = MOAIInputMgr.device.pointer:getLoc()
-		MouseManager.onRightMouseEvent(mX, mY,MOAIInputMgr.device.pointer.down)
+		MouseManager.onRightMouseEvent(mX, mY, down)
 		end )
 

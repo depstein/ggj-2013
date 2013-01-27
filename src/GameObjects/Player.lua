@@ -1,3 +1,5 @@
+require "BulletManager"
+
 Player = Character:new()
 Player.type = "Player"
 
@@ -40,6 +42,23 @@ function Player:attemptMove(x, y)
 	if (curx < 0) then
 		self.desiredAngle = math.rad(-30)
 	end
+end
+
+function Player:startShooting()
+	self.shooting = true
+	corout(function()
+		while self.shooting do
+				posX, posY = self:getPos()
+				dstX, dstY = MOAIInputMgr.device.pointer:getLoc()
+				dstX, dstY = SceneManager.i:getDefaultLayer():wndToWorld(dstX, dstY)
+				BulletManager.SpawnBullet(MOAISim.getElapsedTime(), posX, posY, dstX, dstY)
+			coroutine.yield()
+		end
+	end)
+end
+
+function Player:endShooting()
+	self.shooting = false
 end
 
 function Player:initControls()
@@ -85,6 +104,14 @@ function Player:initControls()
 			self:attemptMove(1, 0)
 		else
 			self:attemptMove(-1, 0)
+		end
+	end)
+
+	MouseManager.setCallback(MouseManager.Buttons.left, "shoot", function(x, y, down)
+		if (down) then
+			self:startShooting()
+		else
+			self:endShooting()
 		end
 	end)
 end
