@@ -108,3 +108,21 @@ function GameObject:setColor(color)
 
 	self.prop:setShader(shader)
 end
+
+function GameObject:addJoint(joint, other)
+	self.joints[joint] = other
+end
+
+function GameObject:removeJoint(joint)
+	print("removing a joint")
+	if self.joints[joint] then
+		local other = self.joints[joint]
+		self.joints[joint] = nil
+		Game.sceneManager:getCpSpace():removePrim(joint)
+		other:removeJoint(joint)
+	end
+end
+
+function GameObject:hasJoints()
+	return next(self.joints) ~= nil
+end
