@@ -1,18 +1,14 @@
-Asset = {}
-Asset.type = "Asset"
+require("Utility")
 
-function Asset:new(o)
-	o = o or {}
-	setmetatable(o, {__index = self})
-	return o
-end
+Asset = Class:new()
+Asset.type = "Asset"
 
 function Asset.get(type, file, options)
 	local key = type.getKey(file)
-	local asset = AssetManager.loadedAssets[key]
+	local asset = Game.assetManager.loadedAssets[key]
 	if (asset == nil) then
 		asset = type:new():init(file, options)
-		AssetManager.loadedAssets[key] = asset
+		Game.assetManager.loadedAssets[key] = asset
 	end
 	return asset
 end

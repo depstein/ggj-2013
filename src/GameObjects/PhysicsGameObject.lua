@@ -18,10 +18,10 @@ function PhysicsGameObject:moveInDirection(x, y)
 end
 
 function PhysicsGameObject:destroy()
-	SceneManager.i:getDefaultLayer():removeProp(self.prop)
-	SceneManager.i:getCpSpace():removePrim(self.body)
+	Game.sceneManager:getDefaultLayer():removeProp(self.prop)
+	Game.sceneManager:getCpSpace():removePrim(self.body)
 	for i = 1,#self.shapes do
-		SceneManager.i:getCpSpace():removePrim(self.shapes[i])
+		Game.sceneManager:getCpSpace():removePrim(self.shapes[i])
 	end
 end
 
@@ -36,14 +36,14 @@ function PhysicsGameObject:createPhysicsObject(options)
 
 	self.body.gameObject = self
 
-	SceneManager.i:getCpSpace():insertPrim(self.body)
+	Game.sceneManager:getCpSpace():insertPrim(self.body)
 
 	for i = 1,#self.shapes do
 		if (not options.group) then
 			self.shapes[i]:setGroup(tableaddr(self))
 		end
 		if (options.static) then self.shapes[i]:setGroup(PhysicsData.StaticGroup) end
-		SceneManager.i:getCpSpace():insertPrim(self.shapes[i])
+		Game.sceneManager:getCpSpace():insertPrim(self.shapes[i])
 	end
 
 

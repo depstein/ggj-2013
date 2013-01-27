@@ -1,35 +1,47 @@
-KeyboardManager = {}
-KeyboardManager.Keys = {
+require "Utility"
+
+KeyboardManager = Class:new()
+KeyboardManager.type = "KeyboardManager"
+
+KeyboardManager.KEYS = {
 	w = 119,
 	a = 97,
 	s = 115,
 	d = 100
 }
-KeyboardManager.Down = {}
-KeyboardManager.Callbacks = {}
 
-KeyboardManager.setCallback = function(key, name, callback)
-	KeyboardManager.Callbacks[key] = KeyboardManager.Callbacks[key] or {}
+function KeyboardManager:init()
+    self.down = {}
+    self.callbacks = {}
 
-	KeyboardManager.Callbacks[key][name] = callback
+    MOAIInputMgr.device.keyboard:setCallback (
+    	function(key, down)
+    		self:onKeyboardEvent(key, down)
+    	end
+    )
+
+    return self;
 end
 
-KeyboardManager.removeCallback = function(key, name)
-	if (KeyboardManager.Callbacks[key] == nil) then return end
-
-	KeyboardManager.Callbacks[key][name] = nil
+function KeyboardManager:addCallback(key, name, callback)
+	self.callbacks[key] = self.callbacks[key] or {}
+	self.callbacks[key][name] = callback
 end
 
-KeyboardManager.onKeyboardEvent = function(key, down)
-	if (KeyboardManager.Down[key] ~= down) then
-		if (KeyboardManager.Callbacks[key] ~= nil) then
-			for k, v in pairs(KeyboardManager.Callbacks[key]) do 
+function KeyboardManager:removeCallback(key, name)
+	if (self.callbacks[key] == nil) then return end
+
+	self.callbacks[key][name] = nil
+end
+
+function KeyboardManager:onKeyboardEvent(key, down)
+	if (self.down[key] ~= down) then
+		if (self.callbacks[key] ~= nil) then
+			for k, v in pairs(self.callbacks[key]) do 
 				v(down)
 			end
 		end
 	end
-	KeyboardManager.Down[key] = down
+	self.down[key] = down
 end
-
-MOAIInputMgr.device.keyboard:setCallback ( KeyboardManager.onKeyboardEvent )
 
