@@ -111,6 +111,7 @@ function GameManager:start()
             MOAICpSpace.BEGIN, 
             function(numType, bulletBody, enemyBody, cparbiter)
                 corout(function() 
+                    Game.bulletManager:markImpact(cparbiter:getContactPoint(1))
                     Game.bulletManager:Destroy(bulletBody:getBody().gameObject.id)
                     Game.enemyManager:DamageEnemy(enemyBody:getBody().gameObject.id, 1)
                     --Game.enemyManager:Destroy(enemyBody:getBody().gameObject.id)

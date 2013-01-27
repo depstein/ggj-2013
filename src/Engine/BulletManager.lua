@@ -48,3 +48,7 @@ function BulletManager:Destroy(index)
 	self.bullets[index]:destroy()
 	self.bullets[index] = nil
 end
+
+function BulletManager:markImpact(x, y)
+	Game.particleManager:addParticle('hit.pex', x, y, 5)
+end
