@@ -67,7 +67,11 @@ function ParticleManager:addParticle(particleName, x, y, particleDuration)
 	system:start ()
 	emitter:start ()
 
-	self.timeLeft[system] = particleDuration
+	if (particleDuration > 0) then  
+		self.timeLeft[system] = particleDuration
+	end
 	
 	Game.sceneManager:getLayer("particles"):insertProp ( system)
+
+	return system, emitter
 end
