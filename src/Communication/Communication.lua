@@ -4,6 +4,8 @@ require "Utility"
 
 Communication = {}
 
+Communication.DEFAULT_IP = "127.0.0.1"
+
 local b1 = 1
 local b2 = 256 * b1
 local b3 = 256 * b2
@@ -13,7 +15,7 @@ local TIMEOUT = 0
 local PORT = 666
 
 local debugMessages = false
-local debugConnect = true
+local debugConnect = false
 
 local function pump(sock, outgoing, incoming)
     local listen = { sock }
@@ -55,6 +57,8 @@ local function pump(sock, outgoing, incoming)
         end
         coroutine.yield()
     end
+
+    print("Communication Pump Died")
 end
 
 local function server(outgoing, incoming, socketinfo)
@@ -69,7 +73,7 @@ local function server(outgoing, incoming, socketinfo)
     if not result then print("Server: Error: " .. err); return nil, err end
 
     local result, err = sock:listen()
-    if not result then rint("Server: Error: " .. err); return nil, err end
+    if not result then print("Server: Error: " .. err); return nil, err end
 
     local listen = { sock }
     local client = nil
@@ -95,16 +99,18 @@ end
 
 local function client(outgoing, incoming, socketinfo)
     if(not socketinfo.connectIP) then
-        socketinfo.connectIP = "127.0.0.1"
+        socketinfo.connectIP = Communication.DEFAULT_IP
     end
 	if (debugConnect) then print("Client: Creating Socket") end
 
     local sock, err = socket.tcp()
     if not sock then return nil, err end
-    sock:settimeout(TIMEOUT);
 
-	if (debugConnect) then print("Client: Connecting") end
-    sock:connect(socketinfo.connectIP, 666)
+	if (debugConnect) then print("Client: Connecting to " .. socketinfo.connectIP .. ":" .. PORT) end
+    local result, err = sock:connect(socketinfo.connectIP, PORT)
+    if not result then print("Client: Error: " .. err); return nil, err end
+
+    sock:settimeout(TIMEOUT);
 
     if (debugConnect) then print("Client: Connected") end
     pump(sock, outgoing, incoming)
