@@ -6,9 +6,9 @@ function tableaddr(table)
     return tonumber('0x' .. tostring(table):sub(8))
 end
 
-function corout(func)
+function corout(func, ...)
     local cr = MOAICoroutine.new()
-    cr:run(func)
+    cr:run(func, ...)
     return cr
 end
 
