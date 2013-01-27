@@ -5,6 +5,7 @@ ParticleManager.type = "ParticleManager"
 
 function ParticleManager:init()
 	self.plugins = {}
+	self.textures = {}
 	self.timeLeft = {}
 
 	timedCorout(function(time)
@@ -23,10 +24,17 @@ function ParticleManager:init()
     return self;
 end
 
+function ParticleManager:addPlugin(particleName, plugin)
+	self.plugins[particleName] = plugin
+	local deck = MOAIGfxQuad2D.new()
+	deck:setTexture( plugin:getTextureName() )
+	deck:setRect( -0.5, -0.5, 0.5, 0.5 ) -- HACK: Currently for scaling we need to set the deck's rect to 1x1
+	self.textures[particleName] = deck
+end
+
 function ParticleManager:addParticle(particleName, x, y, particleDuration)
 
 	local plugin = self.plugins[particleName]
-
 
 	local maxParticles = plugin:getMaxParticles ()
 	local blendsrc, blenddst = plugin:getBlendMode ()
@@ -42,7 +50,6 @@ function ParticleManager:addParticle(particleName, x, y, particleDuration)
 	system:reserveStates ( 1 )
 	system:setBlendMode ( blendsrc, blenddst )
 
-
 	local state = MOAIParticleState.new ()
 	state:setTerm ( minLifespan, maxLifespan )
 	state:setPlugin(  plugin  )
@@ -55,10 +62,7 @@ function ParticleManager:addParticle(particleName, x, y, particleDuration)
 	emitter:setLoc(x, y)
 	emitter:setRect ( xMin, yMin, xMax, yMax )
 
-	local deck = MOAIGfxQuad2D.new()
-	deck:setTexture( plugin:getTextureName() )
-	deck:setRect( -0.5, -0.5, 0.5, 0.5 ) -- HACK: Currently for scaling we need to set the deck's rect to 1x1
-	system:setDeck( deck )
+	system:setDeck( self.textures[particleName] )
 
 	system:start ()
 	emitter:start ()

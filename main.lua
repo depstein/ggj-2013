@@ -9,4 +9,4 @@ Game = GameManager:new()
 
 Game:init():start()
 
-Game.particleManager.plugins['deathBlossomCharge.pex'] = deathBlossom
+Game.particleManager:addPlugin('deathBlossomCharge.pex', deathBlossom)
