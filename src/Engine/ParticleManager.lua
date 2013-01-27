@@ -12,7 +12,6 @@ function ParticleManager:init()
 			for k,v in pairs(self.timeLeft) do
 				self.timeLeft[k] = v - time
 				if (self.timeLeft[k] < 0) then
---					print(self.timeLeft[k])
 					Game.sceneManager:getLayer("particles"):removeProp(k)
 					self.timeLeft[k] = nil
 				end
@@ -25,9 +24,6 @@ function ParticleManager:init()
 end
 
 function ParticleManager:addParticle(particleName, x, y, particleDuration)
-	if (not self.plugins[particleName]) then
-		self.plugins[particleName] = MOAIParticlePexPlugin.load( particleName )
-	end
 
 	local plugin = self.plugins[particleName]
 

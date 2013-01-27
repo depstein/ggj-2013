@@ -1,4 +1,4 @@
-particle = MOAIParticlePexPlugin.load( 'Assets/particles/deathBlossomCharge.pex' )
+local deathBlossom = MOAIParticlePexPlugin.load( 'Assets/particles/deathBlossomCharge.pex' )
 
 require "GameManager"
 require "Shaders"
@@ -9,4 +9,4 @@ Game = GameManager:new()
 
 Game:init():start()
 
-Game.particleManager.plugins['deathBlossomCharge.pex'] = particle
+Game.particleManager.plugins['deathBlossomCharge.pex'] = deathBlossom

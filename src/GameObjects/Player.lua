@@ -13,6 +13,7 @@ function Player:init(asset, options)
 	self.angleFactor = 10
 	self.curAngle = 0
     self.angleChange = 0
+    self.keysPressed = {}
 
     if(not options.disableControls) then
 	    self:initControls()
@@ -35,6 +36,17 @@ function Player:init(asset, options)
 			self.curAngle = self.curAngle + change
 
 			self.handle:setAngle(self.curAngle)
+			coroutine.yield()
+		end
+	end)
+
+	corout(function()
+		while true do
+			if self:isEmittingParticles() then
+				local x, y = self:getPos()
+				local angle = self.curAngle + math.pi / 2
+				Game.particleManager:addParticle('deathBlossomCharge.pex', x + 50*math.cos(angle), y + 50*math.sin(angle), 1)
+			end
 			coroutine.yield()
 		end
 	end)
@@ -82,6 +94,18 @@ function Player:endShooting()
 	self.shooting = false
 end
 
+function Player:isEmittingParticles()
+	return next(self.keysPressed) ~= nil
+end
+
+function Player:startEmittingParticles(key)
+	self.keysPressed[key] = true
+end
+
+function Player:endEmittingParticles(key)
+	self.keysPressed[key] = nil
+end
+
 function Player:initControls()
 --[[
 		Sample code for using MouseManager
@@ -98,32 +122,40 @@ function Player:initControls()
 
 	Game.keyboardManager:addCallback(Game.keyboardManager.KEYS.w, "moveForward", function(down)
 		if (down) then
+			self:startEmittingParticles(Game.keyboardManager.KEYS.w)
 			self:attemptMove(0, -1)
 		else
+			self:endEmittingParticles(Game.keyboardManager.KEYS.w)
 			self:attemptMove(0, 1)
 		end
 	end)
 
 	Game.keyboardManager:addCallback(Game.keyboardManager.KEYS.s, "moveBackwards", function(down)
 		if (down) then
+			self:startEmittingParticles(Game.keyboardManager.KEYS.a)
 			self:attemptMove(0, 1)
 		else
+			self:endEmittingParticles(Game.keyboardManager.KEYS.a)
 			self:attemptMove(0, -1)
 		end
 	end)
 
 	Game.keyboardManager:addCallback(Game.keyboardManager.KEYS.a, "moveLeft", function(down)
 		if (down) then
+			self:startEmittingParticles(Game.keyboardManager.KEYS.s)
 			self:attemptMove(-1, 0)
 		else
+			self:endEmittingParticles(Game.keyboardManager.KEYS.s)
 			self:attemptMove(1, 0)
 		end
 	end)
 
 	Game.keyboardManager:addCallback(Game.keyboardManager.KEYS.d, "moveRight", function(down)
 		if (down) then
+			self:startEmittingParticles(Game.keyboardManager.KEYS.d)
 			self:attemptMove(1, 0)
 		else
+			self:endEmittingParticles(Game.keyboardManager.KEYS.d)
 			self:attemptMove(-1, 0)
 		end
 	end)

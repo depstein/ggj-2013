@@ -71,7 +71,7 @@ function Enemy:canSee(player)
 	if shapeList then
 		num=0
 		for k,v in pairs(pack(shapeList)) do
-			if(type(v) == "userdata") then
+			if(type(v) == "userdata") and v:getBody() then
 				local go = v:getBody().gameObject
 
 				if go and go.type then

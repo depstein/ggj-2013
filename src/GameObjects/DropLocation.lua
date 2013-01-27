@@ -24,9 +24,6 @@ function DropLocation:collideWithRope(cpShapeA, cpShapeB, cpArbiter)
 	end
 	print("Connecting a rope to a drop location")
 
-	local x, y = cpShapeA:getBody().gameObject:getPos()
-	Game.particleManager:addParticle('deathBlossomCharge.pex', x, y, 100)
-
 	for k, v in pairs(cpShapeA:getBody().gameObject.joints) do
 		cpShapeA:getBody().gameObject:removeJoint(k)
 	end
