@@ -3,6 +3,7 @@ TextureAsset.type = "TextureAsset"
 TextureAsset.spritePath = "assets/sprites/"
 TextureAsset.sheets = {
 	"MainSheet.lua",
+	"BGSheet.lua"
 }
 TextureAsset.loadedSheets = {}
 TextureAsset.sprites = {}
