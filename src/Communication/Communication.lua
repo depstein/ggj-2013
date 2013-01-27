@@ -94,6 +94,9 @@ local function server(outgoing, incoming, socketinfo)
 end
 
 local function client(outgoing, incoming, socketinfo)
+    if(socketinfo.connectIP) then
+        socketinfo.connectIP = "127.0.0.1"
+    end
 	if (debugConnect) then print("Client: Creating Socket") end
 
     local sock, err = socket.tcp()
@@ -108,18 +111,14 @@ local function client(outgoing, incoming, socketinfo)
 
 end
 
-function Communication.getIP()
-    return socket.dns.toip("localhost")
-end
-
 function Communication.createServer()
     local outgoing, incoming, socketinfo = {}, {}, {}
     corout(server, outgoing, incoming, socketinfo)
     return outgoing, incoming, socketinfo
 end
 
-function Communication.createClient()
-    local outgoing, incoming, socketinfo = {}, {}, {}
+function Communication.createClient(ip)
+    local outgoing, incoming, socketinfo = {}, {}, {connectIP = ip}
     corout(client, outgoing, incoming, socketinfo)
     return outgoing, incoming, socketinfo
 end
