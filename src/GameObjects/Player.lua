@@ -28,7 +28,7 @@ function Player:init(asset, options)
 		end
 	end)
 
-	self:setType(tableaddr(Player))
+	self:setType(SceneManager.OBJECT_TYPES.PLAYER)
 	return self
 end
 
@@ -54,8 +54,8 @@ function Player:startShooting()
 		while self.shooting do
 				posX, posY = self:getPos()
 				dstX, dstY = MOAIInputMgr.device.pointer:getLoc()
-				dstX, dstY = SceneManager.i:getDefaultLayer():wndToWorld(dstX, dstY)
-				BulletManager.SpawnBullet(MOAISim.getElapsedTime(), posX, posY, dstX, dstY)
+				dstX, dstY = Game.sceneManager:getDefaultLayer():wndToWorld(dstX, dstY)
+				Game.bulletManager:SpawnBullet(MOAISim.getElapsedTime(), posX, posY, dstX, dstY)
 			coroutine.yield()
 		end
 	end)
@@ -69,7 +69,7 @@ function Player:initControls()
 --[[
 		Sample code for using MouseManager
 
-	MouseManager.setCallback(MouseManager.Buttons.left, "moveForward", function(x,y,down)
+	MouseManager.addCallback(Game.mouseManager.BUTTONS.LEFT, "moveForward", function(x,y,down)
 		if (down) then
 			self:attemptMove(0, -1)
 		else
@@ -79,7 +79,7 @@ function Player:initControls()
 
 
 
-	KeyboardManager.setCallback(KeyboardManager.Keys.w, "moveForward", function(down)
+	Game.keyboardManager:addCallback(Game.keyboardManager.KEYS.w, "moveForward", function(down)
 		if (down) then
 			self:attemptMove(0, -1)
 		else
@@ -87,7 +87,7 @@ function Player:initControls()
 		end
 	end)
 
-	KeyboardManager.setCallback(KeyboardManager.Keys.s, "moveBackwards", function(down)
+	Game.keyboardManager:addCallback(Game.keyboardManager.KEYS.s, "moveBackwards", function(down)
 		if (down) then
 			self:attemptMove(0, 1)
 		else
@@ -95,7 +95,7 @@ function Player:initControls()
 		end
 	end)
 
-	KeyboardManager.setCallback(KeyboardManager.Keys.a, "moveLeft", function(down)
+	Game.keyboardManager:addCallback(Game.keyboardManager.KEYS.a, "moveLeft", function(down)
 		if (down) then
 			self:attemptMove(-1, 0)
 		else
@@ -103,7 +103,7 @@ function Player:initControls()
 		end
 	end)
 
-	KeyboardManager.setCallback(KeyboardManager.Keys.d, "moveRight", function(down)
+	Game.keyboardManager:addCallback(Game.keyboardManager.KEYS.d, "moveRight", function(down)
 		if (down) then
 			self:attemptMove(1, 0)
 		else
@@ -111,7 +111,7 @@ function Player:initControls()
 		end
 	end)
 
-	MouseManager.setCallback(MouseManager.Buttons.left, "shoot", function(x, y, down)
+	Game.mouseManager:addCallback(Game.mouseManager.BUTTONS.LEFT, "shoot", function(x, y, down)
 		if (down) then
 			self:startShooting()
 		else

@@ -1,16 +1,30 @@
-require "MouseManager"
+require "Utility"
 
 MouseManager = Class:new()
 MouseManager.type = "MouseManager"
 
 MouseManager.BUTTONS = {
-	left = 0,
-	right = 1
+	LEFT = 0,
+	RIGHT = 1
 }
 
 function MouseManager:init()
     self.clicked = {}
     self.callbacks = {}
+
+    MOAIInputMgr.device.mouseLeft:setCallback( 
+    	function(down)
+    		mX, mY = MOAIInputMgr.device.pointer:getLoc()
+    		self:onLeftMouseEvent(mX, mY, down)
+    	end
+    )
+
+    MOAIInputMgr.device.mouseRight:setCallback( 
+    	function(down)
+    		mX, mY = MOAIInputMgr.device.pointer:getLoc()
+    		self:onRightMouseEvent(mX, mY, down)
+    	end
+    )
 
     return self;
 end
@@ -39,11 +53,11 @@ function MouseManager:onMouseEvent(x, y, button, down)
 end
 
 function MouseManager:onLeftMouseEvent(x, y, down)
-	MouseManager.onMouseEvent(x, y, MouseManager.Buttons.left, down)
+	self:onMouseEvent(x, y, self.BUTTONS.LEFT, down)
 end
 
 function MouseManager:onRightMouseEvent(x, y, down)
-	MouseManager.onMouseEvent(x, y, MouseManager.Buttons.right, down)
+	self:onMouseEvent(x, y, self.BUTTONS.RIGHT, down)
 end
 
 

@@ -22,7 +22,7 @@ end
 function EnemyManager:SpawnEnemy(currentTime)
 	local time = currentTime - previousSpawn
 	if time > 1 then
-		local enemy = Enemy:new():init(TextureAsset.get("enemy.png"), {color=Colors.papaya_whip, ignoreGravity=true})
+		local enemy = Enemy:new():init(TextureAsset.get("enemy.png"), {color=Game.colors.papaya_whip, ignoreGravity=true})
 		enemy:setPos(50, 50)
 
 		table.insert(self.enemies, enemy)

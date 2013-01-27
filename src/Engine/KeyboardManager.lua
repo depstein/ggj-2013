@@ -1,4 +1,4 @@
-require "KeyboardManager"
+require "Utility"
 
 KeyboardManager = Class:new()
 KeyboardManager.type = "KeyboardManager"
@@ -13,6 +13,12 @@ KeyboardManager.KEYS = {
 function KeyboardManager:init()
     self.down = {}
     self.callbacks = {}
+
+    MOAIInputMgr.device.keyboard:setCallback (
+    	function(key, down)
+    		self:onKeyboardEvent(key, down)
+    	end
+    )
 
     return self;
 end

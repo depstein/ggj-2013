@@ -1,11 +1,7 @@
-GameObject = {}
-GameObject.type = "GameObject"
+require("Utility")
 
-function GameObject:new(o)
-	o = o or {}
-	setmetatable(o, {__index = self})
-	return o
-end
+GameObject = Class:new()
+GameObject.type = "GameObject"
 
 function GameObject:init(asset, options)
 	options = options or {}
@@ -13,14 +9,14 @@ function GameObject:init(asset, options)
 	self.prop = asset:make()
 	self.handle = self.prop
 	self.asset = asset
-
+	self.health = 5
 
 	if (not options.noadd and not options.layer) then
-		SceneManager.i:getDefaultLayer():insertProp(self.prop)
+		Game.sceneManager:getDefaultLayer():insertProp(self.prop)
 	end
 
 	if (options.layer and not options.noadd) then
-		SceneManager.i:getLayer(options.layer):insertProp(self.prop)
+		Game.sceneManager:getLayer(options.layer):insertProp(self.prop)
 	end
 
 	if (not GameObject.vsh or not GameObject.fsh) then
@@ -53,7 +49,11 @@ function GameObject:getRot(angle)
 end
 
 function GameObject:destroy()
-
+	Game.sceneManager:getDefaultLayer():removeProp(self.prop)
+	Game.sceneManager:getCpSpace():removePrim(self.body)
+	for i = 1,#self.shapes do
+		Game.sceneManager:getCpSpace():removePrim(self.shapes[i])
+	end
 end
 
 function GameObject:createPhysicsObject(options)
@@ -65,13 +65,15 @@ function GameObject:createPhysicsObject(options)
 
 	self.body, self.shapes = PhysicsData.fromSprite(options)
 
-	SceneManager.i:getCpSpace():insertPrim(self.body)
+	self.body.gameObject = self
+
+	Game.sceneManager:getCpSpace():insertPrim(self.body)
 
 	for i = 1,#self.shapes do
 		if (not options.group) then
 			self.shapes[i]:setGroup(tableaddr(self))
 		end
-		SceneManager.i:getCpSpace():insertPrim(self.shapes[i])
+		Game.sceneManager:getCpSpace():insertPrim(self.shapes[i])
 	end
 
 	if self.prop then

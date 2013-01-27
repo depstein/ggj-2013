@@ -1,22 +1,19 @@
-levelData = {}
+LevelData = {}
+LevelData.XOFF = 5545
+LevelData.YOFF = 5383
 
-local data = dofile("assets/levels/LevelDefinition.lua")
-
-
-addBlob = function(obj)
-	--print(obj .. "")
-	blob = GameObject:new():init(BlobAsset.get(obj.blob, {color=obj.color}), {layer=obj.layer})
-	blob.handle:setScl(obj.scale,obj.scale)
-	blob.handle:setLoc(obj.posX,obj.posY)
-	blob.handle:setRot(obj.rotation)
-	table.insert(levelData,blob)
+local function addBlob(obj)
+	local blob = PhysicsGameObject:new():init(BlobAsset.get(obj.blob, {color=obj.color}), {layer=obj.layer, static = true})
+	blob.handle:setPos(obj.posX - LevelData.XOFF,obj.posY - LevelData.YOFF)
+	blob.handle:setAngle(math.rad(obj.rotation))
+    return blob;
 end
 
-for k,v in pairs(data) do 
-	--print(k .. " " .. v)
-	addBlob(v) 
+function LevelData.Load(file)
+    local data = dofile(file)
+    local result = {}
+    for k,v in pairs(data) do 
+    	table.insert(result, addBlob(v))
+    end
+	return result
 end
-
-
-
-return levelData
