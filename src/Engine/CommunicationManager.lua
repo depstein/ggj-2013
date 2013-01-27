@@ -32,7 +32,7 @@ messageHandlers[CommunicationManager.MSG_ENEMY_LOCATIONS] = function(message)
     for k, v in pairs(message.enemies) do
         local enemy = Game.enemyManager.enemies[v.k]
         if(not enemy) then
-            enemy = Enemy:new():init(TextureAsset.get("enemy.png"), {color=Game.colors.papaya_whip, ignoreGravity=true})
+            enemy = Game.enemyManager:Create()
             Game.enemyManager.enemies[v.k] = enemy
         end
         enemy.handle:setPos(v.x, v.y)

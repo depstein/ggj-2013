@@ -1,30 +1,37 @@
 require "Utility"
-require "PhysicsGameObject"
+require "Bullet"
 
 BulletManager = Class:new()
 BulletManager.type = "BulletManager"
 
 function BulletManager:init()
     self.bullets = {}
+    self.onBulletDie = nil
+
+    -- PRIVATE
+    self._bulletIndex = 1
 
     return self;
 end
 
 local previousSpawn = 0
 
-function BulletManager:SpawnBullet(currentTime, x, y, destX, destY)
-	local time = currentTime - previousSpawn
-	if time > 0.25 then
-		local bullet = PhysicsGameObject:new():init(TextureAsset.get("whitesquare.png"), {color = Game.colors.cosmic_latte, ignoreGravity = true})
-		local angle = math.atan2(destY-y, destX-x)
-		local xAngle = math.cos(angle)
-		local yAngle = math.sin(angle)
+function BulletManager:Create()
+    local id = self._bulletIndex
+    self._bulletIndex = self._bulletIndex + 1
 
-		bullet:setPos(x+xAngle*50, y+yAngle*50)
-		bullet.speed = 1000
-		bullet.handle:setVel(bullet.speed*xAngle, bullet.speed*yAngle)
-		bullet:setType(SceneManager.OBJECT_TYPES.BULLET)
-		table.insert(self.bullets, bullet)
-		previousSpawn = currentTime
-	end
+	local bullet = Bullet:new():init(id, TextureAsset.get("whitesquare.png"), {color = Game.colors.cosmic_latte, ignoreGravity = true})
+	
+	table.insert(self.bullets, bullet)
+
+    return bullet
+end
+
+function BulletManager:Destroy(index)
+    if(not self.bullets[index]) then return end
+    if(self.onBulletDie) then
+        self.onBulletDie(index, self.bullets[index])
+    end
+    self.bullets[index]:destroy()
+    self.bullets[index] = nil
 end
