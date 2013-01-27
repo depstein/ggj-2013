@@ -130,7 +130,7 @@ function CommunicationManager:messageHandler()
             if(handler) then
                 handler(self, message)
             else
-                print("Unknown Message Received: " .. message.type)
+                print("ERROR: Unknown Message Received: " .. message.type)
             end
         end
         coroutine.yield()

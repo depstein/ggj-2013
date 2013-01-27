@@ -15,7 +15,7 @@ local TIMEOUT = 0
 local PORT = 666
 
 local debugMessages = false
-local debugConnect = false
+local debugConnect = true
 
 local function pump(sock, outgoing, incoming)
     local listen = { sock }

@@ -125,7 +125,7 @@ function GameObject:addJoint(joint, other)
 end
 
 function GameObject:removeJoint(joint)
-	print("removing a joint")
+	--print("removing a joint")
 	if self.joints[joint] then
 		local other = self.joints[joint]
 		self.joints[joint] = nil

@@ -68,7 +68,7 @@ function Rope:collideWithPlayer(cpShapeA, cpShapeB, cpArbiter)
 	if ((not cpArbiter:isFirstContact()) or cpShapeA:getBody().gameObject:hasJoints() or cpShapeB:getBody().gameObject:hasJoints()) then
 		return
 	end
-	print("Connecting a rope to a player")
+	--print("Connecting a rope to a player")
 
 	local goA = cpShapeA:getBody().gameObject
 	local goB = cpShapeB:getBody().gameObject
@@ -98,7 +98,7 @@ function Rope:collideWithBall(cpShapeA, cpShapeB, cpArbiter)
 	if ((not cpArbiter:isFirstContact()) or cpShapeA:getBody().gameObject:hasJoints() or cpShapeB:getBody().gameObject:hasJoints()) then
 		return
 	end
-	print("Connecting a rope to a ball")
+	--print("Connecting a rope to a ball")
 
 	local goA = cpShapeA:getBody().gameObject
 	local goB = cpShapeB:getBody().gameObject
