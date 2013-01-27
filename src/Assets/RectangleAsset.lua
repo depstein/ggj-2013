@@ -5,16 +5,19 @@ local Meshes2D = require "Meshes2D"
 RectangleAsset = Asset:new()
 RectangleAsset.type = "RectangleAsset"
 
-function RectangleAsset:init(width, height)
+function RectangleAsset:init(width, height, options)
+	options = options or {}
+
 	self.width = width
 	self.height = height
+	self.color = options.color or "#000000"
 	return self
 end
 
 function RectangleAsset:make()
-	return Meshes2D.newRect(0, 0, self.width, self.height, "#000000")
+	return Meshes2D.newRect(0, 0, self.width, self.height, self.color)
 end
 
-function RectangleAsset.get(width, height)
-	return RectangleAsset:new():init(width, height)
+function RectangleAsset.get(...)
+	return RectangleAsset:new():init(...)
 end
