@@ -100,7 +100,8 @@ function GameManager:start()
     local dropLocation = DropLocation:new():init(TextureAsset.get("whitesquare.png"))
     dropLocation:setPos(-200, 500)
     
-    self.lightLayer = LightLayer:new():init();
+
+    self.envLightLayer = LightLayer:new():init({layers = {"main"}, includeEnvLights = true, includePlayers = true});
 
 
     if(self.communicationManager.isServer) then

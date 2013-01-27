@@ -12,11 +12,11 @@ function Enemy:init(id, asset, options)
 
 	self:setType(SceneManager.OBJECT_TYPES.ENEMY)
 
-	self.previousSpawn = MOAISim.getDeviceTime()
+	local previousSpawn = MOAISim.getDeviceTime()
 	corout(function()
 		while true do
             local currentTime = MOAISim.getDeviceTime()
-        	local time = currentTime - self.previousSpawn
+        	local time = currentTime - previousSpawn
             if time > .05 then
 
             	--for k,v in pairs(Game.players) do
@@ -36,7 +36,7 @@ function Enemy:init(id, asset, options)
             	end
 
 
-            	self.previousSpawn = MOAISim.getDeviceTime()
+            	previousSpawn = MOAISim.getDeviceTime()
             	local x = math.cos(angle)
             	local y = math.sin(angle)
 
@@ -47,7 +47,7 @@ function Enemy:init(id, asset, options)
             		self:moveInDirection(x, y)
             	end
         	else	
-        		coroutine.yield()
+        		coroutine:yield()
         	end
          end
     end)
@@ -59,13 +59,14 @@ function pack(...)
 end
 
 function Enemy:canSee(player)
+	return true
 	--Retrieves a list of shaps that overlap the segment specified, that exists on the specified layer 
 	--(or any layer if nil) and is part of the specified group (or any group if nil).
 
 	--function shapeListForSegment ( MOAICpSpace self, number x1, number y1, number x2, number y2 [, number layers, number group ] )
-	mX,mY = self.handle:getPos()
+	--[[mX,mY = self.handle:getPos()
 	eX,eY = player.handle:getPos()
-	local shapeList = Game.sceneManager.space:shapeListForSegment(mX,mY,eX,eY,nil,SceneManager.OBJECT_TYPES.SEE_OVER)
+	shapeList = Game.sceneManager.space:shapeListForSegment(mX,mY,eX,eY,nil,SceneManager.OBJECT_TYPES.SEE_OVER)
 
 
 	if shapeList then
@@ -74,7 +75,7 @@ function Enemy:canSee(player)
 			if(type(v) == "userdata") then
 				local go = v:getBody().gameObject
 
-				if go and go.type then
+				if go.type then
 					if go.type == "PhysicsGameObject" then
 						return false
 					end
@@ -84,5 +85,5 @@ function Enemy:canSee(player)
 
 		end
 	end
-	return true
+	return true--]]
 end

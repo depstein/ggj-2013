@@ -128,3 +128,17 @@ function string.hexToRGB( s, returnAsTable )
                 tonumber ( "0x"..string.sub( s, 6, 7 ) )/255.0
     end
 end
+
+function colorGet(color) 
+    return {
+        r = color:getAttr(MOAIColor.ATTR_R_COL),
+        g = color:getAttr(MOAIColor.ATTR_G_COL),
+        b = color:getAttr(MOAIColor.ATTR_B_COL),
+        a = color:getAttr(MOAIColor.ATTR_A_COL),
+    }
+end
+
+function setColorAlpha(color, alpha)
+    local vals = colorGet(color)
+    color:setColor(vals.r, vals.g, vals.b, alpha)
+end
