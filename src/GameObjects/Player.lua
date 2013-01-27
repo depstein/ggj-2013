@@ -119,6 +119,13 @@ function Player:endShooting()
 	self.shooting = false
 end
 
+function Player:dropRope()
+	self.carryingRope = false
+	for k, v in pairs(self.joints) do
+		self:removeJoint(k)
+	end
+end
+
 function Player:isEmittingParticles()
 	return next(self.keysPressed) ~= nil
 end
@@ -190,6 +197,12 @@ function Player:initControls()
 			self:startShooting()
 		else
 			self:endShooting()
+		end
+	end)
+
+	Game.mouseManager:addCallback(Game.mouseManager.BUTTONS.RIGHT, "dropRope", function(x, y, down)
+		if (down) then
+			self:dropRope()
 		end
 	end)
 end
