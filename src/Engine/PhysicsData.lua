@@ -65,7 +65,7 @@ PhysicsData.blobPolygon = function(file, options)
 	local polygonData = {}
 
 	for j = 1,#hull,2 do
-		table.insert(polygonData, { x = hull[j], y = -hull[j + 1]})
+		table.insert(polygonData, { x = hull[j], y = hull[j + 1]})
 	end
 
 	return polygonData
