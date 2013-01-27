@@ -53,11 +53,6 @@ function EnemyManager:Destroy(index)
     if(self.onEnemyDie) then
         self.onEnemyDie(index, self.enemies[index])
     end
-    ind = self.enemies[index].spawnPoint
-    self.spawnCount[ind] = self.spawnCount[ind] - 1
-    if self.spawnCount[ind] < self.maxSpawn then
-        table.insert(self.validSpawns, ind)
-    end
     self.enemies[index]:destroy()
     self.enemies[index] = nil
 end
@@ -67,6 +62,11 @@ function EnemyManager:DamageEnemy(index, amt)
 
     self.enemies[index].health = self.enemies[index].health - amt
     if self.enemies[index].health <= 0 then
+        local ind = self.enemies[index].spawnPoint
+        self.spawnCount[ind] = self.spawnCount[ind] - 1
+        if self.spawnCount[ind] < self.maxSpawn then
+            table.insert(self.validSpawns, ind)
+        end
         self:Destroy(index)
     end
 end 
