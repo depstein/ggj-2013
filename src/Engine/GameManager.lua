@@ -111,7 +111,7 @@ function GameManager:start()
             MOAICpSpace.BEGIN, 
             function(numType, bulletBody, physicsBlob, cparbiter)
                 corout(function() 
-                    Game.bulletManager:markImpact(cparbiter:getContactPoint(1))
+                    Game.bulletManager:hitWall(cparbiter:getContactPoint(1))
                     Game.bulletManager:Destroy(bulletBody:getBody().gameObject.id)
                 end)
             end

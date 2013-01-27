@@ -52,3 +52,7 @@ end
 function BulletManager:markImpact(x, y)
 	Game.particleManager:addParticle('hit.pex', x, y, 5)
 end
+
+function BulletManager:hitWall(x, y)
+	Game.particleManager:addParticle('hitWall.pex', x, y, 5)
+end

@@ -53,6 +53,8 @@ function EnemyManager:Destroy(index)
     if(self.onEnemyDie) then
         self.onEnemyDie(index, self.enemies[index])
     end
+    local enemyX, enemyY = self.enemies[index]:getPos()
+    Game.particleManager:addParticle('enemyDeath.pex', enemyX, enemyY, 10)
     self.enemies[index]:destroy()
     self.enemies[index] = nil
 end
