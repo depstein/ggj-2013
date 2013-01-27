@@ -33,12 +33,15 @@ function DropLocation:collideWithBall(cpShapeA, cpShapeB, cpArbiter)
 		ball = goB
 	end
 
-	local rope = ball.rope.parent
-	local player =  rope.player
-	for k, v in pairs(player.joints) do
-		player:removeJoint(k)
+	if ball.rope then
+		local rope = ball.rope.parent
+		local player =  rope.player
+		for k, v in pairs(player.joints) do
+			player:removeJoint(k)
+		end
+		player.carryingRope = false
+		rope:destroy()
 	end
-	player.carryingRope = false
 
 	for k, v in pairs(cpShapeA:getBody().gameObject.joints) do
 		cpShapeA:getBody().gameObject:removeJoint(k)
@@ -54,7 +57,6 @@ function DropLocation:collideWithBall(cpShapeA, cpShapeB, cpArbiter)
 	cpShapeA:getBody().gameObject:addJoint(joint, cpShapeB:getBody().gameObject)
 	cpShapeB:getBody().gameObject:addJoint(joint, cpShapeA:getBody().gameObject)
 
-	rope:destroy()
 	goA:destroy()
 	goB:destroy()
 
