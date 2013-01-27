@@ -27,6 +27,7 @@ function Player:init(asset, options)
 
 	self:setType(tableaddr(Player))
 
+	SceneManager.i:getCpSpace():setCollisionHandler(tableaddr(Player), tableaddr(Rope), MOAICpSpace.BEGIN, self.collideWithRope)
 	return self
 end
 
@@ -61,6 +62,10 @@ end
 
 function Player:endShooting()
 	self.shooting = false
+end
+
+function Player:collideWithRope(mask, cpShapeA, cpShapeB, cpArbiter)
+	--print("HERE")
 end
 
 function Player:initControls()
