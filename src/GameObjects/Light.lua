@@ -3,17 +3,20 @@ Light.type = "Light"
 
 function Light:init(radius, options) 
 	options = options or {}
+    radius = radius *.75
     self.origRadius = radius
     self.radiusDir = 1
-    self.pulseSpeed = 150 + math.random() * 5
-    self.pulseVariance = 90 + math.random() * 5
+    self.pulseSpeed = 20 + math.random() * 5
+    self.pulseVariance = 25 + math.random() * 5
     self.radius = radius + (math.random() - .5) * self.pulseVariance * 2
 
 	local prop = Meshes2D.newRect(0, 0, self.radius + 450, self.radius + 450, "#ffffff")
     local shader = Shaders.Lighting()
     shader:setRadius(radius)
-    local color = MOAIColor.new()
-    color:setColor(.85, .25, .25, .25)
+    local color = options.color or MOAIColor.new()
+    if (not options.color) then
+        color:setColor(1, .25, .25, 1)
+    end
     shader:setColorLink(color)
     prop:setShader(shader)
     prop:setBlendMode(MOAIProp.BLEND_ADD)

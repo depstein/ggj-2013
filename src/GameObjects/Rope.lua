@@ -20,11 +20,11 @@ function Rope:init(x, y, numRopeSegments)
 		end
 	end
 
-	endpoint1 = PhysicsGameObject:new():init(TextureAsset.get("whitesquare.png"), {isSensor=true});
+	endpoint1 = PhysicsGameObject:new():init(TextureAsset.get("whitesquare.png"), {isSensor=true, noadd = true});
 	endpoint1.handle:setPos(self.ropeSegments[1]:getPos())
 	endpoint1:setType(tableaddr(Rope))
 	endpoint1:setGroup(tableaddr(Rope))
-	endpoint2 = PhysicsGameObject:new():init(TextureAsset.get("whitesquare.png"), {isSensor=true});
+	endpoint2 = PhysicsGameObject:new():init(TextureAsset.get("whitesquare.png"), {isSensor=true, noadd = true});
 	endpoint2.handle:setPos(self.ropeSegments[numRopeSegments]:getPos())
 	endpoint2:setType(tableaddr(Rope))
 	endpoint2:setGroup(tableaddr(Rope))

@@ -39,7 +39,7 @@ function EnemyManager:Update()
 	while true do
 		local currentTime = MOAISim.getDeviceTime()
     	local time = currentTime - self._previousSpawn
-    	if time > 0.5 then
+    	if time > 1 then
             local enemy = self:Create()
 	        enemy:setPos(50, 50)
     		self._previousSpawn = currentTime

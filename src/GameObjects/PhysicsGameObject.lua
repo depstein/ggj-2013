@@ -2,6 +2,7 @@ require "GameObject"
 
 PhysicsGameObject = GameObject:new()
 PhysicsGameObject.type = "PhysicsGameObject"
+PhysicsGameObject.DAMPING = .05
 
 function PhysicsGameObject:init(asset, options)
 	options = options or {}
@@ -9,6 +10,20 @@ function PhysicsGameObject:init(asset, options)
 	self:createPhysicsObject(options)
 
 	self:setType(tableaddr(PhysicsGameObject))
+
+	self.movement = { x = 0, y = 0}
+
+	--[[ CUSTOM DAMPING
+	corout(function()
+		while true do
+			velx, vely = self.handle:getVel()
+			velx = velx * (1.0 - PhysicsGameObject.DAMPING)
+			vely = vely * (1.0 - PhysicsGameObject.DAMPING)
+
+			self.handle:setVel(velx, vely)
+			coroutine.yield()
+		end
+	end) --]]
 
 	return self
 end

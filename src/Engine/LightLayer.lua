@@ -3,7 +3,9 @@ require "RectangleAsset"
 LightLayer = Class:new()
 LightLayer.type = "LightLayer"
 
-function LightLayer:init()
+function LightLayer:init(options)
+    options = options or {}
+
 	local scene = Game.sceneManager
 
     local w, h = scene.width, scene.height
@@ -14,17 +16,27 @@ function LightLayer:init()
     local lighting = scene:getLayer("lighting")
     lighting:setFrameBuffer(frameBuffer)
 
-    local blackCover = GameObject:new():init(RectangleAsset.get(scene.width, scene.height, {color = "#303030"}), {layer = "lighting"})
+    local blackCover = GameObject:new():init(RectangleAsset.get(scene.width, scene.height, {color = "#212121"}), {layer = "lighting"})
     blackCover.prop:setParent(scene.camera)
 
     local lightData = dofile("src/Data/LightData.lua")
     self.lights = {}
 
-    for i = 1,#lightData do
-        local data = lightData[i]
-        local light = Light:new():init(data.radius)
-        light.handle:setLoc(data.x - LevelData.XOFF, data.y - LevelData.YOFF)
-        table.insert(self.lights, light)
+    if (options.includeEnvLights) then
+        for i = 1,#lightData do
+            local data = lightData[i]
+            local light = Light:new():init(data.radius)
+            light.handle:setLoc(data.x - LevelData.XOFF, data.y - LevelData.YOFF)
+            table.insert(self.lights, light)
+        end
+    end
+
+    if (options.includePlayers) then
+        for i, player in pairs(Game.players) do
+            local playerLight = Light:new():init(300, {color = player.color})
+            playerLight.handle:setLoc(0, 0)
+            playerLight.handle:setParent(player.handle)    
+        end
     end
 
     local gfxQuad = MOAIGfxQuad2D.new()
@@ -39,5 +51,7 @@ function LightLayer:init()
     prop:setParent(scene.camera)
     prop:setBlendMode(MOAIProp.BLEND_MULTIPLY)
 
-    scene:getLayer("main"):insertProp(prop)
+    for k, layer in pairs(options.layers) do
+        scene:getLayer(layer):insertProp(prop)
+    end
 end
