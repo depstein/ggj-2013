@@ -43,17 +43,19 @@ local function pump(sock, outgoing, incoming)
                 table.insert(incoming, content)
             end
         end
-        if (table.getn(write) > 0 and table.getn(outgoing) > 0) then
-            local content = table.remove(outgoing)
-            local len = string.len(content)
-            local data = string.char(
-                (math.floor(len / b1) % 256),
-                (math.floor(len / b2) % 256),
-                (math.floor(len / b3) % 256),
-                (math.floor(len / b4) % 256)) .. content
-            if(debugMessages) then print("Send: length = " .. len) end
-            if(debugMessages) then print("      content= `" .. content .. "`") end
-            sock:send(data)
+        if (table.getn(write) > 0) then
+            while(table.getn(outgoing) > 0) do
+                local content = table.remove(outgoing)
+                local len = string.len(content)
+                local data = string.char(
+                    (math.floor(len / b1) % 256),
+                    (math.floor(len / b2) % 256),
+                    (math.floor(len / b3) % 256),
+                    (math.floor(len / b4) % 256)) .. content
+                if(debugMessages) then print("Send: length = " .. len) end
+                if(debugMessages) then print("      content= `" .. content .. "`") end
+                sock:send(data)
+            end
         end
         coroutine.yield()
     end

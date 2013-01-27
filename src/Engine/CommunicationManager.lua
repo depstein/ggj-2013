@@ -14,6 +14,7 @@ function CommunicationManager:init(isServer, ip)
     if (self.isServer) then
         self.renemies = {}
         self.rbullet = {}
+        self.tbullet = {}
 
         self.outgoing, self.incoming, self.info = Communication.createServer()
         Game.enemyManager.onEnemyDie = function(id, enemy)
@@ -44,13 +45,20 @@ local messageHandlers = {}
 messageHandlers[CommunicationManager.MSG_PLAYER_LOCATION] = function(self, message)
     Game.players[2].handle:setPos(message.x, message.y)
     Game.players[2].handle:setVel(message.vx, message.vy)
+    if (message.e) then 
+        Game.players[2]:startEmittingParticles(1)
+    else
+        Game.players[2]:endEmittingParticles(1)
+    end
 end
 
 messageHandlers[CommunicationManager.MSG_PLAYER_FIRE] = function(self, message)
     for k, v in pairs(message.bullets) do
-        bullet = Game.bulletManager:Create()
+        local bullet = Game.bulletManager:Create()
         bullet.handle:setPos(v.x, v.y)
         bullet.handle:setVel(v.vx, v.vy)
+
+        table.insert(self.tbullet, v.tmpid)
     end
 end
 
@@ -61,7 +69,7 @@ messageHandlers[CommunicationManager.MSG_GAME_STATE] = function(self, message)
             enemy = Game.enemyManager:Create()
             Game.enemyManager.enemies[v.k] = enemy
         end
-        enemy.handle:setPos(v.x, v.y)
+        enemy:setPos(v.x, v.y)
         enemy.handle:setVel(v.vx, v.vy)
     end
     for k, v in pairs(message.bullets) do
@@ -70,36 +78,37 @@ messageHandlers[CommunicationManager.MSG_GAME_STATE] = function(self, message)
             bullet = Game.bulletManager:Create()
             Game.bulletManager.bullets[v.k] = bullet
         end
-        bullet.handle:setPos(v.x, v.y)
+        bullet:setPos(v.x, v.y)
         bullet.handle:setVel(v.vx, v.vy)
     end
     
     for k, v in pairs(message.renemies) do
-        if(Game.enemyManager.enemies[v]) then 
-            Game.enemyManager:Destroy(v)
-        end
+        Game.enemyManager:Destroy(v)
     end
     
     for k, v in pairs(message.rbullets) do
-        if(Game.bulletManager.bullets[v]) then 
-            Game.bulletManager:Destroy(v)
-        end
+        Game.bulletManager:Destroy(v)
+    end
+    
+    for k, v in pairs(message.tbullet) do
+        Game.bulletManager:DestroyTemp(v)
     end
     
 end
 
 function CommunicationManager:messageHandler() 
-    local updateEnemies = 5;
+    local updateEnemies = 1;
     while (true) do
         local x, y = Game.players[1].handle:getPos()
         local vx, vy = Game.players[1].handle:getVel()
-        table.insert(self.outgoing, msgpack.pack({type = CommunicationManager.MSG_PLAYER_LOCATION, x = x, y = y, vx = vx, vy = vy}))
+        local isEmit = Game.players[1]:isEmittingParticles()
+        table.insert(self.outgoing, msgpack.pack({type = CommunicationManager.MSG_PLAYER_LOCATION, e = isEmit, x = x, y = y, vx = vx, vy = vy}))
 
         if(self.isServer) then
             updateEnemies = updateEnemies - 1
             if(updateEnemies == 0) then
-                updateEnemies = 5
-                local e = {type = CommunicationManager.MSG_GAME_STATE, enemies = {}, renemies = self.renemies, bullets = {}, rbullets = self.rbullet};
+                updateEnemies = 1
+                local e = {type = CommunicationManager.MSG_GAME_STATE, enemies = {}, renemies = self.renemies, bullets = {}, rbullets = self.rbullet, tbullet = self.tbullet};
                 for k, v in pairs(Game.enemyManager.enemies) do
                     local x, y = v.handle:getPos()
                     local vx, vy = v.handle:getVel()
@@ -114,6 +123,7 @@ function CommunicationManager:messageHandler()
     
                 self.renemies = {}
                 self.rbullets = {}
+                self.tbullet = {}
             end
         else
             if(#self.cbullet > 0) then
