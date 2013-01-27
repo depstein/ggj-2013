@@ -24,8 +24,13 @@ function ParticleManager:init()
     return self;
 end
 
-function ParticleManager:addParticle(particleName, x, y, particleDuration)
+function ParticleManager:addParticle(particleName)
+	if (not self.plugins[particleName]) then
+		self.plugins[particleName] = MOAIParticlePexPlugin.load( particleName )
+	end
+
 	local plugin = self.plugins[particleName]
+
 
 	local maxParticles = plugin:getMaxParticles ()
 	local blendsrc, blenddst = plugin:getBlendMode ()
