@@ -12,13 +12,13 @@ end
 function Rope:init(x, y, numRopeSegments) 
 	self.ropeSegments = {}
 	for i=1, numRopeSegments do
-		segment = PhysicsGameObject:new():init(TextureAsset.get("whiterectangle.png"));
+		segment = PhysicsGameObject:new():init(TextureAsset.get("whiterectangle.png"), {group=tableaddr(self)});
 		segment.handle:setPos(x-50*i, y)
 		segment:setColor(Colors.coral_red)
 		segment.body:setMass(0.1)
 		self.ropeSegments[i] = segment
 		if (i>1) then
-			joint = MOAICpConstraint.newPivotJoint (self.ropeSegments[i-1].body, self.ropeSegments[i].body, -25, 0, 25, 0)
+			joint = MOAICpConstraint.newSlideJoint (self.ropeSegments[i-1].body, self.ropeSegments[i].body, -25, 0, 25, 0, 0, 1)
 			--joint:setMaxForce ( 5000 )
 			joint:setBiasCoef ( 0.75 )
 			SceneManager.i:getCpSpace():insertPrim ( joint )
@@ -34,20 +34,23 @@ function Rope:init(x, y, numRopeSegments)
 	endpoint1:setColor(Colors.rhythm)
 	endpoint2:setColor(Colors.rhythm)
 
-	joint = MOAICpConstraint.newPivotJoint(self.ropeSegments[1].body, endpoint1.body, 0, 0, 0, 0)
+	joint = MOAICpConstraint.newSlideJoint(self.ropeSegments[1].body, endpoint1.body, 25, 0, 0, 0, 0, 5)
 	joint:setBiasCoef ( 0.75 )
 	SceneManager.i:getCpSpace():insertPrim ( joint )
 
-	joint = MOAICpConstraint.newPivotJoint(self.ropeSegments[numRopeSegments].body, endpoint2.body, 0, 0, 0, 0)
+	joint = MOAICpConstraint.newSlideJoint(self.ropeSegments[numRopeSegments].body, endpoint2.body, -25, 0, 0, 0, 0, 5)
 	joint:setBiasCoef ( 0.75 )
 	SceneManager.i:getCpSpace():insertPrim ( joint )
 
-	SceneManager.i:getCpSpace():setCollisionHandler(tableaddr(Player), tableaddr(Rope), MOAICpSpace.BEGIN, self.collideWithRope)
+	SceneManager.i:getCpSpace():setCollisionHandler(SceneManager.objectTypes.player, tableaddr(Rope), MOAICpSpace.BEGIN, self.collideWithRope)
 	return self
 end
 
 function Rope:collideWithRope(cpShapeA, cpShapeB, cpArbiter)
-	joint = MOAICpConstraint.newPivotJoint(cpShapeA:getBody(), cpShapeB:getBody(), 0, 0, 0, 0)
+	if not cpArbiter:isFirstContact() then
+		return
+	end
+	joint = MOAICpConstraint.newSlideJoint(cpShapeA:getBody(), cpShapeB:getBody(), 0, 0, 0, 0, 0, 50)
 	joint:setBiasCoef ( 0.75 )
 	SceneManager.i:getCpSpace():insertPrim ( joint )
 	cpShapeA:setGroup(tableaddr(Rope))
