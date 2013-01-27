@@ -22,18 +22,21 @@ function Rope:init(x, y, numRopeSegments)
 		end
 	end
 
-	endpoint1 = PhysicsGameObject:new():init(TextureAsset.get("whitesquare.png"), {isSensor=true, noadd = true});
+	local endpoint1 = PhysicsGameObject:new():init(TextureAsset.get("whitesquare.png"), {isSensor=true, noadd = true});
 	endpoint1.handle:setPos(self.ropeSegments[1]:getPos())
 	endpoint1:setType(tableaddr(Rope))
 	endpoint1:setGroup(tableaddr(Rope))
 	endpoint1.parent = self
-	endpoint2 = PhysicsGameObject:new():init(TextureAsset.get("whitesquare.png"), {isSensor=true, noadd = true});
+	local endpoint2 = PhysicsGameObject:new():init(TextureAsset.get("whitesquare.png"), {isSensor=true, noadd = true});
 	endpoint2.handle:setPos(self.ropeSegments[numRopeSegments]:getPos())
 	endpoint2:setType(tableaddr(Rope))
 	endpoint2:setGroup(tableaddr(Rope))
 	endpoint2.parent = self
 	endpoint1:setColor(Game.colors.rhythm)
 	endpoint2:setColor(Game.colors.rhythm)
+
+	self.endpoint1 = endpoint1
+	self.endpoint2 = endpoint2
 
 	joint = MOAICpConstraint.newSlideJoint(self.ropeSegments[1].body, endpoint1.body, 20, 0, 0, 0, 0, 1)
 	joint:setBiasCoef ( 0.75 )
@@ -49,6 +52,16 @@ function Rope:init(x, y, numRopeSegments)
 		return false
 	end)
 	return self
+end
+
+function Rope:destroy()
+	self.endpoint1:destroy()
+	self.endpoint2:destroy()
+	for k, v in pairs(self.ropeSegments) do
+		v:destroy()
+	end
+
+	GameObject.destroy(self)
 end
 
 function Rope:collideWithPlayer(cpShapeA, cpShapeB, cpArbiter)

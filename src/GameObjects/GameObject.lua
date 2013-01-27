@@ -50,10 +50,21 @@ function GameObject:getRot(angle)
 end
 
 function GameObject:destroy()
-	Game.sceneManager:getDefaultLayer():removeProp(self.prop)
-	Game.sceneManager:getCpSpace():removePrim(self.body)
-	for i = 1,#self.shapes do
-		Game.sceneManager:getCpSpace():removePrim(self.shapes[i])
+	if self.prop then
+		Game.sceneManager:getDefaultLayer():removeProp(self.prop)
+	end
+	if self.body then
+		Game.sceneManager:getCpSpace():removePrim(self.body)
+	end
+	if self.shapes then
+			for i = 1,#self.shapes do
+			Game.sceneManager:getCpSpace():removePrim(self.shapes[i])
+		end
+	end
+	if self.joints then
+		for k, v in pairs(self.joints) do
+		self:removeJoint(k)
+		end
 	end
 end
 
