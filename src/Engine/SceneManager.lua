@@ -1,6 +1,6 @@
 SceneManager = {}
 SceneManager.type = "SceneManager"
-SceneManager.GRAVITY = 1000
+SceneManager.GRAVITY = 100
 
 function SceneManager:new(o)
 	o = o or {}

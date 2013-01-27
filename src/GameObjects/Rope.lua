@@ -15,6 +15,7 @@ function Rope:init(x, y, numRopeSegments)
 		segment = PhysicsGameObject:new():init(TextureAsset.get("whiterectangle.png"));
 		segment.handle:setPos(x-50*i, y)
 		segment:setColor(Colors.coral_red)
+		segment.body:setMass(0.1)
 		self.ropeSegments[i] = segment
 		if (i>1) then
 			joint = MOAICpConstraint.newPivotJoint (self.ropeSegments[i-1].body, self.ropeSegments[i].body, -25, 0, 25, 0)
