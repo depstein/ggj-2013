@@ -5,14 +5,18 @@ function BlurLayer:init()
     local scene = Game.sceneManager
     local parallax1 = self:createFrameBuffer("parallax1")
     local parallax2 = self:createFrameBuffer("parallax2")
-    local parallaxblurred = self:createFrameBuffer("parallaxblurred");
+    local parallaxblurred1 = self:createFrameBuffer("parallaxblurred-1");
+    local parallaxblurred2 = self:createFrameBuffer("parallaxblurred-2");
 
-    parallaxblurred:setShader(Shaders.Gaussian.getShader(false, 5))
+    parallaxblurred1:setShader(Shaders.Gaussian.getShader(false, 5))
+    parallaxblurred2:setShader(Shaders.Gaussian.getShader(true, 5))
 
-    scene:getLayer("parallaxblurred"):insertProp(parallax2)
-    scene:getLayer("parallaxblurred"):insertProp(parallax1)
+    scene:getLayer("parallaxblurred-1"):insertProp(parallax2)
+    scene:getLayer("parallaxblurred-1"):insertProp(parallax1)
 
-    scene:getLayer("main"):insertProp(parallaxblurred)
+    scene:getLayer("parallaxblurred-2"):insertProp(parallaxblurred1)
+
+    scene:getLayer("main"):insertProp(parallaxblurred2)
 end
 
 function BlurLayer:createFrameBuffer(layerName) 

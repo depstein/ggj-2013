@@ -5,6 +5,11 @@ LevelData = {}
 LevelData.XOFF = 5545
 LevelData.YOFF = 5383
 
+LevelData.BORDER_COLORS = {}
+LevelData.BORDER_COLORS['bf1108'] = '941009'
+LevelData.BORDER_COLORS['4e1d0a'] = '2e1207'
+LevelData.BORDER_COLORS['730606'] = '3d0505'
+
 local function addBlob(obj)
     local blob
     if (obj.layer == "main") then

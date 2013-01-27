@@ -30,10 +30,15 @@ Shaders.Gaussian.getShader = function(vertical, amount)
 	file:close()
 
 	shader:reserveUniforms ( 3 ) 
-	if (vertical) then
-		shader:initGaussianBlur(0, 1, amount)
+
+	if (shader.initGaussianBlur) then
+		if (vertical) then
+			shader:initGaussianBlur(0, 1, amount)
+		else
+			shader:initGaussianBlur(1, 0, amount)
+		end
 	else
-		shader:initGaussianBlur(1, 0, amount)
+		return nil
 	end
 
 	shader:setVertexAttribute ( 1, 'position' )
