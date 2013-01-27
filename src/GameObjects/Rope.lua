@@ -44,16 +44,15 @@ function Rope:init(x, y, numRopeSegments)
 end
 
 function Rope:collideWithPlayer(cpShapeA, cpShapeB, cpArbiter)
-	if not cpArbiter:isFirstContact() then
+	if ((not cpArbiter:isFirstContact()) or cpShapeA:getBody().gameObject:hasJoints() or cpShapeB:getBody().gameObject:hasJoints()) then
 		return
 	end
+	print("Connecting a rope to a player")
 	joint = MOAICpConstraint.newSlideJoint(cpShapeA:getBody(), cpShapeB:getBody(), 0, 0, 0, 0, 0, 50)
 	joint:setBiasCoef ( 0.75 )
 
 	Game.sceneManager:getCpSpace():insertPrim ( joint )
 	
-	cpShapeA:getBody().gameObject:setGroup(tableaddr(Rope))
-	table.insert(cpShapeA:getBody().gameObject.joints, joint)
-	cpShapeB:getBody().gameObject:setGroup(tableaddr(Rope))
-	table.insert(cpShapeB:getBody().gameObject.joints, joint)
+	cpShapeA:getBody().gameObject:addJoint(joint, cpShapeB:getBody().gameObject)
+	cpShapeB:getBody().gameObject:addJoint(joint, cpShapeA:getBody().gameObject)
 end
