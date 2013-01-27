@@ -10,9 +10,9 @@ function Player:init(asset, options)
 	Character.init(self, asset, options)
 
 	self.speed = 3000
-	self.angleFactor = 50
+	self.angleFactor = 10
 	self.curAngle = 0
-	self.desiredAngle = 0
+    self.angleChange = 0
 
     if(not options.disableControls) then
 	    self:initControls()
@@ -20,10 +20,20 @@ function Player:init(asset, options)
 
 	timedCorout(function(time)
 		while true do
-			local velx, vely = self.handle:getVel()
-			if (math.abs(self.curAngle) < math.rad(30) or math.sign(velx) ~= math.sign(self.curAngle)) then
-				self.curAngle = self.curAngle + time * velx / self.angleFactor
-			end
+			local x, y = self.handle:getVel()
+            local desiredAngle = math.atan2(y, x) + math.pi / 2
+            local diff = desiredAngle - self.curAngle
+
+            while(math.abs(diff) > math.pi) do 
+                self.curAngle = self.curAngle + math.sign(diff) * 2 * math.pi 
+                diff = desiredAngle - self.curAngle
+            end
+
+            local change = time * math.sign(desiredAngle - self.curAngle) * self.angleFactor
+            if(math.abs(diff) < math.abs(change)) then change = diff end
+    
+			self.curAngle = self.curAngle + change
+
 			self.handle:setAngle(self.curAngle)
 			coroutine.yield()
 		end
@@ -35,18 +45,6 @@ end
 
 function Player:attemptMove(x, y)
 	self:moveInDirection(x, y)
-
-	local curx = self.handle:getForce()
-
-	if (curx == 0) then
-		self.desiredAngle = 0
-	end
-	if (curx > 0) then
-		self.desiredAngle = math.rad(30)
-	end
-	if (curx < 0) then
-		self.desiredAngle = math.rad(-30)
-	end
 end
 
 function Player:startShooting()
