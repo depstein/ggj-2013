@@ -51,7 +51,7 @@ function SceneManager:addLayer(key, options)
 
 	if (options.default) then
 		self:setDefaultLayer(key)
-		layer:setCpSpace(self.space)
+		--layer:setCpSpace(self.space)
 	end
 end
 
