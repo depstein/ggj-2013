@@ -22,7 +22,7 @@ function BulletManager:Create()
 
 	local bullet = Bullet:new():init(id, TextureAsset.get("whitesquare.png"), {color = Game.colors.cosmic_latte, ignoreGravity = true})
 	
-	table.insert(self.bullets, bullet)
+	self.bullets[id] = bullet
 
     return bullet
 end

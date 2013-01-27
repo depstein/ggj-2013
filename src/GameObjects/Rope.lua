@@ -39,7 +39,7 @@ function Rope:init(x, y, numRopeSegments)
 	joint:setBiasCoef ( 0.75 )
 	Game.sceneManager:getCpSpace():insertPrim ( joint )
 
-	Game.sceneManager:getCpSpace():setCollisionHandler(SceneManager.objectTypes.player, tableaddr(Rope), MOAICpSpace.BEGIN, self.collideWithPlayer)
+	Game.sceneManager:getCpSpace():setCollisionHandler(SceneManager.OBJECT_TYPES.PLAYER, tableaddr(Rope), MOAICpSpace.BEGIN, self.collideWithPlayer)
 	return self
 end
 
