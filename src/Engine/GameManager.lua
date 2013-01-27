@@ -9,6 +9,8 @@ require "SceneManager"
 require "Player"
 require "EnemyManager"
 require "Rope"
+require "DropLocation"
+require "ParticleManager"
 
 GameManager = Class:new()
 GameManager.type = "GameManager"
@@ -19,6 +21,7 @@ function GameManager:init()
     self.keyboardManager = KeyboardManager:new():init();
     self.mouseManager = MouseManager:new():init();
     self.assetManager = AssetManager:new():init();
+    self.particleManager = ParticleManager:new():init();
     self.communicationManager = nil;
     self.sceneManager = nil
     self.enemyManager = nil
@@ -71,6 +74,9 @@ function GameManager:start()
     self.bulletManager = BulletManager:new():init()
     
     local rope = Rope:new():init(-200, 200, 5);
+
+    local dropLocation = DropLocation:new():init(TextureAsset.get("whitesquare.png"))
+    dropLocation:setPos(-200, 500)
     
     local testObject3 = PhysicsGameObject:new():init(TextureAsset.get("whitesquare.png"), {static=true});
     testObject3:setPos(-200, 0)

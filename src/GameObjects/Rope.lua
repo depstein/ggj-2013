@@ -39,11 +39,11 @@ function Rope:init(x, y, numRopeSegments)
 	joint:setBiasCoef ( 0.75 )
 	Game.sceneManager:getCpSpace():insertPrim ( joint )
 
-	Game.sceneManager:getCpSpace():setCollisionHandler(SceneManager.objectTypes.player, tableaddr(Rope), MOAICpSpace.BEGIN, self.collideWithRope)
+	Game.sceneManager:getCpSpace():setCollisionHandler(SceneManager.objectTypes.player, tableaddr(Rope), MOAICpSpace.BEGIN, self.collideWithPlayer)
 	return self
 end
 
-function Rope:collideWithRope(cpShapeA, cpShapeB, cpArbiter)
+function Rope:collideWithPlayer(cpShapeA, cpShapeB, cpArbiter)
 	if not cpArbiter:isFirstContact() then
 		return
 	end
@@ -51,10 +51,9 @@ function Rope:collideWithRope(cpShapeA, cpShapeB, cpArbiter)
 	joint:setBiasCoef ( 0.75 )
 
 	Game.sceneManager:getCpSpace():insertPrim ( joint )
-	if cpShapeA:getBody().gameObject then
-		cpShapeA:getBody().gameObject:setGroup(tableaddr(Rope))
-	end
-	if cpShapeB:getBody().gameObject then
-		cpShapeB:getBody().gameObject:setGroup(tableaddr(Rope))
-	end
+	
+	cpShapeA:getBody().gameObject:setGroup(tableaddr(Rope))
+	table.insert(cpShapeA:getBody().gameObject.joints, joint)
+	cpShapeB:getBody().gameObject:setGroup(tableaddr(Rope))
+	table.insert(cpShapeB:getBody().gameObject.joints, joint)
 end
