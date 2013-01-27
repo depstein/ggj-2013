@@ -21,7 +21,7 @@ function BulletManager:Create()
 	self._bulletIndex = self._bulletIndex + 1
 
 	local bullet = Bullet:new():init(id, TextureAsset.get("bullet.png"), {color = Game.colors.cosmic_latte, ignoreGravity = true})
-	
+	bullet.damage = 1
 	self.bullets[id] = bullet
 
 	corout(

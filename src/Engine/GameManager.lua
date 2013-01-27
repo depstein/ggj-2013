@@ -105,6 +105,18 @@ function GameManager:start()
 
 
     if(self.communicationManager.isServer) then
+        self.sceneManager.space:setCollisionHandler(
+            SceneManager.OBJECT_TYPES.BULLET, 
+            SceneManager.OBJECT_TYPES.PHYSICS_BLOB, 
+            MOAICpSpace.BEGIN, 
+            function(numType, bulletBody, physicsBlob, cparbiter)
+                corout(function() 
+                    Game.bulletManager:markImpact(cparbiter:getContactPoint(1))
+                    Game.bulletManager:Destroy(bulletBody:getBody().gameObject.id)
+                end)
+            end
+        )
+
     	self.sceneManager.space:setCollisionHandler(
             SceneManager.OBJECT_TYPES.BULLET, 
             SceneManager.OBJECT_TYPES.ENEMY, 
@@ -112,9 +124,8 @@ function GameManager:start()
             function(numType, bulletBody, enemyBody, cparbiter)
                 corout(function() 
                     Game.bulletManager:markImpact(cparbiter:getContactPoint(1))
+                    Game.enemyManager:DamageEnemy(enemyBody:getBody().gameObject.id, bulletBody:getBody().gameObject.damage)
                     Game.bulletManager:Destroy(bulletBody:getBody().gameObject.id)
-                    Game.enemyManager:DamageEnemy(enemyBody:getBody().gameObject.id, 1)
-                    --Game.enemyManager:Destroy(enemyBody:getBody().gameObject.id)
                 end)
             end
         )
@@ -125,6 +136,7 @@ function GameManager:start()
             MOAICpSpace.BEGIN, 
             function(numType, playerBody, enemyBody, cparbiter)
                 corout(function() 
+                    Game.bulletManager:markImpact(cparbiter:getContactPoint(1))
                     playerBody:getBody().gameObject.health = playerBody:getBody().gameObject.health - 1
                     Game.enemyManager:Destroy(enemyBody:getBody().gameObject.id)
                 end)
