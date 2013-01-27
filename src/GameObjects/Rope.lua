@@ -6,7 +6,7 @@ Rope = Class:new()
 Rope.type = "Rope"
 
 function Rope:init(x, y, numRopeSegments) 
-	self.ropeHealth = 1
+	self.ropeHealth = 3
 	self.ropeSegments = {}
 	for i=1, numRopeSegments do
 		segment = PhysicsGameObject:new():init(TextureAsset.get("bloodvessel.png"), {group=tableaddr(self), damp = false});
