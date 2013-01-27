@@ -75,6 +75,7 @@ function PhysicsGameObject:createPhysicsObject(options)
 			self.shapes[i]:setGroup(tableaddr(self))
 		end
 		if (options.static) then self.shapes[i]:setGroup(PhysicsData.StaticGroup) end
+
 		Game.sceneManager:getCpSpace():insertPrim(self.shapes[i])
 	end
 
@@ -99,6 +100,7 @@ end
 
 function PhysicsGameObject:setPos(x, y)
 	self.handle:setPos(x, y)
+    self.body:forceUpdate()
 end
 
 function PhysicsGameObject:getPos()
