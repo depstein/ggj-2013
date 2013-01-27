@@ -9,3 +9,5 @@ package.path = package.path .. ';src/lualanes/?.lua'
 package.cpath = package.cpath .. ';src/luamsgpack/?.dll'
 package.cpath = package.cpath .. ';src/luasocket/?.dll'
 package.cpath = package.cpath .. ';src/lualanes/?.dll'
+package.path = package.path .. ';src/Shaders/?.lua'
+

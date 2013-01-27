@@ -8,8 +8,8 @@ function Player:init(asset, options)
 	options.ignoreGravity = true
 	Character.init(self, asset, options)
 
-	self.speed = 2000
-	self.angleSpeed = 50
+	self.speed = 3000
+	self.angleFactor = 50
 	self.curAngle = 0
 	self.desiredAngle = 0
 
@@ -21,7 +21,7 @@ function Player:init(asset, options)
 		while true do
 			local velx, vely = self.handle:getVel()
 			if (math.abs(self.curAngle) < math.rad(30) or math.sign(velx) ~= math.sign(self.curAngle)) then
-				self.curAngle = self.curAngle + time * velx / self.angleSpeed
+				self.curAngle = self.curAngle + time * velx / self.angleFactor
 			end
 			self.handle:setAngle(self.curAngle)
 			coroutine.yield()
