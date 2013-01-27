@@ -7,7 +7,7 @@ Rope.type = "Rope"
 function Rope:init(x, y, numRopeSegments) 
 	self.ropeSegments = {}
 	for i=1, numRopeSegments do
-		segment = PhysicsGameObject:new():init(TextureAsset.get("whiterectangle.png"), {group=tableaddr(self)});
+		segment = PhysicsGameObject:new():init(TextureAsset.get("bloodvessel.png"), {group=tableaddr(self)});
 		segment.handle:setPos(x-50*i, y)
 		segment:setColor(Game.colors.coral_red)
 		segment.body:setMass(0.1)
