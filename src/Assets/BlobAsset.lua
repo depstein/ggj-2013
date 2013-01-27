@@ -9,6 +9,7 @@ function BlobAsset:init(file, options)
 	options = options or {color="FFFFFF"}
 	self.color = '#' .. options.color
 	self.filename = file .. '.png'
+
 	return self
 end
 
@@ -20,6 +21,6 @@ function BlobAsset:make()
 	return Meshes2D.createPolygon( self.polydata, self.color)
 end
 
-function BlobAsset.get(file, options)
-	return Asset.get(BlobAsset, file, options)
+function BlobAsset.get(...)
+	return BlobAsset:init(...)
 end

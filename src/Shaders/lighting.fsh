@@ -3,7 +3,7 @@ varying MEDP vec2 uvVarying;
 uniform float lightr;
 uniform vec4 color;
 
-const float haloSize = .35;
+const float haloSize = .4;
 
 void main() {
 	float invDist = 1.0 - length(uvVarying) / lightr;

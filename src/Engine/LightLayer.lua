@@ -14,7 +14,7 @@ function LightLayer:init()
     local lighting = scene:getLayer("lighting")
     lighting:setFrameBuffer(frameBuffer)
 
-    local blackCover = GameObject:new():init(RectangleAsset.get(scene.width, scene.height, {color = "#1f1f1f"}), {layer = "lighting"})
+    local blackCover = GameObject:new():init(RectangleAsset.get(scene.width, scene.height, {color = "#303030"}), {layer = "lighting"})
     blackCover.prop:setParent(scene.camera)
 
     local lightData = dofile("src/Data/LightData.lua")

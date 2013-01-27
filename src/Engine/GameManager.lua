@@ -18,6 +18,10 @@ GameManager.type = "GameManager"
 
 
 function GameManager:init()
+    math.randomseed( os.time() )
+    math.random()
+    math.random()
+    math.random()
 
     self.keyboardManager = KeyboardManager:new():init();
     self.mouseManager = MouseManager:new():init();
@@ -61,6 +65,8 @@ function GameManager:start()
     self.sceneManager:addLayer("lighting")
     self.sceneManager:addLayer("bg")
     self.sceneManager:getLayer("bg"):setParallax(0, 0)
+    self.sceneManager:addLayer("parallax2")
+    self.sceneManager:getLayer("parallax2"):setParallax(0.25, 0.25)
     self.sceneManager:addLayer("parallax1")
     self.sceneManager:getLayer("parallax1"):setParallax(0.5, 0.5)
     self.sceneManager:addLayer("main", {default = true})

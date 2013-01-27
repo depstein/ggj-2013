@@ -130,4 +130,51 @@ return {
 		layer = "parallax1",
 		color = "4e1d0a"
 	},
+
+	--Layer 3
+	{
+		blob = 'blob21',
+		rotation = -130,
+		scale = 1,
+		posX = 5658,
+		posY = 6130,
+		layer = "parallax2",
+		color = "730606"
+	},
+	{
+		blob = 'blob8',
+		rotation = -130,
+		scale = 1,
+		posX = 4810,
+		posY = 5851,
+		layer = "parallax2",
+		color = "730606"
+	},
+	{
+		blob = 'cornerblob3',
+		rotation = 0,
+		scale = 1,
+		posX = 6625,
+		posY = 6083,
+		layer = "parallax2",
+		color = "730606"
+	},
+	{
+		blob = 'blob3',
+		rotation = 0,
+		scale = 1,
+		posX = 5062,
+		posY = 4595,
+		layer = "parallax2",
+		color = "730606"
+	},
+	{
+		blob = 'blob10',
+		rotation = 0,
+		scale = 1,
+		posX = 4338,
+		posY = 5299,
+		layer = "parallax2",
+		color = "730606"
+	},
 }
