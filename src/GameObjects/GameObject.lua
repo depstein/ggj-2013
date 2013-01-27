@@ -12,12 +12,12 @@ function GameObject:init(asset, options)
 	self.joints = {}
 	self.health = 5
 
-	if (not options.noadd and not options.layer) then
-		Game.sceneManager:getDefaultLayer():insertProp(self.prop)
-	end
-
-	if (options.layer and not options.noadd) then
-		Game.sceneManager:getLayer(options.layer):insertProp(self.prop)
+    if (not options.noadd) then
+    	if (options.layer) then
+    		Game.sceneManager:getLayer(options.layer):insertProp(self.prop)
+        else
+    		Game.sceneManager:getDefaultLayer():insertProp(self.prop)
+    	end
 	end
 
 	if (not GameObject.vsh or not GameObject.fsh) then
