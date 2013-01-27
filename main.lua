@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 require "Utility"
 require "AssetManager"
 require "SceneManager"
@@ -134,3 +135,53 @@ local blobagon = GameObject:new():init(BlobAsset.get('blob1', {color=Colors.corn
 blobagon:setPos(45)
 blobagon:setRot(45)
 ]]
+=======
+require "Utility"
+require "AssetManager"
+require "SceneManager"
+require "MouseManager"
+require "KeyboardManager"
+require "PhysicsData"
+require "Colors"
+require "GameObject"
+require "PhysicsGameObject"
+require "Character"
+require "Player"
+require "Rope"
+require "BlobAsset"
+require "EnemyManager"
+
+camera = MOAICamera2D.new ()
+
+SceneManager:new():init(1024, 768, camera)
+
+SceneManager.i:addLayer("parallax1")
+SceneManager.i:getLayer("parallax1"):setParallax(0.5, 0.5)
+
+SceneManager.i:addLayer("main", {default = true})
+
+local testObject = Player:new():init(TextureAsset.get("player.png"));
+testObject:setColor(Colors.cornflower_blue)
+
+camera:setAttrLink(MOAITransform.INHERIT_LOC, testObject.handle, MOAITransform.TRANSFORM_TRAIT)
+
+local testObject2 = PhysicsGameObject:new():init(TextureAsset.get("moai2.png"));
+testObject2:setPos(200, 200)
+
+local testObject3 = PhysicsGameObject:new():init(TextureAsset.get("whitesquare.png"), {static=true});
+testObject3:setPos(-200, 0)
+testObject3:setColor(Colors.patriarch)
+
+local rope = Rope:new():init(-200, -200, 5);
+
+local allBlobs = dofile("src/Engine/LevelData.lua")
+
+corout(EnemyManager.Update)
+-- Create new circle: ( centerX, centerY, radius, colorHex )
+--[[local blobagon = GameObject:new():init(BlobAsset.get('blob1', {color=Colors.cornflower_blue}), {layer="parallax1"})
+local blobagon = GameObject:new():init(BlobAsset.get('blob1', {color=Colors.cornflower_blue}), {layer="parallax1"})
+blobagon:setPos(45)
+blobagon:setRot(45)
+]]
+
+>>>>>>> 72ecd1f1fc8fda67d1179fe9a2e887fd849105d3

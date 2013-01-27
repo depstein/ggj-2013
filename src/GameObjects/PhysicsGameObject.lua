@@ -6,6 +6,8 @@ function PhysicsGameObject:init(asset, options)
 	GameObject.init(self, asset, options)
 	self:createPhysicsObject(options)
 
+	self:setType(tableaddr(PhysicsGameObject))
+
 	return self
 end
 
@@ -43,6 +45,12 @@ function PhysicsGameObject:createPhysicsObject(options)
 
 	self.handle = self.body
 	self.physics = true
+end
+
+function PhysicsGameObject:setType(type)
+	for k, v in pairs(self.shapes) do 
+		v:setType(type)
+	end
 end
 
 function PhysicsGameObject:setPos(x, y)

@@ -21,12 +21,22 @@ function Rope:init(x, y, numRopeSegments)
 			SceneManager.i:getCpSpace():insertPrim ( joint )
 		end
 	end
-	return self
-end
 
-function Rope:setStartBody(startObject)
-	joint = MOAICpConstraint.newPivotJoint (startObject.body, self.ropeSegments[1].body, 0, 0, 25, 0)
-			--joint:setMaxForce ( 5000 )
-			joint:setBiasCoef ( 0.75 )
-			SceneManager.i:getCpSpace():insertPrim ( joint )
+	endpoint1 = PhysicsGameObject:new():init(TextureAsset.get("whitesquare.png"), {isSensor=true});
+	endpoint1.handle:setPos(self.ropeSegments[1]:getPos())
+	endpoint1:setType(tableaddr(Rope))
+	endpoint2 = PhysicsGameObject:new():init(TextureAsset.get("whitesquare.png"), {isSensor=true});
+	endpoint2.handle:setPos(self.ropeSegments[numRopeSegments]:getPos())
+	endpoint2:setType(tableaddr(Rope))
+	endpoint1:setColor(Colors.rhythm)
+	endpoint2:setColor(Colors.rhythm)
+
+	joint = MOAICpConstraint.newPivotJoint(self.ropeSegments[1].body, endpoint1.body, 0, 0, 0, 0)
+	joint:setBiasCoef ( 0.75 )
+	SceneManager.i:getCpSpace():insertPrim ( joint )
+
+	joint = MOAICpConstraint.newPivotJoint(self.ropeSegments[numRopeSegments].body, endpoint2.body, 0, 0, 0, 0)
+	joint:setBiasCoef ( 0.75 )
+	SceneManager.i:getCpSpace():insertPrim ( joint )
+	return self
 end
