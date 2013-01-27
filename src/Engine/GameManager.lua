@@ -14,6 +14,7 @@ require "ParticleManager"
 require "LightLayer"
 require "BlurLayer"
 require "BallObject"
+require "WaveManager"
 
 GameManager = Class:new()
 GameManager.type = "GameManager"
@@ -29,6 +30,7 @@ function GameManager:init()
     self.mouseManager = MouseManager:new():init();
     self.assetManager = AssetManager:new():init();
     self.particleManager = ParticleManager:new():init();
+    self.waveManager = WaveManager:new():init();
     self.communicationManager = nil;
     self.sceneManager = nil
     self.enemyManager = nil
@@ -97,13 +99,7 @@ function GameManager:start()
 
     self.communicationManager = CommunicationManager:new():init(isServer, ip)
     
-    local rope = Rope:new():init(-200, 200, 3);
-
-    local dropLocation = DropLocation:new():init(TextureAsset.get("whitesquare.png"))
-    dropLocation:setPos(-200, 500)
-    
-    local ball = BallObject:new():init(TextureAsset.get("whitesquare.png"))
-    ball:setPos(-400, -200)
+    self.waveManager:spawnWave();
 
     self.envLightLayer = LightLayer:new():init({layers = {"main"}, includeEnvLights = true, includePlayers = true});
 
