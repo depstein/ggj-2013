@@ -1,13 +1,8 @@
+require "Utility"
 require "Player"
 
-Rope = {}
+Rope = Class:new()
 Rope.type = "Rope"
-
-function Rope:new(o)
-	o = o or {}
-	setmetatable(o, {__index = self})
-	return o
-end
 
 function Rope:init(x, y, numRopeSegments) 
 	self.ropeSegments = {}

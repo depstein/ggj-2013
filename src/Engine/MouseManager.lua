@@ -1,50 +1,50 @@
-MouseManager = {}
-MouseManager.Buttons = {
+require "MouseManager"
+
+MouseManager = Class:new()
+MouseManager.type = "MouseManager"
+
+MouseManager.BUTTONS = {
 	left = 0,
 	right = 1
 }
-MouseManager.Clicked = {}
-MouseManager.Callbacks = {}
 
-MouseManager.setCallback = function(button, name, callback)
-	MouseManager.Callbacks[button] = MouseManager.Callbacks[button] or {}
+function MouseManager:init()
+    self.clicked = {}
+    self.callbacks = {}
 
-	MouseManager.Callbacks[button][name] = callback
+    return self;
 end
 
-MouseManager.removeCallback = function(button, name)
-	if (MouseManager.Callbacks[button] == nil) then return end
+function MouseManager:addCallback(button, name, callback)
+	self.callbacks[button] = self.callbacks[button] or {}
 
-	MouseManager.Callbacks[button][name] = nil
+	self.callbacks[button][name] = callback
 end
 
-MouseManager.onMouseEvent = function(x, y, button, down)
-	if (MouseManager.Clicked[button] ~= down) then
-		if (MouseManager.Callbacks[button] ~= nil) then
-			for k, v in pairs(MouseManager.Callbacks[button]) do 
+function MouseManager:removeCallback(button, name)
+	if (self.callbacks[button] == nil) then return end
+
+	self.callbacks[button][name] = nil
+end
+
+function MouseManager:onMouseEvent(x, y, button, down)
+	if (self.clicked[button] ~= down) then
+		if (self.callbacks[button] ~= nil) then
+			for k, v in pairs(self.callbacks[button]) do 
 				v(x, y, down)
 			end
 		end
 	end
-	MouseManager.Clicked[button] = down
+	self.clicked[button] = down
 end
 
-MouseManager.onLeftMouseEvent = function(x, y, down)
-	MouseManager.onMouseEvent(x, y, MouseManager.Buttons.left,down)
+function MouseManager:onLeftMouseEvent(x, y, down)
+	MouseManager.onMouseEvent(x, y, MouseManager.Buttons.left, down)
 end
 
-MouseManager.onRightMouseEvent = function(x, y, down)
-	MouseManager.onMouseEvent(x, y, MouseManager.Buttons.right,down)
+function MouseManager:onRightMouseEvent(x, y, down)
+	MouseManager.onMouseEvent(x, y, MouseManager.Buttons.right, down)
 end
 
-MOAIInputMgr.device.mouseLeft:setCallback ( 
-	function(down)
-		mX, mY = MOAIInputMgr.device.pointer:getLoc()
-		MouseManager.onLeftMouseEvent(mX, mY, down)
-		end )
-MOAIInputMgr.device.mouseRight:setCallback ( 
-	function(down)
-		mX, mY = MOAIInputMgr.device.pointer:getLoc()
-		MouseManager.onRightMouseEvent(mX, mY, down)
-		end )
+
 

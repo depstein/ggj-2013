@@ -4,7 +4,6 @@ require "SceneManager"
 require "MouseManager"
 require "KeyboardManager"
 require "PhysicsData"
-require "Colors"
 require "GameObject"
 require "PhysicsGameObject"
 require "Character"
@@ -13,6 +12,8 @@ require "Rope"
 require "Communication"
 require "BlobAsset"
 require "EnemyManager"
+
+Colors = dofile("assets/Colors.lua")
 
 io.write("Do you wish to host the game?");
 local input = "";

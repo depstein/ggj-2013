@@ -1,3 +1,31 @@
+
+Class = {}
+
+function Class:new(o)
+	o = o or {}
+	setmetatable(o, {__index = self})
+	return o
+end
+
+--[[ CLASS TEMPLATE:
+
+require "Utility"
+
+ClassName = Class:new()
+ClassName.type = "ClassName"
+
+ClassName.MY_CONSTANT = 0
+
+local myPrivateField = 0
+
+function ClassName:init()
+    self.myProperty = 0
+
+    return self;
+end
+
+]]--
+
 function SetObjectColor(gameObject, color)
 	gameObject.prop:setColor(0, 0, 1, 1)
 end

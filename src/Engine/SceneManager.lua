@@ -1,12 +1,11 @@
-SceneManager = {}
+require "Utility"
+
+SceneManager = Class:new()
 SceneManager.type = "SceneManager"
+
 SceneManager.GRAVITY = 1000
 
-function SceneManager:new(o)
-	o = o or {}
-	setmetatable(o, {__index = self})
-	return o
-end
+local myPrivateField = nil
 
 function SceneManager:init(width, height, camera, options)
 	options = options or {}
