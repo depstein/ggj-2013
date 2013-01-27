@@ -15,7 +15,7 @@ function Player:init(asset, options)
     self.angleChange = 0
     self.keysPressed = {}
     self.health = 5
-
+    self.damage = 1
     if(not options.disableControls) then
 	    self:initControls()
     end
@@ -100,12 +100,18 @@ function Player:startShooting()
                 local posX, posY = playerX + xAngle * 50, playerY + yAngle * 50
                 local velX, velY = Bullet.INITIAL_SPEED * xAngle, Bullet.INITIAL_SPEED * yAngle
 
+
                 if(Game.communicationManager.isServer) then
         			local bullet = Game.bulletManager:Create()
+        			bullet.damage = self.damage
                 	bullet:setPos(posX, posY)
                 	bullet.handle:setVel(velX, velY)
                 else
-                    Game.communicationManager:Fired({x = posX, y = posY, vx = velX, vy = velY})
+        			local bullet = Game.bulletManager:CreateTemp()
+                	bullet:setPos(posX, posY)
+                	bullet.handle:setVel(velX, velY)
+
+                    Game.communicationManager:Fired({tmpid = bullet.tmpid, x = posX, y = posY, vx = velX, vy = velY})
                 end
 
                 previousSpawn = currentTime;

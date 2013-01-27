@@ -35,6 +35,21 @@ end
 
 function WaveManager:spawnWave()
 	self.waveNumber = self.waveNumber + 1
+
+	if self.waveNumber > 1 then
+		rand = math.random()
+		if rand < .25 then
+			print("More damage!")
+			Game.players[1].damage  = Game.players[1].damage + 1
+		elseif rand < .5 then
+			print("More speed!")
+			Game.players[1].speed = Game.players[1].speed + 500
+		else --if rand < .75  then
+			print("More hps!")
+			Game.players[1].health  = Game.players[1].health + 2
+		end
+	end
+
 	--Spawn the rope and get the loc
 	local ropeLoc = self:spawnRope()
 	--don't repeat locations
