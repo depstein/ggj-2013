@@ -27,8 +27,9 @@ end
 function LevelData.Load(file)
     local data = dofile(file)
     local result = {}
-    for k,v in pairs(data) do 
+    for k,v in pairs(data.blobs) do 
     	table.insert(result, addBlob(v))
     end
+    Game.enemyManager.spawnPoints = data.spawnPoints
 	return result
 end

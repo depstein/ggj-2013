@@ -63,6 +63,8 @@ function Player:startShooting()
                 local posX, posY = playerX + xAngle * 50, playerY + yAngle * 50
                 local velX, velY = Bullet.INITIAL_SPEED * xAngle, Bullet.INITIAL_SPEED * yAngle
                 
+                print(posX .. " , " .. posY)
+
                 if(Game.communicationManager.isServer) then
         			local bullet = Game.bulletManager:Create()
                 	bullet:setPos(posX, posY)
