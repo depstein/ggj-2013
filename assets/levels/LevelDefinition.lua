@@ -1,4 +1,5 @@
 return {
+	-- Main layer
 	{
 		blob = 'cornerblob1',
 		rotation = 0,
@@ -79,5 +80,54 @@ return {
 		posY = 5138,
 		layer = "main",
 		color = "bf1108"
+	},
+
+
+
+	-- Layer 2
+	{
+		blob = 'blob20',
+		rotation = -42,
+		scale = 1,
+		posX = 5863,
+		posY = 6872,
+		layer = "parallax1",
+		color = "4e1d0a"
+	},
+	{
+		blob = 'blob15',
+		rotation = -127,
+		scale = 1,
+		posX = 6255,
+		posY = 5218,
+		layer = "parallax1",
+		color = "4e1d0a"
+	},
+	{
+		blob = 'blob6',
+		rotation = -147,
+		scale = 1,
+		posX = 5047,
+		posY = 4865,
+		layer = "parallax1",
+		color = "4e1d0a"
+	},
+	{
+		blob = 'blob10',
+		rotation = -174,
+		scale = 1,
+		posX = 4780,
+		posY = 6077,
+		layer = "parallax1",
+		color = "4e1d0a"
+	},
+	{
+		blob = 'blob2',
+		rotation = 39,
+		scale = 1,
+		posX = 5522,
+		posY = 5460,
+		layer = "parallax1",
+		color = "4e1d0a"
 	},
 }

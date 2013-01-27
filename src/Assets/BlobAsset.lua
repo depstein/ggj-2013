@@ -8,6 +8,7 @@ BlobAsset.type = "BlobAsset"
 function BlobAsset:init(file, options)
 	self.polydata = PhysicsData.blobPolygon(file)
 	options = options or {color="FFFFFF"}
+	print(options.color)
 	self.color = options.color
 	self.filename = file .. '.png'
 	return self
@@ -18,7 +19,6 @@ function BlobAsset.getKey(file)
 end
 
 function BlobAsset:make()
-	print(self.color)
 	return Meshes2D.createPolygon( self.polydata, self.color)
 end
 

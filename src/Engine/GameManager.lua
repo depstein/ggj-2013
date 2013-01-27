@@ -42,12 +42,16 @@ function GameManager:start()
     self.communicationManager = CommunicationManager:new():init(input == "y")
     
     self.sceneManager = SceneManager:new():init(1024, 768, MOAICamera2D.new())
+    self.sceneManager:addLayer("bg")
+    self.sceneManager:getLayer("bg"):setParallax(0, 0)
     self.sceneManager:addLayer("parallax1")
     self.sceneManager:getLayer("parallax1"):setParallax(0.5, 0.5)
     self.sceneManager:addLayer("main", {default = true})
 
     LevelData.Load("assets/levels/LevelDefinition.lua")
     
+    self.bg = GameObject:new():init(TextureAsset.get("bg.png"), { layer = "bg"})
+
     self.players[1] = Player:new():init(TextureAsset.get("player.png"));
     self.players[1]:setColor(self.colors.cornflower_blue)
     
