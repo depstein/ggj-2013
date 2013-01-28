@@ -10,7 +10,5 @@ function BallObject:init(asset, options)
 
 	self:setType(tableaddr(BallObject))
 
-	self:setColor(Game.colors.android_green)
-
 	return self
 end
