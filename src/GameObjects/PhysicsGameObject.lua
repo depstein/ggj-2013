@@ -108,7 +108,7 @@ function PhysicsGameObject:getPos()
 end
 
 function PhysicsGameObject:setRot(angle)
-	self.handle:setAngle(45)
+	self.handle:setAngle(angle)
 end
 
 function PhysicsGameObject:getRot()

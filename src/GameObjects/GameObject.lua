@@ -6,10 +6,21 @@ GameObject.type = "GameObject"
 function GameObject:init(asset, options)
 	options = options or {}
 
-	self:setAsset(asset, options)
+
+	self.prop = asset:make()
+	self.asset = asset
+	self.handle = self.prop
 
 	self.joints = {}
 	self.health = 5
+
+	if (not options.noadd) then
+    	if (options.layer) then
+    		Game.sceneManager:getLayer(options.layer):insertProp(self.prop)
+        else
+    		Game.sceneManager:getDefaultLayer():insertProp(self.prop)
+    	end
+	end
 
 	if (not GameObject.vsh or not GameObject.fsh) then
 		file = assert ( io.open ( 'src/Shaders/shader.vsh', mode ))
@@ -36,29 +47,13 @@ function GameObject:setRot(angle)
 	self.prop:setRot(angle)
 end
 
-function GameObject:getRot(angle)
+function GameObject:getRot()
 	return self.prop:getRot()
 end
 
-function GameObject:setAsset(asset, options)
-	if self.asset and self.prop then
-		if (options.layer) then
-    		Game.sceneManager:getLayer(options.layer):removeProp(self.prop)
-        else
-    		Game.sceneManager:getDefaultLayer():removeProp(self.prop)
-    	end
-	end
-	self.prop = asset:make()
-	self.handle = self.prop
+function GameObject:setAsset(asset)
 	self.asset = asset
-
-    if (not options.noadd) then
-    	if (options.layer) then
-    		Game.sceneManager:getLayer(options.layer):insertProp(self.prop)
-        else
-    		Game.sceneManager:getDefaultLayer():insertProp(self.prop)
-    	end
-	end
+	self.prop:setDeck(self.asset.deck)	
 end
 
 function GameObject:destroy()
