@@ -91,10 +91,10 @@ function EnemyManager:Update()
                     table.remove(self.validSpawns, rand)
                 end
             end
+            self._previousSpawn = self.currentTime
         else
             coroutine:yield()
         end
 
-        self._previousSpawn = self.currentTime
 	end
 end
