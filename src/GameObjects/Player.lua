@@ -64,7 +64,7 @@ function Player:init(asset, options)
 
 			self.emitter:setLoc(handleposx, handleposy)
 
-			coroutine.yield()
+			coyield()
 		end
 	end)
 
@@ -111,12 +111,12 @@ function Player:startShooting()
                 	bullet:setPos(posX, posY)
                 	bullet.handle:setVel(velX, velY)
 
-                    Game.communicationManager:Fired({tmpid = bullet.tmpid, x = posX, y = posY, vx = velX, vy = velY})
+                    Game.communicationManager:Fired({tmpid = bullet.tmpid, d = self.damage, x = posX, y = posY, vx = velX, vy = velY})
                 end
 
                 previousSpawn = currentTime;
     		end
-            coroutine.yield()
+            coyield()
     	end
 	end)
 end

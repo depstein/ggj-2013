@@ -24,7 +24,7 @@ function ParticleManager:init()
 				--Game.sceneManager:getLayer("particles"):removeProp(particleInfo.system)
 				--self.activeParticles[particleInfo.i] = nil
 			end
-			coroutine.yield()
+			coyield()
 		end
 	end)
 

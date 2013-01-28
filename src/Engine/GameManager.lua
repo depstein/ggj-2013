@@ -145,7 +145,11 @@ function GameManager:start()
 
         corout(
             function() 
-                Game.enemyManager:Update()
+            	while true do
+                    Game.enemyManager:Update()
+                    Game.bulletManager:Update()
+            		coyield()
+            	end
             end
         )
     end

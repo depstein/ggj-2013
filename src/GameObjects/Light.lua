@@ -42,7 +42,7 @@ function Light:init(radius, options)
             self.shader:setRadius(self.radius)
             self.prop:scheduleUpdate()
 
-            coroutine.yield()
+            coyield()
         end
     end)
 

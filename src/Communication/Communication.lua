@@ -57,7 +57,7 @@ local function pump(sock, outgoing, incoming)
                 sock:send(data)
             end
         end
-        coroutine.yield()
+        coyield()
     end
 
     print("Communication Pump Died")
@@ -90,7 +90,7 @@ local function server(outgoing, incoming, socketinfo)
                 socketinfo.socknamecallback(socketinfo)
             end
         end
-        coroutine.yield()
+        coyield()
     end
 
     if (debugConnect) then print("Server: Connected!") end
