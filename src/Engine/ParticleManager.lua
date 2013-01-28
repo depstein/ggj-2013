@@ -21,8 +21,8 @@ function ParticleManager:init()
 				end
 			end
 			for i, particleInfo in pairs(particlesToRemove) do
-				Game.sceneManager:getLayer("particles"):removeProp(particleInfo.system)
-				self.activeParticles[particleInfo.i] = nil
+				--Game.sceneManager:getLayer("particles"):removeProp(particleInfo.system)
+				--self.activeParticles[particleInfo.i] = nil
 			end
 			coroutine.yield()
 		end

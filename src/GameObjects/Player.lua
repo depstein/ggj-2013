@@ -9,7 +9,7 @@ function Player:init(asset, options)
 	options.ignoreGravity = false
 	Character.init(self, asset, options)
 
-	self.speed = 3000
+	self.speed = 4000
 	self.angleFactor = 10
 	self.curAngle = 0
     self.angleChange = 0
