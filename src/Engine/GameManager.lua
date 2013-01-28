@@ -111,7 +111,7 @@ function GameManager:start()
             MOAICpSpace.BEGIN, 
             function(numType, bulletBody, physicsBlob, cparbiter)
                 corout(function() 
-                    Game.bulletManager:hitWall(cparbiter:getContactPoint(1))
+                    Game.bulletManager:hitWall(bulletBody:getBody().gameObject:getPos())--cparbiter:getContactPoint(1))
                     Game.bulletManager:Destroy(bulletBody:getBody().gameObject.id)
                 end)
             end
@@ -123,7 +123,7 @@ function GameManager:start()
             MOAICpSpace.BEGIN, 
             function(numType, bulletBody, enemyBody, cparbiter)
                 corout(function() 
-                    Game.bulletManager:markImpact(cparbiter:getContactPoint(1))
+                    Game.bulletManager:markImpact(bulletBody:getBody().gameObject:getPos())--cparbiter:getContactPoint(1))
                     Game.enemyManager:DamageEnemy(enemyBody:getBody().gameObject.id, bulletBody:getBody().gameObject.damage)
                     Game.bulletManager:Destroy(bulletBody:getBody().gameObject.id)
                 end)
@@ -136,7 +136,7 @@ function GameManager:start()
             MOAICpSpace.BEGIN, 
             function(numType, playerBody, enemyBody, cparbiter)
                 corout(function() 
-                    Game.bulletManager:markImpact(cparbiter:getContactPoint(1))
+                    Game.bulletManager:markImpact(enemyBody:getBody().gameObject:getPos())--cparbiter:getContactPoint(1))
                     playerBody:getBody().gameObject.health = playerBody:getBody().gameObject.health - 1
                     Game.enemyManager:Destroy(enemyBody:getBody().gameObject.id)
                 end)
