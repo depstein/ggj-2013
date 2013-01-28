@@ -49,9 +49,18 @@ function BulletManager:Update()
     end
 end
 
-function BulletManager:Create()
+function BulletManager:Create(wanted)
 	local id = self._bulletIndex
 	self._bulletIndex = self._bulletIndex + 1
+
+	local bullet = Bullet:new():init(id, TextureAsset.get("bullet.png"), {color = Game.colors.cosmic_latte, ignoreGravity = true})
+	self.bullets[id] = bullet
+
+    return bullet
+end
+
+function BulletManager:Get(id)
+    if(self.bullets[id]) then return self.bullets[id] end
 
 	local bullet = Bullet:new():init(id, TextureAsset.get("bullet.png"), {color = Game.colors.cosmic_latte, ignoreGravity = true})
 	self.bullets[id] = bullet
@@ -69,14 +78,18 @@ function BulletManager:Destroy(index)
 end
 
 function BulletManager:markImpact(x, y)
-    Game.communicationManager:impact(x, y)
-    self:impact(x, y)
-end
-
-function BulletManager:impact(x, y)
-	Game.particleManager:addParticle('hit.pex', x, y, 5)
+    self:impact(x, y, 'hit.pex')
 end
 
 function BulletManager:hitWall(x, y)
-	Game.particleManager:addParticle('hitWall.pex', x, y, 5)
+	self:impact(x, y, 'hitWall.pex')
+end
+
+function BulletManager:impact(x, y, type)
+    Game.communicationManager:impact(x, y, type)
+    self:showImpact(x, y, type)
+end
+
+function BulletManager:showImpact(x, y, type)
+	Game.particleManager:addParticle(type, x, y, 5)
 end

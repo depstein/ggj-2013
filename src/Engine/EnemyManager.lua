@@ -74,6 +74,7 @@ function EnemyManager:DamageEnemy(index, amt)
 end 
 
 function EnemyManager:Update()
+--[[
 	self.currentTime = MOAISim.getDeviceTime()
 	local time = self.currentTime - self._previousSpawn
     self.timeExisted = self.currentTime - self.creationTime
@@ -91,7 +92,6 @@ function EnemyManager:Update()
             end
         end
         self._previousSpawn = self.currentTime
-    else
-        coroutine:yield()
     end
+]]--
 end

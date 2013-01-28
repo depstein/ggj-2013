@@ -64,6 +64,9 @@ function GameManager:start()
     if(not isServer) then
         io.write("IP Address to Connect To:");
         ip = io.read()
+        if(ip == "") then
+            ip = "127.0.0.1"
+        end
     end
     
     self.sceneManager = SceneManager:new():init(1024, 768, MOAICamera2D.new())
