@@ -26,12 +26,24 @@ local function addBlob(obj)
     return blob;
 end
 
+function LevelData.addDoodad(obj)
+    local doodad = GameObject:new():init(TextureAsset.get(obj.img .. ".png"))
+    doodad.handle:setLoc(obj.x - LevelData.XOFF, obj.y - LevelData.YOFF)
+    doodad.handle:setRot(obj.rot)
+    doodad:setColor({r = 191, g = 17, b = 8})
+end
+
 function LevelData.Load(file)
     local data = dofile(file)
     local result = {}
     for k,v in pairs(data.blobs) do 
     	table.insert(result, addBlob(v))
     end
+
+    for k, v in pairs(data.doodads) do
+        LevelData.addDoodad(v)
+    end
+
     Game.enemyManager:SetSpawnPoints(data.spawnPoints)
 	return result
 end
