@@ -74,27 +74,24 @@ function EnemyManager:DamageEnemy(index, amt)
 end 
 
 function EnemyManager:Update()
-	while true do
-		self.currentTime = MOAISim.getDeviceTime()
-    	local time = self.currentTime - self._previousSpawn
-        self.timeExisted = self.currentTime - self.creationTime
-    	if time > 2 then
-            if #self.validSpawns > 0 then
-                local validRand = math.random(1,#self.validSpawns)
-                local rand = self.validSpawns[validRand]
-                if self.spawnCount[rand] < self.maxSpawn then
-                    local enemy = self:Create()
-        	        enemy:setPos(self.spawnPoints[rand].posX, self.spawnPoints[rand].posY)
-                    enemy.spawnPoint = rand
-                    self.spawnCount[enemy.spawnPoint] = self.spawnCount[enemy.spawnPoint] + 1
-                else
-                    table.remove(self.validSpawns, rand)
-                end
+	self.currentTime = MOAISim.getDeviceTime()
+	local time = self.currentTime - self._previousSpawn
+    self.timeExisted = self.currentTime - self.creationTime
+	if time > 2 then
+        if #self.validSpawns > 0 then
+            local validRand = math.random(1,#self.validSpawns)
+            local rand = self.validSpawns[validRand]
+            if self.spawnCount[rand] < self.maxSpawn then
+                local enemy = self:Create()
+    	        enemy:setPos(self.spawnPoints[rand].posX, self.spawnPoints[rand].posY)
+                enemy.spawnPoint = rand
+                self.spawnCount[enemy.spawnPoint] = self.spawnCount[enemy.spawnPoint] + 1
+            else
+                table.remove(self.validSpawns, rand)
             end
-            self._previousSpawn = self.currentTime
-        else
-            coroutine:yield()
         end
-
-	end
+        self._previousSpawn = self.currentTime
+    else
+        coroutine:yield()
+    end
 end
