@@ -6,13 +6,15 @@ GameObject.type = "GameObject"
 function GameObject:init(asset, options)
 	options = options or {}
 
+
 	self.prop = asset:make()
-	self.handle = self.prop
 	self.asset = asset
+	self.handle = self.prop
+
 	self.joints = {}
 	self.health = 5
 
-    if (not options.noadd) then
+	if (not options.noadd) then
     	if (options.layer) then
     		Game.sceneManager:getLayer(options.layer):insertProp(self.prop)
         else
@@ -45,8 +47,13 @@ function GameObject:setRot(angle)
 	self.prop:setRot(angle)
 end
 
-function GameObject:getRot(angle)
+function GameObject:getRot()
 	return self.prop:getRot()
+end
+
+function GameObject:setAsset(asset)
+	self.asset = asset
+	self.prop:setDeck(self.asset.deck)	
 end
 
 function GameObject:destroy()

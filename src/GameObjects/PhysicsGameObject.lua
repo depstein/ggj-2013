@@ -26,7 +26,7 @@ function PhysicsGameObject:init(asset, options)
 				vely = vely * (1.0 - PhysicsGameObject.DAMPING)
 
 				self.handle:setVel(velx, vely)
-				coroutine.yield()
+				coyield()
 			end
 		end)
 	end
@@ -108,7 +108,7 @@ function PhysicsGameObject:getPos()
 end
 
 function PhysicsGameObject:setRot(angle)
-	self.handle:setAngle(45)
+	self.handle:setAngle(angle)
 end
 
 function PhysicsGameObject:getRot()

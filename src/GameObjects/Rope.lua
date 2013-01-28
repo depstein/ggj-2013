@@ -57,6 +57,12 @@ function Rope:init(x, y, numRopeSegments)
 	return self
 end
 
+function Rope:changeSegmentSprite(asset)
+	for k, v in pairs(self.ropeSegments) do
+		v:setAsset(asset)
+	end
+end
+
 function Rope:destroy()
 	self.endpoint1:destroy()
 	self.endpoint2:destroy()
@@ -143,6 +149,11 @@ function Rope:ropeTakeHit(cpShapeA, cpShapeB, cpArbiter)
 	end
 
 	rope.ropeHealth = rope.ropeHealth - 1
+	if rope.ropeHealth == 2 then
+		rope:changeSegmentSprite(TextureAsset.get("rope-damaged1.png"))
+	elseif rope.ropeHealth == 1 then
+		rope:changeSegmentSprite(TextureAsset.get("rope-damaged2.png"))
+	end
 	if rope.ropeHealth <= 0 then
 		print("DESTROYING ROPE")
 		if rope.player then

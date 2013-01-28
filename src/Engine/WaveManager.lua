@@ -7,6 +7,7 @@ WaveManager.type = "WaveManager"
 function WaveManager:init()
 	self.spawnLocs = {}
 	self.waveNumber = 0
+	self.rope = nil
 	table.insert(self.spawnLocs, {5065 - LevelData.XOFF, 5701 - LevelData.YOFF})
 	table.insert(self.spawnLocs, {5018 - LevelData.XOFF, 6274 - LevelData.YOFF})
 	table.insert(self.spawnLocs, {5983 - LevelData.XOFF, 6076 - LevelData.YOFF})
@@ -111,9 +112,10 @@ end
 
 function WaveManager:spawnRope()
 	local ropeLoc = self:getRandomLoc()
-	local numRopesegments = math.floor(self.waveNumber/2)+1
+	local numRopesegments = math.floor(self.waveNumber/2)+2
 	print(numRopesegments)
 	local rope = Rope:new():init(ropeLoc[1], ropeLoc[2], numRopesegments)
 	print("Spawned rope at " .. ropeLoc[1] .. ", " .. ropeLoc[2])
+	self.rope = rope
 	return ropeLoc
 end

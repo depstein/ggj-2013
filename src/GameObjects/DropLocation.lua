@@ -51,6 +51,8 @@ function DropLocation:collideWithBall(cpShapeA, cpShapeB, cpArbiter)
 		end
 		player.carryingRope = false
 		rope:destroy()
+	else
+		Game.waveManager.rope:destroy()
 	end
 
 	for k, v in pairs(cpShapeA:getBody().gameObject.joints) do
