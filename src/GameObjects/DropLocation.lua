@@ -4,6 +4,8 @@ DropLocation = PhysicsGameObject:new()
 DropLocation.type = "DropLocation"
 
 function DropLocation:init(asset, options)
+	local bg = GameObject:new():init(TextureAsset.get("receptacle-bg.png"))
+	
 	options = options or {}
 	options.static = true
 	options.isSensor = true
@@ -14,8 +16,16 @@ function DropLocation:init(asset, options)
 
 	self:setColor(Game.colors.yellow)
 
+	bg.handle:setParent(self.handle)
+
+	self.bg = bg
 	Game.sceneManager:getCpSpace():setCollisionHandler(tableaddr(DropLocation), tableaddr(BallObject), MOAICpSpace.BEGIN, self.collideWithBall)
 	return self
+end
+
+function DropLocation:destroy()
+	PhysicsGameObject.destroy(self)
+	self.bg:destroy()
 end
 
 function DropLocation:collideWithBall(cpShapeA, cpShapeB, cpArbiter)
