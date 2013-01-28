@@ -72,6 +72,27 @@ function Player:init(asset, options)
 	return self
 end
 
+function Player:removeCallbacks()
+	Game.keyboardManager:removeCallback(Game.keyboardManager.KEYS.w, "moveForward")
+	Game.keyboardManager:removeCallback(Game.keyboardManager.KEYS.s, "moveBackwards")
+	Game.keyboardManager:removeCallback(Game.keyboardManager.KEYS.a, "moveLeft")
+	Game.keyboardManager:removeCallback(Game.keyboardManager.KEYS.d, "moveRight")
+	Game.mouseManager:removeCallback(Game.mouseManager.BUTTONS.LEFT, "shoot")
+	Game.mouseManager:removeCallback(Game.mouseManager.BUTTONS.RIGHT, "dropRope")
+end
+
+function Player:changeHealth(amt)
+	self.health = self.health + amt
+	print(self.health .. " hp")
+	if self.health <= 0 and not(self.body:isSleeping()) then
+		self:dropRope()
+		self:endShooting()
+		self.body:sleep()
+		self:removeCallbacks()
+		Game.sceneManager.camera:setAttrLink(MOAITransform.INHERIT_LOC, Game.players[2].handle, MOAITransform.TRANSFORM_TRAIT)
+	end
+end
+
 function Player:getSpeed()
 	local speed = self.speed
 	if (self.carryingRope) then
@@ -86,6 +107,9 @@ end
 
 function Player:startShooting()
     local previousSpawn = -1
+    if self.health <= 0 then
+    	return
+    end
 	self.shooting = true
 	corout(function()
 		while self.shooting and not self.carryingRope do
@@ -162,59 +186,61 @@ function Player:initControls()
 		end
 	end)]] 
 
+	if self.health > 0 then
+		Game.keyboardManager:addCallback(Game.keyboardManager.KEYS.w, "moveForward", function(down)
+			if (down) then
+				self:startEmittingParticles(Game.keyboardManager.KEYS.w)
+				self:attemptMove(0, -1)
+			else
+				self:endEmittingParticles(Game.keyboardManager.KEYS.w)
+				self:attemptMove(0, 1)
+			end
+		end)
 
+		Game.keyboardManager:addCallback(Game.keyboardManager.KEYS.s, "moveBackwards", function(down)
+			if (down) then
+				self:startEmittingParticles(Game.keyboardManager.KEYS.a)
+				self:attemptMove(0, 1)
+			else
+				self:endEmittingParticles(Game.keyboardManager.KEYS.a)
+				self:attemptMove(0, -1)
+			end
+		end)
 
-	Game.keyboardManager:addCallback(Game.keyboardManager.KEYS.w, "moveForward", function(down)
-		if (down) then
-			self:startEmittingParticles(Game.keyboardManager.KEYS.w)
-			self:attemptMove(0, -1)
-		else
-			self:endEmittingParticles(Game.keyboardManager.KEYS.w)
-			self:attemptMove(0, 1)
-		end
-	end)
+		Game.keyboardManager:addCallback(Game.keyboardManager.KEYS.a, "moveLeft", function(down)
+			if (down) then
+				self:startEmittingParticles(Game.keyboardManager.KEYS.s)
+				self:attemptMove(-1, 0)
+			else
+				self:endEmittingParticles(Game.keyboardManager.KEYS.s)
+				self:attemptMove(1, 0)
+			end
+		end)
 
-	Game.keyboardManager:addCallback(Game.keyboardManager.KEYS.s, "moveBackwards", function(down)
-		if (down) then
-			self:startEmittingParticles(Game.keyboardManager.KEYS.a)
-			self:attemptMove(0, 1)
-		else
-			self:endEmittingParticles(Game.keyboardManager.KEYS.a)
-			self:attemptMove(0, -1)
-		end
-	end)
+		Game.keyboardManager:addCallback(Game.keyboardManager.KEYS.d, "moveRight", function(down)
+			if (down) then
+				self:startEmittingParticles(Game.keyboardManager.KEYS.d)
+				self:attemptMove(1, 0)
+			else
+				self:endEmittingParticles(Game.keyboardManager.KEYS.d)
+				self:attemptMove(-1, 0)
+			end
+		end)
 
-	Game.keyboardManager:addCallback(Game.keyboardManager.KEYS.a, "moveLeft", function(down)
-		if (down) then
-			self:startEmittingParticles(Game.keyboardManager.KEYS.s)
-			self:attemptMove(-1, 0)
-		else
-			self:endEmittingParticles(Game.keyboardManager.KEYS.s)
-			self:attemptMove(1, 0)
-		end
-	end)
+		Game.mouseManager:addCallback(Game.mouseManager.BUTTONS.LEFT, "shoot", function(x, y, down)
+			if (down) then
+				self:startShooting()
+			else
+				self:endShooting()
+			end
+		end)
 
-	Game.keyboardManager:addCallback(Game.keyboardManager.KEYS.d, "moveRight", function(down)
-		if (down) then
-			self:startEmittingParticles(Game.keyboardManager.KEYS.d)
-			self:attemptMove(1, 0)
-		else
-			self:endEmittingParticles(Game.keyboardManager.KEYS.d)
-			self:attemptMove(-1, 0)
-		end
-	end)
+		Game.mouseManager:addCallback(Game.mouseManager.BUTTONS.RIGHT, "dropRope", function(x, y, down)
+			if (down) then
+				self:dropRope()
+			end
+		end)
+	else
 
-	Game.mouseManager:addCallback(Game.mouseManager.BUTTONS.LEFT, "shoot", function(x, y, down)
-		if (down) then
-			self:startShooting()
-		else
-			self:endShooting()
-		end
-	end)
-
-	Game.mouseManager:addCallback(Game.mouseManager.BUTTONS.RIGHT, "dropRope", function(x, y, down)
-		if (down) then
-			self:dropRope()
-		end
-	end)
+	end
 end

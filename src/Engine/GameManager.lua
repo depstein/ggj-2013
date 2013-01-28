@@ -137,7 +137,7 @@ function GameManager:start()
             function(numType, playerBody, enemyBody, cparbiter)
                 corout(function() 
                     Game.bulletManager:markImpact(enemyBody:getBody().gameObject:getPos())--cparbiter:getContactPoint(1))
-                    playerBody:getBody().gameObject.health = playerBody:getBody().gameObject.health - 1
+                    playerBody:getBody().gameObject:changeHealth(-1)
                     Game.enemyManager:Destroy(enemyBody:getBody().gameObject.id)
                 end)
             end
