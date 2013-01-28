@@ -57,6 +57,12 @@ function Rope:init(x, y, numRopeSegments)
 	return self
 end
 
+function Rope:changeSegmentSprite(asset)
+	for k, v in pairs(self.ropeSegments) do
+		
+	end
+end
+
 function Rope:destroy()
 	self.endpoint1:destroy()
 	self.endpoint2:destroy()
