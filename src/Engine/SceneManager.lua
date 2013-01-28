@@ -30,7 +30,7 @@ function SceneManager:init(width, height, camera, options)
 
 	self.layers = {}
 
-	MOAISim.openWindow ( "Scene", width, height )
+	MOAISim.openWindow ( "Global Game Jam 2013", width, height )
 
 	return self
 end
