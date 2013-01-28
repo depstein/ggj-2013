@@ -50,6 +50,7 @@ function LightLayer:init(options)
     prop:setScl(1, -1)
     prop:setParent(scene.camera)
     prop:setBlendMode(MOAIProp.BLEND_MULTIPLY)
+    prop:setPriority(9999999)
 
     for k, layer in pairs(options.layers) do
         scene:getLayer(layer):insertProp(prop)
