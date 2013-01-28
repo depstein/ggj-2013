@@ -84,7 +84,13 @@ end
 function Player:changeHealth(amt)
 	self.health = self.health + amt
 	print(self.health .. " hp")
+	if self.health == 3 then
+		self:setAsset(TextureAsset.get("player-damaged1.png"))
+	elseif self.health==1 then
+		self:setAsset(TextureAsset.get("player-damaged2.png"))
+	end
 	if self.health <= 0 and not(self.body:isSleeping()) then
+		self:setAsset(TextureAsset.get("player-dead.png"))
 		self:dropRope()
 		self:endShooting()
 		self.body:sleep()
