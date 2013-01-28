@@ -90,11 +90,17 @@ function Player:changeHealth(amt)
 		self:setAsset(TextureAsset.get("player-damaged2.png"))
 	end
 	if self.health <= 0 and not(self.body:isSleeping()) then
+		self.keysPressed = nil
 		self:setAsset(TextureAsset.get("player-dead.png"))
 		self:dropRope()
 		self:endShooting()
 		self.body:sleep()
 		self:removeCallbacks()
+		self.handle:setVel(0, 0)
+		self.handle:resetForces()
+		self.speed = 0
+		self.dead = true
+		self.emitter:setEmission(0)
 		Game.sceneManager.camera:setAttrLink(MOAITransform.INHERIT_LOC, Game.players[2].handle, MOAITransform.TRANSFORM_TRAIT)
 	end
 end
@@ -163,6 +169,7 @@ function Player:dropRope()
 end
 
 function Player:isEmittingParticles()
+	if not self.keysPressed then return false end
 	return next(self.keysPressed) ~= nil
 end
 
