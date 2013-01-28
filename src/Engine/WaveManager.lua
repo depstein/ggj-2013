@@ -79,12 +79,14 @@ function WaveManager:spawnWave()
 		rand = math.random()
 		if rand < .2 then
 			print("More damage!")
+			Game.players[1]:flashBuff("damage")
 			Game.players[1].damage  = Game.players[1].damage + 1
 		elseif rand < .6 then
 			print("More speed!")
+			Game.players[1]:flashBuff("speed")
 			Game.players[1].speed = Game.players[1].speed + 500
 		else
-			print("More hps!")
+			Game.players[1]:flashBuff("health")
 			Game.players[1].health  = Game.players[1].health + 2
 		end
 	end

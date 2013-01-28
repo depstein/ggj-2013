@@ -174,6 +174,22 @@ function Player:endEmittingParticles(key)
 	end
 end
 
+function Player:flashBuff(name)
+	local buff = GameObject:new():init(TextureAsset.get("buff-" .. name .. ".png"))
+	buff.prop:setLoc(self.handle:getPos())
+	buff.prop:seekScl(1.5, 1.5, 2)
+	buff.prop:seekColor(0, 0, 0, 0, 2)
+
+	corout(function()
+		while true do
+			if (buff.prop:getScl() >= 1.5) then
+				buff:destroy()
+			end
+			coroutine.yield()
+		end
+	end)
+end
+
 function Player:initControls()
 --[[
 		Sample code for using MouseManager
