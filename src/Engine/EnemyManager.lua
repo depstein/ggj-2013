@@ -13,7 +13,7 @@ function EnemyManager:init()
     self.timeExisted = 0
     self.spawnCount = {}
     self.validSpawns = {}
-    self.maxSpawn = 6
+    self.maxSpawn = 4
     -- PRIVATE
     self._enemyIndex = 1
     self._previousSpawn = MOAISim.getDeviceTime()
@@ -78,7 +78,7 @@ function EnemyManager:Update()
 		self.currentTime = MOAISim.getDeviceTime()
     	local time = self.currentTime - self._previousSpawn
         self.timeExisted = self.currentTime - self.creationTime
-    	if time > 1 then
+    	if time > 4 then
             if #self.validSpawns > 0 then
                 local validRand = math.random(1,#self.validSpawns)
                 local rand = self.validSpawns[validRand]

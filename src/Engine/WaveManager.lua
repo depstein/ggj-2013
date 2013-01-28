@@ -51,13 +51,13 @@ function WaveManager:spawnWave()
 
 	if self.waveNumber > 1 then
 		rand = math.random()
-		if rand < .25 then
+		if rand < .2 then
 			print("More damage!")
 			Game.players[1].damage  = Game.players[1].damage + 1
-		elseif rand < .5 then
+		elseif rand < .6 then
 			print("More speed!")
 			Game.players[1].speed = Game.players[1].speed + 500
-		else --if rand < .75  then
+		else
 			print("More hps!")
 			Game.players[1].health  = Game.players[1].health + 2
 		end
@@ -68,6 +68,7 @@ function WaveManager:spawnWave()
 	--don't repeat locations
 	local dropLoc = self:getRandomReceptacle()
 	local ballLoc = self:getRandomLoc()
+	
 	while ballLoc == dropLoc or ballLoc == dropLoc do
 		ballLoc = self:getRandomLoc()
 	end
