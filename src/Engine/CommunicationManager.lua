@@ -38,6 +38,10 @@ function CommunicationManager:init(isServer, ip)
     return self;
 end
 
+function CommunicationManager:impact(x, y, type)
+    table.insert(self.impacts, {x = x, y = y, t = type})
+end
+
 function CommunicationManager:Fired(bullet)
     if(self.isServer) then return end
     table.insert(self.cbullet, bullet)
@@ -77,11 +81,7 @@ messageHandlers[CommunicationManager.MSG_GAME_STATE] = function(self, message)
         enemy.handle:setVel(v.vx, v.vy)
     end
     for k, v in pairs(message.bullets) do
-        local bullet = Game.bulletManager.bullets[v.k]
-        if(not bullet) then
-            bullet = Game.bulletManager:Create()
-            Game.bulletManager.bullets[v.k] = bullet
-        end
+        local bullet = Game.bulletManager:Get(v.k)
         bullet:setPos(v.x, v.y)
         bullet.handle:setVel(v.vx, v.vy)
     end
@@ -99,13 +99,9 @@ messageHandlers[CommunicationManager.MSG_GAME_STATE] = function(self, message)
     end
     
     for k, v in pairs(message.impacts) do
-        Game.bulletManager:impact(v.x, v.y)
+        Game.bulletManager:showImpact(v.x, v.y, v.t)
     end
     
-end
-
-function CommunicationManager:impact(x, y)
-    table.insert(self.impacts, {x = x, y = y})
 end
 
 function CommunicationManager:Update() 
@@ -123,12 +119,13 @@ function CommunicationManager:Update()
                 local e = {
                     type = CommunicationManager.MSG_GAME_STATE, 
                     enemies = {}, 
-                    renemies = self.renemies, 
                     bullets = {}, 
+                    renemies = self.renemies, 
                     rbullets = self.rbullet, 
                     tbullet = self.tbullet,
                     impacts = self.impacts
                 };
+
                 for k, v in pairs(Game.enemyManager.enemies) do
                     local x, y = v.handle:getPos()
                     local vx, vy = v.handle:getVel()
@@ -139,6 +136,7 @@ function CommunicationManager:Update()
                     local vx, vy = v.handle:getVel()
                     table.insert(e.bullets, {k = k, x = x, y = y, vx = vx, vy = vy})
                 end
+
                 table.insert(self.outgoing, msgpack.pack(e))
     
                 self.renemies = {}
