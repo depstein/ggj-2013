@@ -149,7 +149,11 @@ function Rope:ropeTakeHit(cpShapeA, cpShapeB, cpArbiter)
 	end
 
 	rope.ropeHealth = rope.ropeHealth - 1
-	rope:changeSegmentSprite(TextureAsset.get("whitesquare.png"))
+	if rope.ropeHealth == 2 then
+		rope:changeSegmentSprite(TextureAsset.get("rope-damaged1.png"))
+	elseif rope.ropeHealth == 1 then
+		rope:changeSegmentSprite(TextureAsset.get("rope-damaged2.png"))
+	end
 	if rope.ropeHealth <= 0 then
 		print("DESTROYING ROPE")
 		if rope.player then

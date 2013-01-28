@@ -111,7 +111,7 @@ end
 
 function WaveManager:spawnRope()
 	local ropeLoc = self:getRandomLoc()
-	local numRopesegments = math.floor(self.waveNumber/2)+1
+	local numRopesegments = math.floor(self.waveNumber/2)+2
 	print(numRopesegments)
 	local rope = Rope:new():init(ropeLoc[1], ropeLoc[2], numRopesegments)
 	print("Spawned rope at " .. ropeLoc[1] .. ", " .. ropeLoc[2])
