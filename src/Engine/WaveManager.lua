@@ -26,11 +26,24 @@ function WaveManager:init()
 	table.insert(self.spawnLocs, {4562 - LevelData.XOFF, 5422 - LevelData.YOFF})
 	table.insert(self.spawnLocs, {4922 - LevelData.XOFF, 4814 - LevelData.YOFF})
 
+
+	self.dropLocs = {
+		{ x = 4578, y = 5685, rot = 111},
+		{ x = 4810, y = 5956, rot = 20},
+		{ x = 5000, y = 5201, rot = -135},
+	}
+
     return self;
 end
 
 function WaveManager:getRandomLoc()
 	return self.spawnLocs[math.random(#self.spawnLocs)]
+end
+
+function WaveManager:getRandomReceptacle() 
+	local receptacle = self.dropLocs[math.random(#self.dropLocs)]
+
+	return { x = receptacle.x - LevelData.XOFF, y = receptacle.y - LevelData.YOFF, rot = receptacle.rot}
 end
 
 function WaveManager:spawnWave()
@@ -53,20 +66,19 @@ function WaveManager:spawnWave()
 	--Spawn the rope and get the loc
 	local ropeLoc = self:spawnRope()
 	--don't repeat locations
-	local dropLoc = self:getRandomLoc()
-	while dropLoc == ropeLoc do
-		dropLoc = self:getRandomLoc()
-	end
+	local dropLoc = self:getRandomReceptacle()
 	local ballLoc = self:getRandomLoc()
 	while ballLoc == dropLoc or ballLoc == dropLoc do
 		ballLoc = self:getRandomLoc()
 	end
 
-    local dropLocation = DropLocation:new():init(TextureAsset.get("whitesquare.png"))
-    dropLocation:setPos(dropLoc[1], dropLoc[2])
-    print("Spawned drop at " .. dropLoc[1] .. ", " .. dropLoc[2])
+    local dropLocation = DropLocation:new():init(TextureAsset.get("receptacle.png"))
+    dropLocation:setColor({r = 191, g = 17, b = 8})
+    dropLocation:setPos(dropLoc.x, dropLoc.y)
+    dropLocation.handle:setAngle(math.rad(dropLoc.rot))
+    print("Spawned drop at " .. dropLoc.x .. ", " .. dropLoc.y)
     
-    local ball = BallObject:new():init(TextureAsset.get("whitesquare.png"))
+    local ball = BallObject:new():init(TextureAsset.get("whitebloodcell.png"))
     ball:setPos(ballLoc[1], ballLoc[2])
     print("Spawned ball at " .. ballLoc[1] .. ", " .. ballLoc[2])
 end
