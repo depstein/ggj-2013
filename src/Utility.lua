@@ -39,10 +39,36 @@ function math.sign(val)
     return 0
 end
 
+local debugCoroutine = false
+local debugNames = {}
+
 function corout(func, ...)
     local cr = MOAICoroutine.new()
+
+    if(debugCoroutine) then 
+        local name = "???"
+        local oldfunc = func
+        for i = 4, 2, -1 do
+            local tmp = debug.getinfo(i)
+            if(tmp and tmp.name) then name = name .. " -> " .. debug.getinfo(i).name end
+        end
+        func = function(...)
+            debugNames[coroutine.running()] = name
+            print("Corout: Initial Run [" .. name.. "]")
+            oldfunc(...)
+            print("Corout: End [" .. name.. "]")
+        end
+    end
+
     cr:run(func, ...)
     return cr
+end
+
+function coyield()
+    local name = debugNames[coroutine.running()]
+    if(debugCoroutine and name) then print("Corout: Yielding [" .. name .. "]") end
+    coroutine.yield()
+    if(debugCoroutine and name) then print("Corout: Resuming [" .. name .. "]") end
 end
 
 function timedCorout(func)
@@ -74,7 +100,7 @@ function afterNFrames(func, n)
             else 
                 count = count + 1
             end
-            coroutine.yield()
+            coyield()
         end 
     end)
 end

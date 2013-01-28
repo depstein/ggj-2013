@@ -26,7 +26,7 @@ function PhysicsGameObject:init(asset, options)
 				vely = vely * (1.0 - PhysicsGameObject.DAMPING)
 
 				self.handle:setVel(velx, vely)
-				coroutine.yield()
+				coyield()
 			end
 		end)
 	end

@@ -15,6 +15,7 @@ function CommunicationManager:init(isServer, ip)
         self.renemies = {}
         self.rbullet = {}
         self.tbullet = {}
+        self.impacts = {}
 
         self.outgoing, self.incoming, self.info = Communication.createServer()
         Game.enemyManager.onEnemyDie = function(id, enemy)
@@ -30,7 +31,9 @@ function CommunicationManager:init(isServer, ip)
         self.outgoing, self.incoming, self.info = Communication.createClient(ip)
     end
 
-    corout(function() self:messageHandler() end)
+    corout(function() 
+        self:Update() 
+    end)
 
     return self;
 end
@@ -55,6 +58,7 @@ end
 messageHandlers[CommunicationManager.MSG_PLAYER_FIRE] = function(self, message)
     for k, v in pairs(message.bullets) do
         local bullet = Game.bulletManager:Create()
+        bullet.damage = v.d
         bullet.handle:setPos(v.x, v.y)
         bullet.handle:setVel(v.vx, v.vy)
 
@@ -94,9 +98,17 @@ messageHandlers[CommunicationManager.MSG_GAME_STATE] = function(self, message)
         Game.bulletManager:DestroyTemp(v)
     end
     
+    for k, v in pairs(message.impacts) do
+        Game.bulletManager:impact(v.x, v.y)
+    end
+    
 end
 
-function CommunicationManager:messageHandler() 
+function CommunicationManager:impact(x, y)
+    table.insert(self.impacts, {x = x, y = y})
+end
+
+function CommunicationManager:Update() 
     local updateEnemies = 1;
     while (true) do
         local x, y = Game.players[1].handle:getPos()
@@ -108,7 +120,15 @@ function CommunicationManager:messageHandler()
             updateEnemies = updateEnemies - 1
             if(updateEnemies == 0) then
                 updateEnemies = 1
-                local e = {type = CommunicationManager.MSG_GAME_STATE, enemies = {}, renemies = self.renemies, bullets = {}, rbullets = self.rbullet, tbullet = self.tbullet};
+                local e = {
+                    type = CommunicationManager.MSG_GAME_STATE, 
+                    enemies = {}, 
+                    renemies = self.renemies, 
+                    bullets = {}, 
+                    rbullets = self.rbullet, 
+                    tbullet = self.tbullet,
+                    impacts = self.impacts
+                };
                 for k, v in pairs(Game.enemyManager.enemies) do
                     local x, y = v.handle:getPos()
                     local vx, vy = v.handle:getVel()
@@ -124,6 +144,7 @@ function CommunicationManager:messageHandler()
                 self.renemies = {}
                 self.rbullets = {}
                 self.tbullet = {}
+                self.impacts = {}
             end
         else
             if(#self.cbullet > 0) then
@@ -143,6 +164,6 @@ function CommunicationManager:messageHandler()
                 print("ERROR: Unknown Message Received: " .. message.type)
             end
         end
-        coroutine.yield()
+        coyield()
     end
 end

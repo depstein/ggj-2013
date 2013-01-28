@@ -31,8 +31,22 @@ function BulletManager:CreateTemp()
 end
 
 function BulletManager:DestroyTemp(id)
+    if (not self.temporary[id]) then return end
     self:Destroy(self.temporary[id])
     self.temporary[id] = nil
+end
+
+function BulletManager:Update()
+    for k, bullet in pairs(self.bullets) do
+    	vX, vY = bullet.handle:getVel()
+    	v = math.sqrt(vX^2 + vY^2)
+    	if v < 400 then
+    		self:Destroy(bullet.id)
+    		break
+    	else
+    		coroutine:yield()
+    	end
+    end
 end
 
 function BulletManager:Create()
@@ -42,20 +56,7 @@ function BulletManager:Create()
 	local bullet = Bullet:new():init(id, TextureAsset.get("bullet.png"), {color = Game.colors.cosmic_latte, ignoreGravity = true})
 	self.bullets[id] = bullet
 
-	corout(
-		function() 
-			while(true) do
-				vX, vY = bullet.handle:getVel()
-				v = math.sqrt(vX^2 + vY^2)
-				if v < 400 then
-					self:Destroy(bullet.id)
-					break
-				else
-					coroutine:yield()
-				end
-			end
-		end)
-	return bullet
+    return bullet
 end
 
 function BulletManager:Destroy(index)
@@ -68,6 +69,11 @@ function BulletManager:Destroy(index)
 end
 
 function BulletManager:markImpact(x, y)
+    Game.communicationManager:impact(x, y)
+    self:impact(x, y)
+end
+
+function BulletManager:impact(x, y)
 	Game.particleManager:addParticle('hit.pex', x, y, 5)
 end
 
